@@ -32,5 +32,27 @@ public class Shooter extends SubsystemBase {
     public void simulationPeriodic() {
     }
 
-    
+    public void setTurretPosition(double position){
+
+    }
+
+    public double getTurretPosition(){
+        return 0.0;
+    } 
+
+    public void setShooterVelocity(double velocity){
+
+    }
+
+    public double getShooterVelocity(){
+        return 0.0;
+    }
+
+    public void extendPusher(){
+
+    }
+
+    public void retractPusher(){
+        
+    }
 }

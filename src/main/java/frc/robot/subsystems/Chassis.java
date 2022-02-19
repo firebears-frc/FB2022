@@ -1,5 +1,6 @@
 package frc.robot.subsystems;
 
+import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMax;
@@ -14,6 +15,7 @@ public class Chassis extends SubsystemBase {
     private CANSparkMax rearRightMotor;
     private PIDSparkMotor leftPIDSparkMotor;
     private PIDSparkMotor rightPIDSparkMotor;
+    private DifferentialDrive differentialDrive;
 
     public Chassis() {
         frontLeftMotor = new CANSparkMax(CHASSIS_FRONT_LEFT_MOTOR_CAN_ID, MotorType.kBrushless);
@@ -43,6 +45,11 @@ public class Chassis extends SubsystemBase {
         rearRightMotor.setIdleMode(IdleMode.kCoast);
 
         rearRightMotor.follow(frontRightMotor);
+
+        leftPIDSparkMotor.setClosedLoop(CHASSIS_CLOSED_LOOP_DRIVING);
+        rightPIDSparkMotor.setClosedLoop(CHASSIS_CLOSED_LOOP_DRIVING);
+
+        differentialDrive = new DifferentialDrive(leftPIDSparkMotor, rightPIDSparkMotor);
     }
 
     @Override
