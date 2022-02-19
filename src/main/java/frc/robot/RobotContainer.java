@@ -5,6 +5,8 @@ import frc.robot.subsystems.*;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.cameraserver.CameraServer;
+import edu.wpi.first.cscore.UsbCamera;
 import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.XboxController;
@@ -36,6 +38,9 @@ public class RobotContainer {
   // Pneumatics
   private Compressor compressor;
 
+  // Driver's cameras and vision cameras
+  private UsbCamera camera1;
+
   // A chooser for autonomous commands
   SendableChooser<Command> m_chooser = new SendableChooser<>();
 
@@ -51,6 +56,9 @@ public class RobotContainer {
       compressor = new Compressor(0, PneumaticsModuleType.REVPH);
     }
     compressor.enableDigital();
+
+    // Driver's cameras and vision cameras
+    camera1 = CameraServer.startAutomaticCapture(0);
 
     // Smartdashboard Subsystems
 
