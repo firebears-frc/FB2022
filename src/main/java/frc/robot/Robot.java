@@ -16,6 +16,10 @@ public class Robot extends TimedRobot {
     public void robotInit() {
         m_robotContainer = RobotContainer.getInstance();
         HAL.report(tResourceType.kResourceType_Framework, tInstances.kFramework_RobotBuilder);
+
+        Constants.init("/home/lvuser/deploy/config.properties",
+                "/home/lvuser/config.properties",
+                "/u/config.properties");
     }
 
     @Override
