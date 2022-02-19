@@ -6,6 +6,8 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj.XboxController;
+import frc.robot.subsystems.*;
 
 
 /**
@@ -25,6 +27,8 @@ public class RobotContainer {
     public final Chassis m_chassis = new Chassis();
 
 // Joysticks
+private final XboxController xController2 = new XboxController(1);
+private final XboxController xController1 = new XboxController(0);
 
   
   // A chooser for autonomous commands
