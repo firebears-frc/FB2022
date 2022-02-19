@@ -22,8 +22,12 @@ public class Acquisition extends SubsystemBase {
         aquisitionMotor.restoreFactoryDefaults();
         aquisitionMotor.setInverted(false);
         aquisitionMotor.setIdleMode(IdleMode.kCoast);
+        aquisitionMotor.setSmartCurrentLimit(ACQUSITION_LOWER_MOTOR_CURRENT_LIMIT);
 
         spinMotor = new TalonSRX(ACQUISITION_SPIN_MOTOR_CAN_ID);
+        spinMotor.configContinuousCurrentLimit(ACQUSITION_SPIN_MOTOR_CURRENT_LIMIT);
+        spinMotor.configPeakCurrentLimit(0);
+        spinMotor.enableCurrentLimit(true);
     }
 
     @Override

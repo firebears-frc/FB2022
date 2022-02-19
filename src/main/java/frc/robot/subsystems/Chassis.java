@@ -22,6 +22,7 @@ public class Chassis extends SubsystemBase {
         frontLeftMotor.restoreFactoryDefaults();
         frontLeftMotor.setInverted(false);
         frontLeftMotor.setIdleMode(IdleMode.kCoast);
+        frontLeftMotor.setSmartCurrentLimit(CHASSIS_STALL_CURRENT_LIMIT, CHASSIS_FREE_CURRENT_LIMIT);
 
         leftPIDSparkMotor = new PIDSparkMotor(frontLeftMotor, CHASSIS_DRIVE_P, CHASSIS_DRIVE_I, CHASSIS_DRIVE_D);
 
@@ -29,6 +30,7 @@ public class Chassis extends SubsystemBase {
         frontRightMotor.restoreFactoryDefaults();
         frontRightMotor.setInverted(false);
         frontRightMotor.setIdleMode(IdleMode.kCoast);
+        frontRightMotor.setSmartCurrentLimit(CHASSIS_STALL_CURRENT_LIMIT, CHASSIS_FREE_CURRENT_LIMIT);
 
         rightPIDSparkMotor = new PIDSparkMotor(frontRightMotor, CHASSIS_DRIVE_P, CHASSIS_DRIVE_I, CHASSIS_DRIVE_D);
 
@@ -36,6 +38,7 @@ public class Chassis extends SubsystemBase {
         rearLeftMotor.restoreFactoryDefaults();
         rearLeftMotor.setInverted(false);
         rearLeftMotor.setIdleMode(IdleMode.kCoast);
+        rearLeftMotor.setSmartCurrentLimit(CHASSIS_STALL_CURRENT_LIMIT, CHASSIS_FREE_CURRENT_LIMIT);
 
         rearLeftMotor.follow(frontLeftMotor);
 
@@ -43,6 +46,7 @@ public class Chassis extends SubsystemBase {
         rearRightMotor.restoreFactoryDefaults();
         rearRightMotor.setInverted(false);
         rearRightMotor.setIdleMode(IdleMode.kCoast);
+        rearRightMotor.setSmartCurrentLimit(CHASSIS_STALL_CURRENT_LIMIT, CHASSIS_FREE_CURRENT_LIMIT);
 
         rearRightMotor.follow(frontRightMotor);
 
