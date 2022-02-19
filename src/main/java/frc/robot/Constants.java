@@ -8,6 +8,7 @@ import static frc.robot.util.Config.printPreferences;
 public class Constants {
     public static boolean DEBUG = false;
     public static boolean CHASSIS_CLOSED_LOOP_DRIVING = false;
+    public static boolean PRACTICE_ROBOT = false;
 
     public static final int ACQUISITION_MOTOR_CAN_ID = 8;
 
@@ -30,5 +31,9 @@ public class Constants {
 
         DEBUG = Preferences.getBoolean("DEBUG", false);
         CHASSIS_CLOSED_LOOP_DRIVING = Preferences.getBoolean("CHASSIS_CLOSED_LOOP_DRIVING", false);
+
+        PRACTICE_ROBOT = Preferences.getBoolean("PRACTICE_ROBOT", false);
+
+
     }
 }
