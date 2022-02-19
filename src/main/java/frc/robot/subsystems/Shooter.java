@@ -31,4 +31,6 @@ public class Shooter extends SubsystemBase {
     @Override
     public void simulationPeriodic() {
     }
+
+    
 }

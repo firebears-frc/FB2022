@@ -52,4 +52,8 @@ public class Chassis extends SubsystemBase {
     @Override
     public void simulationPeriodic() {
     }
+
+    public void arcadeDrive(double speed, double rotation){
+
+    }
 }
