@@ -15,7 +15,7 @@ import static frc.robot.Constants.*;
 public class Acquisition extends SubsystemBase {
 
     private CANSparkMax aquisitionMotor;
-    private TalonSRX spinMotor;
+    private WPI_TalonSRX spinMotor;
 
     public Acquisition() {
         aquisitionMotor = new CANSparkMax(ACQUISITION_LOWER_MOTOR_CAN_ID, MotorType.kBrushless);
@@ -24,10 +24,11 @@ public class Acquisition extends SubsystemBase {
         aquisitionMotor.setIdleMode(IdleMode.kCoast);
         aquisitionMotor.setSmartCurrentLimit(ACQUSITION_LOWER_MOTOR_CURRENT_LIMIT);
 
-        spinMotor = new TalonSRX(ACQUISITION_SPIN_MOTOR_CAN_ID);
+        spinMotor = new WPI_TalonSRX(ACQUISITION_SPIN_MOTOR_CAN_ID);
         spinMotor.configContinuousCurrentLimit(ACQUSITION_SPIN_MOTOR_CURRENT_LIMIT);
         spinMotor.configPeakCurrentLimit(0);
         spinMotor.enableCurrentLimit(true);
+        addChild("spinMotor", spinMotor);
     }
 
     @Override
@@ -38,20 +39,19 @@ public class Acquisition extends SubsystemBase {
     public void simulationPeriodic() {
     }
 
-    public void raise(){
-
-    } 
-
-    public void lower(){
+    public void raise() {
 
     }
 
-    public void spin(double speed){
+    public void lower() {
 
     }
 
-    public void stop(){
-        
+    public void spin(double speed) {
+
+    }
+
+    public void stop() {
+
     }
 }
-

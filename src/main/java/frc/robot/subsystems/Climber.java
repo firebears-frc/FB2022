@@ -36,4 +36,41 @@ public class Climber extends SubsystemBase {
     @Override
     public void simulationPeriodic() {
     }
+
+    /**
+     * Extend the arm to a given encoder position.
+     * 
+     * @param position
+     */
+    public void extend(double position) {
+
+    }
+
+    /**
+     * Return the current extended aarm positoin.
+     */
+    public double getEncoderPosition() {
+        return 0.0;
+    }
+
+    /**
+     * Reset the encoder to zero.
+     */
+    public void resetEncoder() {
+
+    }
+
+    /**
+     * Extend the arms out away from the robot.
+     */
+    public void reachOut() {
+
+    }
+
+    /**
+     * Pull the arms back into a vertical position.
+     */
+    public void reachBack() {
+
+    }
 }

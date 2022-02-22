@@ -55,6 +55,7 @@ public class Chassis extends SubsystemBase {
         rightPIDSparkMotor.setClosedLoop(CHASSIS_CLOSED_LOOP_DRIVING);
 
         differentialDrive = new DifferentialDrive(leftPIDSparkMotor, rightPIDSparkMotor);
+        addChild("differentialDrive", differentialDrive);
     }
 
     @Override
@@ -65,7 +66,21 @@ public class Chassis extends SubsystemBase {
     public void simulationPeriodic() {
     }
 
-    public void arcadeDrive(double speed, double rotation){
+    public void arcadeDrive(double speed, double rotation) {
 
+    }
+
+    /**
+     * Reset encoder to zero.
+     */
+    public void resetEncoder() {
+
+    }
+
+    /**
+     * @return distance in inches.
+     */
+    public double getEncoderDistance() {
+        return 0.0;
     }
 }

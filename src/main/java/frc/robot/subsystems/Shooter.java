@@ -36,27 +36,55 @@ public class Shooter extends SubsystemBase {
     public void simulationPeriodic() {
     }
 
-    public void setTurretPosition(double position){
+    /**
+     * Push the ball into the spinning wheel
+     */
+    public void extendPusher() {
 
     }
 
-    public double getTurretPosition(){
+    /**
+     * Lower the ball pusher.
+     */
+    public void retractPusher() {
+
+    }
+
+    public void setShooterVelocity(double velocity) {
+
+    }
+
+    public double getShooterVelocity() {
         return 0.0;
-    } 
+    }
 
-    public void setShooterVelocity(double velocity){
+    /**
+     * Set shooter wheel to a minimal speed.
+     */
+    public void idleShooter() {
 
     }
 
-    public double getShooterVelocity(){
+    /**
+     * Stop shooter wheel completely.
+     */
+    public void stop() {
+
+    }
+
+    /**
+     * Reset encoder to zero.
+     */
+    public void resetTurretEncoder() {
+
+    }
+
+    public void setTurretPosition(double position) {
+
+    }
+
+    public double getTurretPosition() {
         return 0.0;
     }
 
-    public void extendPusher(){
-
-    }
-
-    public void retractPusher(){
-        
-    }
 }
