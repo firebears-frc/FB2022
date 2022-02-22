@@ -55,7 +55,7 @@ public class RobotContainer {
     if (PRACTICE_ROBOT) {
       compressor = new Compressor(0, PneumaticsModuleType.CTREPCM);
     } else {
-      compressor = new Compressor(0, PneumaticsModuleType.REVPH);
+      compressor = new Compressor(1, PneumaticsModuleType.REVPH);
     }
     compressor.enableDigital();
 
