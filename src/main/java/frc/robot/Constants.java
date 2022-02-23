@@ -10,11 +10,8 @@ public class Constants {
     public static boolean CHASSIS_CLOSED_LOOP_DRIVING = false;
     public static boolean PRACTICE_ROBOT = false;
 
-    public static final int ACQUISITION_LOWER_MOTOR_CAN_ID = 8;
     public static final int ACQUISITION_SPIN_MOTOR_CAN_ID = 9;
     public static final int ACQUSITION_SPIN_MOTOR_CURRENT_LIMIT = 10;
-    public static final int ACQUSITION_LOWER_MOTOR_CURRENT_LIMIT = 20;
-
 
     public static final int CHASSIS_FRONT_LEFT_MOTOR_CAN_ID = 2;
     public static final int CHASSIS_FRONT_RIGHT_MOTOR_CAN_ID = 3;

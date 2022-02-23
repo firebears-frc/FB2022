@@ -9,6 +9,8 @@ import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.util.SparkMotor;
 
+import static edu.wpi.first.wpilibj.DoubleSolenoid.Value.*;
+import static edu.wpi.first.wpilibj.PneumaticsModuleType.*;
 import static frc.robot.Constants.*;
 
 public class Climber extends SubsystemBase {

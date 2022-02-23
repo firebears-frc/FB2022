@@ -13,6 +13,7 @@ import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.XboxController.Button;
 
+import static edu.wpi.first.wpilibj.PneumaticsModuleType.*;
 import static frc.robot.Constants.*;
 
 /**
@@ -38,10 +39,11 @@ public class RobotContainer {
   private final XboxController xController1 = new XboxController(0);
 
   // Pneumatics
-  private Compressor compressor;
+  public Compressor compressor;
+  public PneumaticsModuleType pneumaticsType;
 
   // Driver's cameras and vision cameras
-  private UsbCamera camera1;
+  public UsbCamera camera1;
 
   // A chooser for autonomous commands
   SendableChooser<Command> m_chooser = new SendableChooser<>();
@@ -53,9 +55,11 @@ public class RobotContainer {
 
     // Pneumatics
     if (PRACTICE_ROBOT) {
-      compressor = new Compressor(0, PneumaticsModuleType.CTREPCM);
+      pneumaticsType = CTREPCM;
+      compressor = new Compressor(0, CTREPCM);
     } else {
-      compressor = new Compressor(1, PneumaticsModuleType.REVPH);
+      pneumaticsType = REVPH;
+      compressor = new Compressor(1, REVPH);
     }
     compressor.enableDigital();
 
