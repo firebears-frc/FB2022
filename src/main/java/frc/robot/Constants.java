@@ -25,9 +25,22 @@ public class Constants {
 
     public static final int CLIMBER_LEFT_MOTOR_CAN_ID = 6;
     public static final int CLIMBER_RIGHT_MOTOR_CAN_ID = 7;
+    public static final double CLIMBER_P = 0.0;
+    public static final double CLIMBER_I = 0.0;
+    public static final double CLIMBER_D = 0.0;
+    public static final int CLIMBER_SOLENOID_FORWARD_CHANNEL = 0;
+    public static final int CLIMBER_SOLENOID_REVERSE_CHANNEL = 0;
     
     public static final int SHOOTER_TURRET_MOTOR_CAN_ID = 11;
     public static final int SHOOTER_SHOOTER_MOTOR_CAN_ID = 12;
+
+    public static final int SHOOTER_TURRET_P = 1;
+    public static final int SHOOTER_TURRET_I = 0;
+    public static final int SHOOTER_TURRET_D = 0;
+
+    public static final int SHOOTER_WHEEL_P = 1;
+    public static final int SHOOTER_WHEEL_I = 0;
+    public static final int SHOOTER_WHEEL_D = 0;
 
     public static void init(String... fileNames) {
         cleanAllPreferences();
