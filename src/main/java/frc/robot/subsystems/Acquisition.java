@@ -39,10 +39,10 @@ public class Acquisition extends SubsystemBase {
     }
 
     public void spin(double speed) {
-
+        spinMotor.set(speed);
     }
 
     public void stop() {
-
+        spinMotor.set(0);
     }
 }
