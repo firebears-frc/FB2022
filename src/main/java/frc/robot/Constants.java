@@ -29,6 +29,14 @@ public class Constants {
     public static final int SHOOTER_TURRET_MOTOR_CAN_ID = 11;
     public static final int SHOOTER_SHOOTER_MOTOR_CAN_ID = 12;
 
+    public static final int SHOOTER_TURRET_P = 1;
+    public static final int SHOOTER_TURRET_I = 0;
+    public static final int SHOOTER_TURRET_D = 0;
+
+    public static final int SHOOTER_WHEEL_P = 1;
+    public static final int SHOOTER_WHEEL_I = 0;
+    public static final int SHOOTER_WHEEL_D = 0;
+
     public static void init(String... fileNames) {
         cleanAllPreferences();
         loadConfiguration(fileNames);
