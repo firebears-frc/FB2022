@@ -7,10 +7,10 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.Acquisition;
 
-public class AcquisitonStopCommand extends CommandBase {
+public class AcquisitionStopCommand extends CommandBase {
   private final Acquisition m_acquisition;
 
-  public AcquisitonStopCommand(Acquisition subsystem) {
+  public AcquisitionStopCommand(Acquisition subsystem) {
     m_acquisition = subsystem;
     addRequirements(m_acquisition);
   }
@@ -21,11 +21,13 @@ public class AcquisitonStopCommand extends CommandBase {
 
   @Override
   public void execute() {
-
+     m_acquisition.raise();
+     m_acquisition.stop();
   }
 
   @Override
   public void end(boolean interrupted) {
+
   }
 
   @Override

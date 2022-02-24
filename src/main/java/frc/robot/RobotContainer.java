@@ -9,9 +9,11 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.cscore.UsbCamera;
 import edu.wpi.first.wpilibj.Compressor;
+import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.XboxController.Button;
+import edu.wpi.first.wpilibj.simulation.XboxControllerSim;
 
 import static edu.wpi.first.wpilibj.PneumaticsModuleType.*;
 import static frc.robot.Constants.*;
@@ -77,6 +79,13 @@ public class RobotContainer {
     // Configure default commands
 
     // Configure autonomous sendable chooser
+    final JoystickButton bButton = new JoystickButton(xController1, XboxController.Button.kB.value);
+    bButton.whenPressed(new AcquisitionStartCommand(m_acquisition), true);
+    SmartDashboard.putData("bButton", new AcquisitionStartCommand(m_acquisition));
+
+    final JoystickButton aButton = new JoystickButton(xController1, XboxController.Button.kA.value);
+    aButton.whenPressed(new AcquisitionStopCommand(m_acquisition), true);
+    SmartDashboard.putData("aButton", new AcquisitionStopCommand(m_acquisition));
 
     m_chooser.setDefaultOption("Autonomous Command", new AutonomousCommand());
 
