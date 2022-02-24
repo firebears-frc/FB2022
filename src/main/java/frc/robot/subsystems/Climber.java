@@ -46,6 +46,7 @@ public class Climber extends SubsystemBase {
             solenoid = new DoubleSolenoid(PneumaticsModuleType.REVPH, CLIMBER_SOLENOID_FORWARD_CHANNEL,
                     CLIMBER_SOLENOID_REVERSE_CHANNEL);
         }
+        addChild("solenoid", solenoid);
     }
 
     @Override
