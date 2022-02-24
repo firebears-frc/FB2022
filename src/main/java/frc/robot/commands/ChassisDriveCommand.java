@@ -6,13 +6,12 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.Chassis;
 
 public class ChassisDriveCommand extends CommandBase {
-  private Chassis m_Chassis;
+  private Chassis m_chassis;
   private XboxController xbox;
 
   public ChassisDriveCommand(Chassis c, XboxController x) {
-    m_Chassis = c;
+    m_chassis = c;
     xbox = x;
-
   }
 
   @Override
@@ -23,7 +22,7 @@ public class ChassisDriveCommand extends CommandBase {
   public void execute() {
     double speed = xbox.getLeftY();
     double rotation = xbox.getLeftX();
-    m_Chassis.arcadeDrive(speed, rotation);
+    m_chassis.arcadeDrive(speed, rotation);
   }
 
   @Override

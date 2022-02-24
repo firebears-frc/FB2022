@@ -30,7 +30,6 @@ public class Chassis extends SubsystemBase {
         leftPIDSparkMotor = new PIDSparkMotor(frontLeftMotor, CHASSIS_DRIVE_P, CHASSIS_DRIVE_I, CHASSIS_DRIVE_D);
         leftEncoder = frontLeftMotor.getEncoder();
 
-
         frontRightMotor = new CANSparkMax(CHASSIS_FRONT_RIGHT_MOTOR_CAN_ID, MotorType.kBrushless);
         frontRightMotor.restoreFactoryDefaults();
         frontRightMotor.setInverted(false);
@@ -80,7 +79,7 @@ public class Chassis extends SubsystemBase {
      */
     public void resetEncoder() {
         leftEncoder.setPosition(0);
-        righEncoder.setMeasurementPeriod(0);
+        righEncoder.setPosition(0);
 
     }
 
