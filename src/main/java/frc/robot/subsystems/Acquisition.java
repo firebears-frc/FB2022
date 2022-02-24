@@ -4,6 +4,7 @@ import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
 import edu.wpi.first.wpilibj.DoubleSolenoid;
+import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 import static edu.wpi.first.wpilibj.DoubleSolenoid.Value.*;
@@ -13,6 +14,7 @@ import static frc.robot.Constants.*;
 public class Acquisition extends SubsystemBase {
 
     private WPI_TalonSRX spinMotor;
+    private DoubleSolenoid solenoid;
 
     public Acquisition() {
         spinMotor = new WPI_TalonSRX(ACQUISITION_SPIN_MOTOR_CAN_ID);
@@ -20,6 +22,8 @@ public class Acquisition extends SubsystemBase {
         spinMotor.configPeakCurrentLimit(0);
         spinMotor.enableCurrentLimit(true);
         addChild("spinMotor", spinMotor);
+        solenoid = new DoubleSolenoid(1, PneumaticsModuleType.CTREPCM, 0, 0);
+        addChild("solenoid", solenoid);
     }
 
     @Override
@@ -30,12 +34,12 @@ public class Acquisition extends SubsystemBase {
     public void simulationPeriodic() {
     }
 
-    public void raise(double rotate) {
-
+    public void raise() {
+       solenoid.set(kForward);
     }
 
     public void lower() {
-
+        solenoid.set(kReverse);
     }
 
     public void spin(double speed) {
