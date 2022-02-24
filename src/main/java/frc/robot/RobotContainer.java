@@ -38,8 +38,8 @@ public class RobotContainer {
   public final Lights m_lights = new Lights();
 
   // Joysticks
-  private final XboxController xController2 = new XboxController(1);
   private final XboxController xController1 = new XboxController(0);
+  private final XboxController xController2 = new XboxController(1);
 
   // Pneumatics
   public Compressor compressor;
@@ -51,13 +51,12 @@ public class RobotContainer {
   // A chooser for autonomous commands
   SendableChooser<Command> m_chooser = new SendableChooser<>();
 
+  
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
    */
   private RobotContainer() {
-    m_chassis.setDefaultCommand(new ChassisDriveCommand(m_chassis, xController1));
   
-
     // Pneumatics
     if (PRACTICE_ROBOT) {
       pneumaticsType = CTREPCM;
@@ -74,22 +73,14 @@ public class RobotContainer {
     // Smartdashboard Subsystems
 
     // SmartDashboard Buttons
-    SmartDashboard.putData("Autonomous Command", new AutonomousCommand());
 
     // Configure the button bindings
     configureButtonBindings();
 
     // Configure default commands
+    m_chassis.setDefaultCommand(new ChassisDriveCommand(m_chassis, xController1));
 
     // Configure autonomous sendable chooser
-    final JoystickButton bButton = new JoystickButton(xController1, XboxController.Button.kB.value);
-    bButton.whenPressed(new AcquisitionStartCommand(m_acquisition), true);
-    SmartDashboard.putData("bButton", new AcquisitionStartCommand(m_acquisition));
-
-    final JoystickButton aButton = new JoystickButton(xController1, XboxController.Button.kA.value);
-    aButton.whenPressed(new AcquisitionStopCommand(m_acquisition), true);
-    SmartDashboard.putData("aButton", new AcquisitionStopCommand(m_acquisition));
-
     m_chooser.setDefaultOption("Autonomous Command", new AutonomousCommand());
 
     SmartDashboard.putData("Auto Mode", m_chooser);
@@ -99,6 +90,7 @@ public class RobotContainer {
     return m_robotContainer;
   }
 
+  
   /**
    * Use this method to define your button->command mappings. Buttons can be
    * created by instantiating a {@link GenericHID} or one of its subclasses
@@ -107,10 +99,17 @@ public class RobotContainer {
    * {@link edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
+    
+    final JoystickButton bButton = new JoystickButton(xController1, XboxController.Button.kB.value);
+    bButton.whenPressed(new AcquisitionStartCommand(m_acquisition), true);
+    SmartDashboard.putData("bButton", new AcquisitionStartCommand(m_acquisition));
 
-    // Create some buttons
+    final JoystickButton aButton = new JoystickButton(xController1, XboxController.Button.kA.value);
+    aButton.whenPressed(new AcquisitionStopCommand(m_acquisition), true);
+    SmartDashboard.putData("aButton", new AcquisitionStopCommand(m_acquisition));
   }
 
+  
   /**
    * Use this to pass the autonomous command to the main {@link Robot} class.
    *
