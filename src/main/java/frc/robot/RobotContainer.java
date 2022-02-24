@@ -35,6 +35,7 @@ public class RobotContainer {
   public final Acquisition m_acquisition = new Acquisition();
   public final Climber m_climber = new Climber();
   public final Chassis m_chassis = new Chassis();
+  public final Lights m_lights = new Lights();
 
   // Joysticks
   private final XboxController xController2 = new XboxController(1);
