@@ -30,7 +30,7 @@ public class Acquisition extends SubsystemBase {
     public void simulationPeriodic() {
     }
 
-    public void raise() {
+    public void raise(double rotate) {
 
     }
 
