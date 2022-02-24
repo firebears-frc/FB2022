@@ -52,6 +52,8 @@ public class RobotContainer {
    * The container for the robot. Contains subsystems, OI devices, and commands.
    */
   private RobotContainer() {
+    m_chassis.setDefaultCommand(new ChassisDriveCommand(m_chassis, xController1));
+  
 
     // Pneumatics
     if (PRACTICE_ROBOT) {
