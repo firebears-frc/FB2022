@@ -22,6 +22,7 @@ public class Acquisition extends SubsystemBase {
         spinMotor.configPeakCurrentLimit(0);
         spinMotor.enableCurrentLimit(true);
         addChild("spinMotor", spinMotor);
+        // need solenoid ID
         solenoid = new DoubleSolenoid(1, PneumaticsModuleType.CTREPCM, 0, 0);
         addChild("solenoid", solenoid);
     }
@@ -35,7 +36,7 @@ public class Acquisition extends SubsystemBase {
     }
 
     public void raise() {
-       solenoid.set(kForward);
+        solenoid.set(kForward);
     }
 
     public void lower() {

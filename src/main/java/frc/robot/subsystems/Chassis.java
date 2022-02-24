@@ -17,6 +17,8 @@ public class Chassis extends SubsystemBase {
     private PIDSparkMotor leftPIDSparkMotor;
     private PIDSparkMotor rightPIDSparkMotor;
     private DifferentialDrive differentialDrive;
+    private RelativeEncoder leftEncoder;
+    private RelativeEncoder righEncoder;
 
     public Chassis() {
         frontLeftMotor = new CANSparkMax(CHASSIS_FRONT_LEFT_MOTOR_CAN_ID, MotorType.kBrushless);
@@ -26,12 +28,14 @@ public class Chassis extends SubsystemBase {
         frontLeftMotor.setSmartCurrentLimit(CHASSIS_STALL_CURRENT_LIMIT, CHASSIS_FREE_CURRENT_LIMIT);
 
         leftPIDSparkMotor = new PIDSparkMotor(frontLeftMotor, CHASSIS_DRIVE_P, CHASSIS_DRIVE_I, CHASSIS_DRIVE_D);
+        leftEncoder = frontLeftMotor.getEncoder();
 
         frontRightMotor = new CANSparkMax(CHASSIS_FRONT_RIGHT_MOTOR_CAN_ID, MotorType.kBrushless);
         frontRightMotor.restoreFactoryDefaults();
         frontRightMotor.setInverted(false);
         frontRightMotor.setIdleMode(IdleMode.kCoast);
         frontRightMotor.setSmartCurrentLimit(CHASSIS_STALL_CURRENT_LIMIT, CHASSIS_FREE_CURRENT_LIMIT);
+        righEncoder = frontRightMotor.getEncoder();
 
         rightPIDSparkMotor = new PIDSparkMotor(frontRightMotor, CHASSIS_DRIVE_P, CHASSIS_DRIVE_I, CHASSIS_DRIVE_D);
 
@@ -67,13 +71,15 @@ public class Chassis extends SubsystemBase {
     }
 
     public void arcadeDrive(double speed, double rotation) {
-
+        differentialDrive.arcadeDrive(speed, rotation);
     }
 
     /**
      * Reset encoder to zero.
      */
     public void resetEncoder() {
+        leftEncoder.setPosition(0);
+        righEncoder.setPosition(0);
 
     }
 
@@ -81,6 +87,6 @@ public class Chassis extends SubsystemBase {
      * @return distance in inches.
      */
     public double getEncoderDistance() {
-        return 0.0;
+        return (leftEncoder.getPosition() + righEncoder.getPosition()) /2;
     }
 }
