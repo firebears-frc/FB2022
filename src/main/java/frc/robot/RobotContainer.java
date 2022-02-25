@@ -29,7 +29,7 @@ import static frc.robot.Constants.*;
  */
 public class RobotContainer {
 
-  private static RobotContainer m_robotContainer = new RobotContainer();
+  private static RobotContainer m_robotContainer = null;
 
   // The robot's subsystems
   public final Shooter m_shooter = new Shooter();
@@ -89,6 +89,9 @@ public class RobotContainer {
   }
 
   public static RobotContainer getInstance() {
+    if (m_robotContainer == null) {
+      m_robotContainer = new RobotContainer();
+    }
     return m_robotContainer;
   }
 
@@ -104,11 +107,15 @@ public class RobotContainer {
     
     final JoystickButton bButton = new JoystickButton(xController1, XboxController.Button.kB.value);
     bButton.whenPressed(new AcquisitionStartCommand(m_acquisition), true);
-    SmartDashboard.putData("bButton", new AcquisitionStartCommand(m_acquisition));
 
     final JoystickButton aButton = new JoystickButton(xController1, XboxController.Button.kA.value);
     aButton.whenPressed(new AcquisitionStopCommand(m_acquisition), true);
-    SmartDashboard.putData("aButton", new AcquisitionStopCommand(m_acquisition));
+
+    final JoystickButton xButton = new JoystickButton(xController1, XboxController.Button.kX.value);
+    xButton.whenPressed(new ClimberReachOutCommand(m_climber), true);
+
+    final JoystickButton yButton = new JoystickButton(xController1, XboxController.Button.kY.value);
+    yButton.whenPressed(new ClimberReachBackCommand(m_climber), true);
   }
 
   

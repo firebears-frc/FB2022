@@ -2,11 +2,16 @@ package frc.robot.subsystems;
 
 import com.revrobotics.CANSparkMax.IdleMode;
 import com.ctre.phoenix.motorcontrol.LimitSwitchNormal;
+import com.revrobotics.CANEncoder;
+import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
+import edu.wpi.first.wpilibj.Encoder;
+import edu.wpi.first.wpilibj.PneumaticsModuleType;
+import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.util.PIDSparkMotor;
 import frc.robot.util.SparkEncoder;
@@ -51,11 +56,11 @@ public class Shooter extends SubsystemBase {
         pidTurretMotor = new PIDSparkMotor(turretMotor, SHOOTER_TURRET_P, SHOOTER_TURRET_I, SHOOTER_TURRET_D);
 
         if (PRACTICE_ROBOT) {
-            leftSolenoid = new DoubleSolenoid(1, CTREPCM, 2, 3);
-            rightSolenoid = new DoubleSolenoid(1, CTREPCM, 1, 0);
+            leftSolenoid = new DoubleSolenoid(1, PneumaticsModuleType.CTREPCM, 2, 3);
+            rightSolenoid = new DoubleSolenoid(1, PneumaticsModuleType.CTREPCM, 1, 0);
         } else {
-            leftSolenoid = new DoubleSolenoid(0, REVPH, 1, 2);
-            rightSolenoid = new DoubleSolenoid(0, REVPH, 1, 2);
+            leftSolenoid = new DoubleSolenoid(0, PneumaticsModuleType.REVPH, 1, 2);
+            rightSolenoid = new DoubleSolenoid(0, PneumaticsModuleType.REVPH, 1, 2);
         }
         addChild("leftSolenoid", leftSolenoid);
         addChild("rightSolenoid", rightSolenoid);
