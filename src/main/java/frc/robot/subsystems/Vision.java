@@ -18,15 +18,18 @@ import edu.wpi.first.math.util.Units;
 public class Vision extends SubsystemBase {
   /** Creates a new Vision Subsystem. */
 
-  private PhotonCamera photoncam;
-  PhotonTrackedTarget PhotonTarget;
+  PhotonCamera photonCam;
+  PhotonTrackedTarget photonTarget;
 
+  double robotYaw;
+  double visionYaw;
 
   private double camHeight;
   private double targetHeight;
   private double camPitch;
+
   public Vision(String CameraName, double cH, double tH, double cP) {
-    photoncam = new PhotonCamera(CameraName);
+    photonCam = new PhotonCamera(CameraName);
     camHeight = cH;
     targetHeight = tH;
     camPitch = cP;
@@ -36,58 +39,56 @@ public class Vision extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
-    var result = photoncam.getLatestResult();
+    var result = photonCam.getLatestResult();
 
-    if(result.hasTargets()){
-      PhotonTarget = photoncam.getLatestResult().getBestTarget();
+    if (result.hasTargets()) {
+      photonTarget = photonCam.getLatestResult().getBestTarget();
       updateVisionYaw();
-    }
-    else{
-      PhotonTarget = null;
+    } else {
+      photonTarget = null;
     }
   }
 
-  /*      Functions That Return Values To Main.Java           */
+  /* Functions That Return Values To Main.Java */
 
-  public PhotonTrackedTarget getBestTarget(){
-    return PhotonTarget;
+  public PhotonTrackedTarget getBestTarget() {
+    return photonTarget;
   }
 
-  // returns yaw
-  public double getAngle(){
-    if(PhotonTarget != null){
-      return PhotonTarget.getYaw();
-    }
-    else{
+  /**
+   * 
+   * @return Returns The Angle ( -1 To 1 ), 0 Being The Middle
+   */
+  public double getAngle() {
+    if (photonTarget != null) {
+      return photonTarget.getYaw()/30;
+    } else {
       return 0;
     }
   }
 
-
-  // returns distences in meters
-  public double getDistence(){
-    if(PhotonTarget == null) return 0;
-    return PhotonUtils.calculateDistanceToTargetMeters(
-            camHeight,
-            targetHeight,
-            camPitch,
-            Units.degreesToRadians(PhotonTarget.getPitch()));
+  // returns distences in inches
+  public double getDistence() {
+    if (photonTarget == null)
+      return 0;
+    return Units.metersToInches(PhotonUtils.calculateDistanceToTargetMeters(
+        camHeight,
+        targetHeight,
+        camPitch,
+        Units.degreesToRadians(photonTarget.getPitch())));
   }
 
-  double robotYaw;
-  double visionYaw;
-  
-
-  public void setRobotYaw(double y){
+  public void setRobotYaw(double y) {
     robotYaw = y;
   }
 
-  void updateVisionYaw(){
-    if(PhotonTarget == null) return;
-    visionYaw = PhotonTarget.getYaw();
+  void updateVisionYaw() {
+    if (photonTarget == null)
+      return;
+    visionYaw = photonTarget.getYaw();
   }
 
-  public double getLastAngle(){
+  public double getLastAngle() {
     System.out.println(visionYaw + robotYaw);
     return visionYaw + robotYaw;
   }
