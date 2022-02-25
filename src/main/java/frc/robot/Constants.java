@@ -14,8 +14,8 @@ public class Constants {
     public static final int ACQUSITION_SPIN_MOTOR_CURRENT_LIMIT = 10;
 
     public static final int CHASSIS_FRONT_LEFT_MOTOR_CAN_ID = 2;
-    public static final int CHASSIS_FRONT_RIGHT_MOTOR_CAN_ID = 3;
-    public static final int CHASSIS_REAR_LEFT_MOTOR_CAN_ID = 4;
+    public static final int CHASSIS_REAR_LEFT_MOTOR_CAN_ID = 3;
+    public static final int CHASSIS_FRONT_RIGHT_MOTOR_CAN_ID = 4;
     public static final int CHASSIS_REAR_RIGHT_MOTOR_CAN_ID = 5;
     public static final double CHASSIS_DRIVE_P = 0.00025;
     public static final double CHASSIS_DRIVE_I = 0.0;
