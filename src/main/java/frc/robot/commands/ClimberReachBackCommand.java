@@ -18,7 +18,9 @@ public class ClimberReachBackCommand extends CommandBase {
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {}
+  public void initialize() {
+    m_climber.reachBack();
+  }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
@@ -31,6 +33,6 @@ public class ClimberReachBackCommand extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    return true;
   }
 }
