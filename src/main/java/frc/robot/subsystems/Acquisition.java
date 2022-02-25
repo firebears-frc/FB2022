@@ -1,6 +1,5 @@
 package frc.robot.subsystems;
 
-import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
 import edu.wpi.first.wpilibj.DoubleSolenoid;
@@ -23,7 +22,7 @@ public class Acquisition extends SubsystemBase {
         spinMotor.configPeakCurrentLimit(0);
         spinMotor.enableCurrentLimit(true);
         addChild("spinMotor", spinMotor);
-        // need solenoid ID
+
         if (PRACTICE_ROBOT) {
             leftSolenoid = new DoubleSolenoid(0, PneumaticsModuleType.CTREPCM, 1, 2);
             rightSolenoid = new DoubleSolenoid(0, PneumaticsModuleType.CTREPCM, 1, 2);
