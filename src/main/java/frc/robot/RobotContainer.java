@@ -29,7 +29,7 @@ import static frc.robot.Constants.*;
  */
 public class RobotContainer {
 
-  private static RobotContainer m_robotContainer = new RobotContainer();
+  private static RobotContainer m_robotContainer = null;
 
   // The robot's subsystems
   public final Shooter m_shooter = new Shooter();
@@ -89,6 +89,9 @@ public class RobotContainer {
   }
 
   public static RobotContainer getInstance() {
+    if (m_robotContainer == null) {
+      m_robotContainer = new RobotContainer();
+    }
     return m_robotContainer;
   }
 
