@@ -14,7 +14,8 @@ import static frc.robot.Constants.*;
 public class Acquisition extends SubsystemBase {
 
     private WPI_TalonSRX spinMotor;
-    private DoubleSolenoid solenoid;
+    private DoubleSolenoid leftSolenoid;
+    private DoubleSolenoid rightSolenoid;
 
     public Acquisition() {
         spinMotor = new WPI_TalonSRX(ACQUISITION_SPIN_MOTOR_CAN_ID);
@@ -23,8 +24,15 @@ public class Acquisition extends SubsystemBase {
         spinMotor.enableCurrentLimit(true);
         addChild("spinMotor", spinMotor);
         // need solenoid ID
-        solenoid = new DoubleSolenoid(1, PneumaticsModuleType.CTREPCM, 0, 0);
-        addChild("solenoid", solenoid);
+        if (PRACTICE_ROBOT) {
+            leftSolenoid = new DoubleSolenoid(0, PneumaticsModuleType.CTREPCM, 1, 2);
+            rightSolenoid = new DoubleSolenoid(0, PneumaticsModuleType.CTREPCM, 1, 2);
+        } else {
+            leftSolenoid = new DoubleSolenoid(0, PneumaticsModuleType.REVPH, 1, 2);
+            rightSolenoid = new DoubleSolenoid(0, PneumaticsModuleType.REVPH, 1, 2);
+        }
+        addChild("leftSolenoid", leftSolenoid);
+        addChild("rightSolenoid", rightSolenoid);
     }
 
     @Override
@@ -36,11 +44,11 @@ public class Acquisition extends SubsystemBase {
     }
 
     public void raise() {
-        solenoid.set(kForward);
+        leftSolenoid.set(kForward);
     }
 
     public void lower() {
-        solenoid.set(kReverse);
+        leftSolenoid.set(kReverse);
     }
 
     public void spin(double speed) {

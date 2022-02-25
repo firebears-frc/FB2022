@@ -8,6 +8,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.cscore.UsbCamera;
+import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
@@ -36,6 +37,7 @@ public class RobotContainer {
   public final Climber m_climber = new Climber();
   public final Chassis m_chassis = new Chassis();
   public final Lights m_lights = new Lights();
+  public final Vision m_vision = new Vision("CameraName", 0, Units.metersToFeet(8), 0);
 
   // Joysticks
   private final XboxController xController1 = new XboxController(0);
