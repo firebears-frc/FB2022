@@ -25,8 +25,8 @@ public class Acquisition extends SubsystemBase {
         addChild("spinMotor", spinMotor);
         // need solenoid ID
         if (PRACTICE_ROBOT) {
-            leftSolenoid = new DoubleSolenoid(0, PneumaticsModuleType.CTREPCM, 1, 2);
-            rightSolenoid = new DoubleSolenoid(0, PneumaticsModuleType.CTREPCM, 1, 2);
+            leftSolenoid = new DoubleSolenoid(0, PneumaticsModuleType.CTREPCM, 2, 1);
+            rightSolenoid = new DoubleSolenoid(0, PneumaticsModuleType.CTREPCM, 6, 7);
         } else {
             leftSolenoid = new DoubleSolenoid(0, PneumaticsModuleType.REVPH, 1, 2);
             rightSolenoid = new DoubleSolenoid(0, PneumaticsModuleType.REVPH, 1, 2);

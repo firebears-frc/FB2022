@@ -27,7 +27,8 @@ public class Shooter extends SubsystemBase {
     private PIDSparkMotor pidShooterMotor;
 
     private RelativeEncoder turretEncoder;
-    private DoubleSolenoid pusherSolenoid;
+    private DoubleSolenoid leftSolenoid;
+    private DoubleSolenoid rightSolenoid;
 
     private DigitalInput leftLimitSwitch, rightLimitSwitch;
 
@@ -51,11 +52,20 @@ public class Shooter extends SubsystemBase {
         pidTurretMotor = new PIDSparkMotor(turretMotor, SHOOTER_TURRET_P, SHOOTER_TURRET_I, SHOOTER_TURRET_D);
 
 
-        pusherSolenoid = new DoubleSolenoid((int) Math.round((float) ((double) 6.9f)), PneumaticsModuleType.CTREPCM, 1, 2);
+        if (PRACTICE_ROBOT) {
+            leftSolenoid = new DoubleSolenoid(1, PneumaticsModuleType.CTREPCM, 2, 3);
+            rightSolenoid = new DoubleSolenoid(1, PneumaticsModuleType.CTREPCM, 1, 0);
+        } else {
+            leftSolenoid = new DoubleSolenoid(0, PneumaticsModuleType.REVPH, 1, 2);
+            rightSolenoid = new DoubleSolenoid(0, PneumaticsModuleType.REVPH, 1, 2);
+        }
+        addChild("leftSolenoid", leftSolenoid);
+        addChild("rightSolenoid", rightSolenoid);
     }
 
     @Override
     public void periodic() {
+    /*
         if (leftLimitSwitch.get()) {
             turretMotor.setIdleMode(IdleMode.kBrake);
             pidTurretMotor.set(0);
@@ -65,6 +75,7 @@ public class Shooter extends SubsystemBase {
         } else {
             turretMotor.setIdleMode(IdleMode.kCoast);
         }
+    */
     }
 
     @Override
@@ -76,15 +87,17 @@ public class Shooter extends SubsystemBase {
      * Push the ball into the spinning wheel
      */
     public void extendPusher() {
-        pusherSolenoid.set(kForward);
+        leftSolenoid.set(kForward);
+        rightSolenoid.set(kForward);
+
     }
 
     /**
      * Lower the ball pusher.
      */
     public void retractPusher() {
-        pusherSolenoid.set(kReverse);
-    }
+        leftSolenoid.set(kReverse);
+        rightSolenoid.set(kReverse);    }
 
     public void setShooterVelocity(double velocity) {
         pidShooterMotor.set(velocity);

@@ -40,8 +40,8 @@ public class Climber extends SubsystemBase {
         rightMotor.follow(leftMotor);
 
         if (PRACTICE_ROBOT) {
-            leftSolenoid = new DoubleSolenoid(0, PneumaticsModuleType.CTREPCM, 1, 2);
-            rightSolenoid = new DoubleSolenoid(0, PneumaticsModuleType.CTREPCM, 1, 2);
+            leftSolenoid = new DoubleSolenoid(0, PneumaticsModuleType.CTREPCM, 4, 3);
+            rightSolenoid = new DoubleSolenoid(0, PneumaticsModuleType.CTREPCM, 0, 5);
         } else {
             leftSolenoid = new DoubleSolenoid(0, PneumaticsModuleType.REVPH, 1, 2);
             rightSolenoid = new DoubleSolenoid(0, PneumaticsModuleType.REVPH, 1, 2);

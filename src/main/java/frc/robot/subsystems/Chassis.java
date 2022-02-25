@@ -23,7 +23,7 @@ public class Chassis extends SubsystemBase {
     public Chassis() {
         frontLeftMotor = new CANSparkMax(CHASSIS_FRONT_LEFT_MOTOR_CAN_ID, MotorType.kBrushless);
         frontLeftMotor.restoreFactoryDefaults();
-        frontLeftMotor.setInverted(false);
+        frontLeftMotor.setInverted(true);
         frontLeftMotor.setIdleMode(IdleMode.kCoast);
         frontLeftMotor.setSmartCurrentLimit(CHASSIS_STALL_CURRENT_LIMIT, CHASSIS_FREE_CURRENT_LIMIT);
 
@@ -32,7 +32,7 @@ public class Chassis extends SubsystemBase {
 
         frontRightMotor = new CANSparkMax(CHASSIS_FRONT_RIGHT_MOTOR_CAN_ID, MotorType.kBrushless);
         frontRightMotor.restoreFactoryDefaults();
-        frontRightMotor.setInverted(false);
+        frontRightMotor.setInverted(true);
         frontRightMotor.setIdleMode(IdleMode.kCoast);
         frontRightMotor.setSmartCurrentLimit(CHASSIS_STALL_CURRENT_LIMIT, CHASSIS_FREE_CURRENT_LIMIT);
         righEncoder = frontRightMotor.getEncoder();
@@ -41,7 +41,7 @@ public class Chassis extends SubsystemBase {
 
         rearLeftMotor = new CANSparkMax(CHASSIS_REAR_LEFT_MOTOR_CAN_ID, MotorType.kBrushless);
         rearLeftMotor.restoreFactoryDefaults();
-        rearLeftMotor.setInverted(false);
+        rearLeftMotor.setInverted(true);
         rearLeftMotor.setIdleMode(IdleMode.kCoast);
         rearLeftMotor.setSmartCurrentLimit(CHASSIS_STALL_CURRENT_LIMIT, CHASSIS_FREE_CURRENT_LIMIT);
 
@@ -49,7 +49,7 @@ public class Chassis extends SubsystemBase {
 
         rearRightMotor = new CANSparkMax(CHASSIS_REAR_RIGHT_MOTOR_CAN_ID, MotorType.kBrushless);
         rearRightMotor.restoreFactoryDefaults();
-        rearRightMotor.setInverted(false);
+        rearRightMotor.setInverted(true);
         rearRightMotor.setIdleMode(IdleMode.kCoast);
         rearRightMotor.setSmartCurrentLimit(CHASSIS_STALL_CURRENT_LIMIT, CHASSIS_FREE_CURRENT_LIMIT);
 
