@@ -13,8 +13,6 @@ import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.XboxController;
-import edu.wpi.first.wpilibj.XboxController.Button;
-import edu.wpi.first.wpilibj.simulation.XboxControllerSim;
 
 import static edu.wpi.first.wpilibj.PneumaticsModuleType.*;
 import static frc.robot.Constants.*;
@@ -110,10 +108,10 @@ public class RobotContainer {
     aButton.whenPressed(new AcquisitionStopCommand(m_acquisition), true);
 
     final JoystickButton xButton = new JoystickButton(xController1, XboxController.Button.kX.value);
-    xButton.whenPressed(new ClimberReachOutCommand(m_climber), true);
+    xButton.whenPressed(new ShooterResetCommand(m_shooter), true);
 
     final JoystickButton yButton = new JoystickButton(xController1, XboxController.Button.kY.value);
-    yButton.whenPressed(new ClimberReachBackVerticalCommand(m_climber), true);
+    yButton.whenPressed(new ShooterPushCommand(m_shooter), true);
   }
 
   /**

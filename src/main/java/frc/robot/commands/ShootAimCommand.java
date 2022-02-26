@@ -4,7 +4,6 @@
 
 package frc.robot.commands;
 
-import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.Shooter;
@@ -20,13 +19,11 @@ public class ShootAimCommand extends CommandBase {
     addRequirements(localShooter);
     shooter = localShooter;
     Xbox = localXbox;
-    // Use addRequirements() here to declare subsystem dependencies.
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    // set shooter position to zero
     turretPosition = 0;
   }
 
