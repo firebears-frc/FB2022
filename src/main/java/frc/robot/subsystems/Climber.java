@@ -12,7 +12,6 @@ import com.revrobotics.CANSparkMax.IdleMode;
 
 import static frc.robot.Constants.*;
 
-import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 

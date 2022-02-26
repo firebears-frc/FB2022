@@ -26,18 +26,19 @@ public class ShootAimCommand extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    //set shooter position to zero
+    // set shooter position to zero
     turretPosition = 0;
   }
 
   // Called every time the scheduler runs while the command is scheduled.
 
-  //how fast or slow the turret will move based off the xbox controllers
-  //left stick X position, (-1 0 1) * Sensisitivity
+  // how fast or slow the turret will move based off the xbox controllers
+  // left stick X position, (-1 0 1) * Sensisitivity
   double sensitivity = 0.2;
+
   @Override
   public void execute() {
-    turretPosition += (Xbox.getRightX()*sensitivity);
+    turretPosition += (Xbox.getRightX() * sensitivity);
     shooter.setTurretPosition(turretPosition);
   }
 

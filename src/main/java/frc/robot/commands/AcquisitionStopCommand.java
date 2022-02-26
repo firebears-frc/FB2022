@@ -21,8 +21,8 @@ public class AcquisitionStopCommand extends CommandBase {
 
   @Override
   public void execute() {
-     m_acquisition.raise();
-     m_acquisition.stop();
+    m_acquisition.raise();
+    m_acquisition.stop();
   }
 
   @Override
