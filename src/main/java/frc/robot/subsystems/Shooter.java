@@ -27,6 +27,7 @@ public class Shooter extends SubsystemBase {
     private PIDSparkMotor pidShooterMotor;
 
     private RelativeEncoder turretEncoder;
+    private RelativeEncoder shooterEncoder;
     private DoubleSolenoid leftSolenoid;
     private DoubleSolenoid rightSolenoid;
 
@@ -38,6 +39,8 @@ public class Shooter extends SubsystemBase {
         shooterMotor.restoreFactoryDefaults();
         shooterMotor.setInverted(false);
         shooterMotor.setIdleMode(IdleMode.kCoast);
+
+        shooterEncoder = shooterMotor.getEncoder();
 
         pidShooterMotor = new PIDSparkMotor(shooterMotor, SHOOTER_WHEEL_P, SHOOTER_WHEEL_I, SHOOTER_WHEEL_D);
 
@@ -104,7 +107,7 @@ public class Shooter extends SubsystemBase {
     }
 
     public double getShooterVelocity() {
-        return 0.0;
+        return shooterEncoder.getVelocity();
     }
 
     /**
