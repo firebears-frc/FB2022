@@ -33,7 +33,7 @@ public class Lights extends SubsystemBase {
 
   @Override
   public void periodic() {
-    // TODO:  Detect system changes and switch animations as needed
+    // TODO: Detect system changes and switch animations as needed
     sendAllAnimations();
   }
 
@@ -41,7 +41,6 @@ public class Lights extends SubsystemBase {
   private byte[] dataBack = new byte[0];
   private int[] currentAnimation = new int[MAX_PIXELSTRIPS];
   private int[] nextAnimation = new int[MAX_PIXELSTRIPS];
-
 
   public void resetAllAnimations() {
     for (int s = 0; s < MAX_PIXELSTRIPS; s++) {

@@ -91,6 +91,6 @@ public class Chassis extends SubsystemBase {
      * @return distance in inches.
      */
     public double getEncoderDistance() {
-        return (leftEncoder.getPosition() + righEncoder.getPosition()) /2;
+        return (leftEncoder.getPosition() + righEncoder.getPosition()) / 2;
     }
 }

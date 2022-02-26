@@ -45,7 +45,8 @@ public class Shooter extends SubsystemBase {
         shooterEncoder = shooterMotor.getEncoder();
         addChild("spinnerEncoder", new SparkEncoder(shooterEncoder));
 
-        // pidShooterMotor = new PIDSparkMotor(shooterMotor, SHOOTER_WHEEL_P, SHOOTER_WHEEL_I, SHOOTER_WHEEL_D);
+        // pidShooterMotor = new PIDSparkMotor(shooterMotor, SHOOTER_WHEEL_P,
+        // SHOOTER_WHEEL_I, SHOOTER_WHEEL_D);
 
         turretMotor = new SparkMotor(SHOOTER_TURRET_MOTOR_CAN_ID, MotorType.kBrushless);
         addChild("turretMotor", turretMotor);
