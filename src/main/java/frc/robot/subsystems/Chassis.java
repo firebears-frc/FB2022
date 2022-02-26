@@ -24,6 +24,8 @@ public class Chassis extends SubsystemBase {
     private RelativeEncoder leftEncoder;
     private RelativeEncoder righEncoder;
     private AnalogPotentiometer ultrasonic;
+    private double leftOffSet = 0;
+    private double rightOffSet = 0;
 
     public Chassis() {
         ultrasonic = new AnalogPotentiometer(0, 100, 0);
@@ -73,6 +75,7 @@ public class Chassis extends SubsystemBase {
     @Override
     public void periodic() {
         SmartDashboard.putNumber("ultrasonic", getUltrasonicDistanceInches());
+        SmartDashboard.putNumber("getDistance", getEncoderDistance());
     }
 
     @Override
@@ -87,17 +90,17 @@ public class Chassis extends SubsystemBase {
      * Reset encoder to zero.
      */
     public void resetEncoder() {
-        leftEncoder.setPosition(0);
-        righEncoder.setPosition(0);
-
+        leftOffSet = leftEncoder.getPosition();
+        rightOffSet = righEncoder.getPosition();
     }
 
     /**
      * @return distance in inches.
      */
     public double getEncoderDistance() {
-        return (leftEncoder.getPosition() + righEncoder.getPosition()) / 2;
+        return 2.3 * ((leftEncoder.getPosition()- leftOffSet) - (righEncoder.getPosition()- rightOffSet)) / 2;
     }
+    
     public double getUltrasonicDistanceInches(){
         return ultrasonic.get() / 0.193;
       }
