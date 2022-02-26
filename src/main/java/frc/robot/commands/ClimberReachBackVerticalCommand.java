@@ -5,29 +5,29 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.Acquisition;
+import frc.robot.subsystems.Climber;
 
-public class AcquisitionStopCommand extends CommandBase {
-  private final Acquisition m_acquisition;
+/** Move arm to the vertical */
+public class ClimberReachBackVerticalCommand extends CommandBase {
+  Climber m_climber;
 
-  public AcquisitionStopCommand(Acquisition subsystem) {
-    m_acquisition = subsystem;
-    addRequirements(m_acquisition);
+  public ClimberReachBackVerticalCommand(Climber climber) {
+    m_climber = climber;
+
+    addRequirements(m_climber);
   }
 
   @Override
   public void initialize() {
+    m_climber.reachBackVertical();
   }
 
   @Override
   public void execute() {
-    m_acquisition.raise();
-    m_acquisition.stop();
   }
 
   @Override
   public void end(boolean interrupted) {
-
   }
 
   @Override
