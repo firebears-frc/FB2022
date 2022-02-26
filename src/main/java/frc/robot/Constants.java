@@ -27,9 +27,9 @@ public class Constants {
     public static final int CHASSIS_REAR_LEFT_MOTOR_CAN_ID = 3;
     public static final int CHASSIS_FRONT_RIGHT_MOTOR_CAN_ID = 4;
     public static final int CHASSIS_REAR_RIGHT_MOTOR_CAN_ID = 5;
-    public static final double CHASSIS_DRIVE_P = 0.00025;
+    public static final double CHASSIS_DRIVE_P = 0.000025;
     public static final double CHASSIS_DRIVE_I = 0.0;
-    public static final double CHASSIS_DRIVE_D = 0.00001;
+    public static final double CHASSIS_DRIVE_D = 0.000001;
     public static final int CHASSIS_FREE_CURRENT_LIMIT = 65;
     public static final int CHASSIS_STALL_CURRENT_LIMIT = 65;
 

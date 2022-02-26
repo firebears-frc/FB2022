@@ -7,33 +7,29 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.Climber;
 
-public class ClimberReachBackCommand extends CommandBase {
-  /** Creates a new ClimberReachBackCommand. */
+/** Move arm to the vertical */
+public class ClimberReachBackVerticalCommand extends CommandBase {
   Climber m_climber;
 
-  public ClimberReachBackCommand(Climber climber) {
+  public ClimberReachBackVerticalCommand(Climber climber) {
     m_climber = climber;
-    // Use addRequirements() here to declare subsystem dependencies.
+
     addRequirements(m_climber);
   }
 
-  // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    m_climber.reachBack();
+    m_climber.reachBackVertical();
   }
 
-  // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
   }
 
-  // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
   }
 
-  // Returns true when the command should end.
   @Override
   public boolean isFinished() {
     return true;

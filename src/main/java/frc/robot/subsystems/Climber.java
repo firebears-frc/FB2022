@@ -74,13 +74,15 @@ public class Climber extends SubsystemBase {
         encoder.setPosition(0);
     }
 
-    public void reachOut() {
-        leftSolenoid.set(Value.kForward);
-        rightSolenoid.set(Value.kForward);
+    /** Reach arm out to the side. */
+    public void reachOutToSide() {
+        leftSolenoid.set(Value.kReverse);
+        rightSolenoid.set(Value.kReverse);
     }
 
-    public void reachBack() {
-        leftSolenoid.set(Value.kReverse);
+    /** Move arm to the vertical */
+    public void reachBackVertical() {
+        leftSolenoid.set(Value.kForward);
         rightSolenoid.set(Value.kForward);
 
     }

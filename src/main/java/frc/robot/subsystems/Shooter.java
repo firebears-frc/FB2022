@@ -96,16 +96,16 @@ public class Shooter extends SubsystemBase {
      * Push the ball into the spinning wheel
      */
     public void extendPusher() {
-        leftSolenoid.set(kForward);
-        rightSolenoid.set(kForward);
+        leftSolenoid.set(kReverse);
+        rightSolenoid.set(kReverse);
     }
 
     /**
      * Lower the ball pusher.
      */
     public void retractPusher() {
-        leftSolenoid.set(kReverse);
-        rightSolenoid.set(kReverse);
+        leftSolenoid.set(kForward);
+        rightSolenoid.set(kForward);
     }
 
     public void setShooterVelocity(double velocity) {
