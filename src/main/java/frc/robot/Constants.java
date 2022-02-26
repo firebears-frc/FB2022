@@ -6,9 +6,17 @@ import static frc.robot.util.Config.loadConfiguration;
 import static frc.robot.util.Config.printPreferences;
 
 public class Constants {
+    /** DEBUG enables extra logging and Shuffleboard widgets. */
     public static boolean DEBUG = false;
+
+    /** Whether to use PID on the Chassis to control velocity. */
     public static boolean CHASSIS_CLOSED_LOOP_DRIVING = false;
+
+    /** Whether this robot is the Practice robot, rather than the Competition robot. */
     public static boolean PRACTICE_ROBOT = true;
+
+    /** Whether this robot has computer vision processing. */
+    public static boolean VISION_ENABLED = false;
 
     public static final int ACQUISITION_SPIN_MOTOR_CAN_ID = 20;
     public static final int ACQUSITION_SPIN_MOTOR_CURRENT_LIMIT = 10;
@@ -30,7 +38,7 @@ public class Constants {
     public static final double CLIMBER_D = 0.0;
     public static final int CLIMBER_SOLENOID_FORWARD_CHANNEL = 0;
     public static final int CLIMBER_SOLENOID_REVERSE_CHANNEL = 0;
-
+    
     public static final int SHOOTER_TURRET_MOTOR_CAN_ID = 14;
     public static final int SHOOTER_SHOOTER_MOTOR_CAN_ID = 10;
 
@@ -49,9 +57,8 @@ public class Constants {
 
         DEBUG = Preferences.getBoolean("DEBUG", false);
         CHASSIS_CLOSED_LOOP_DRIVING = Preferences.getBoolean("CHASSIS_CLOSED_LOOP_DRIVING", false);
-
         PRACTICE_ROBOT = Preferences.getBoolean("PRACTICE_ROBOT", true);
-
+        VISION_ENABLED = Preferences.getBoolean("VISION_ENABLED", false);
 
     }
 }

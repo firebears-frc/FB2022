@@ -7,6 +7,8 @@ import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import frc.robot.util.PIDSparkMotor;
+import frc.robot.util.SparkEncoder;
+
 import static frc.robot.Constants.*;
 
 public class Chassis extends SubsystemBase {
@@ -29,6 +31,7 @@ public class Chassis extends SubsystemBase {
 
         leftPIDSparkMotor = new PIDSparkMotor(frontLeftMotor, CHASSIS_DRIVE_P, CHASSIS_DRIVE_I, CHASSIS_DRIVE_D);
         leftEncoder = frontLeftMotor.getEncoder();
+        addChild("leftEncoder", new SparkEncoder(leftEncoder));
 
         frontRightMotor = new CANSparkMax(CHASSIS_FRONT_RIGHT_MOTOR_CAN_ID, MotorType.kBrushless);
         frontRightMotor.restoreFactoryDefaults();
@@ -36,6 +39,7 @@ public class Chassis extends SubsystemBase {
         frontRightMotor.setIdleMode(IdleMode.kCoast);
         frontRightMotor.setSmartCurrentLimit(CHASSIS_STALL_CURRENT_LIMIT, CHASSIS_FREE_CURRENT_LIMIT);
         righEncoder = frontRightMotor.getEncoder();
+        addChild("righEncoder", new SparkEncoder(righEncoder));
 
         rightPIDSparkMotor = new PIDSparkMotor(frontRightMotor, CHASSIS_DRIVE_P, CHASSIS_DRIVE_I, CHASSIS_DRIVE_D);
 

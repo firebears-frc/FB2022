@@ -12,8 +12,10 @@ import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.Solenoid;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.util.PIDSparkMotor;
+import frc.robot.util.SparkEncoder;
 import frc.robot.util.SparkMotor;
 
 import static edu.wpi.first.wpilibj.DoubleSolenoid.Value.*;
@@ -21,36 +23,41 @@ import static edu.wpi.first.wpilibj.PneumaticsModuleType.*;
 import static frc.robot.Constants.*;
 
 public class Shooter extends SubsystemBase {
-    private CANSparkMax shooterMotor;
-    private CANSparkMax turretMotor;
+    private SparkMotor shooterMotor;
+    private SparkMotor turretMotor;
     private PIDSparkMotor pidTurretMotor;
     private PIDSparkMotor pidShooterMotor;
 
     private RelativeEncoder turretEncoder;
+    private RelativeEncoder shooterEncoder;
     private DoubleSolenoid leftSolenoid;
     private DoubleSolenoid rightSolenoid;
 
     private DigitalInput leftLimitSwitch, rightLimitSwitch;
 
     public Shooter() {
-        shooterMotor = new CANSparkMax(SHOOTER_SHOOTER_MOTOR_CAN_ID, MotorType.kBrushless);
+        shooterMotor = new SparkMotor(SHOOTER_SHOOTER_MOTOR_CAN_ID, MotorType.kBrushless);
+        addChild("spinnerMotor", shooterMotor);
 
         shooterMotor.restoreFactoryDefaults();
         shooterMotor.setInverted(false);
         shooterMotor.setIdleMode(IdleMode.kCoast);
+        shooterEncoder = shooterMotor.getEncoder();
+        addChild("spinnerEncoder", new SparkEncoder(shooterEncoder));
 
-        pidShooterMotor = new PIDSparkMotor(shooterMotor, SHOOTER_WHEEL_P, SHOOTER_WHEEL_I, SHOOTER_WHEEL_D);
+        // pidShooterMotor = new PIDSparkMotor(shooterMotor, SHOOTER_WHEEL_P, SHOOTER_WHEEL_I, SHOOTER_WHEEL_D);
 
-        turretMotor = new CANSparkMax(SHOOTER_TURRET_MOTOR_CAN_ID, MotorType.kBrushless);
+        turretMotor = new SparkMotor(SHOOTER_TURRET_MOTOR_CAN_ID, MotorType.kBrushless);
+        addChild("turretMotor", turretMotor);
 
         turretMotor.restoreFactoryDefaults();
         turretMotor.setInverted(false);
         turretMotor.setIdleMode(IdleMode.kCoast);
 
         turretEncoder = turretMotor.getEncoder();
+        addChild("encoder", new SparkEncoder(turretEncoder));
 
         pidTurretMotor = new PIDSparkMotor(turretMotor, SHOOTER_TURRET_P, SHOOTER_TURRET_I, SHOOTER_TURRET_D);
-
 
         if (PRACTICE_ROBOT) {
             leftSolenoid = new DoubleSolenoid(1, PneumaticsModuleType.CTREPCM, 2, 3);
@@ -65,22 +72,23 @@ public class Shooter extends SubsystemBase {
 
     @Override
     public void periodic() {
-    /*
-        if (leftLimitSwitch.get()) {
-            turretMotor.setIdleMode(IdleMode.kBrake);
-            pidTurretMotor.set(0);
-        } else if (rightLimitSwitch.get()) {
-            turretMotor.setIdleMode(IdleMode.kBrake);
-            pidTurretMotor.set(0);
-        } else {
-            turretMotor.setIdleMode(IdleMode.kCoast);
-        }
-    */
+        SmartDashboard.putNumber("shooter velocity", shooterEncoder.getVelocity());
+        /*
+         * if (leftLimitSwitch.get()) {
+         * turretMotor.setIdleMode(IdleMode.kBrake);
+         * pidTurretMotor.set(0);
+         * } else if (rightLimitSwitch.get()) {
+         * turretMotor.setIdleMode(IdleMode.kBrake);
+         * pidTurretMotor.set(0);
+         * } else {
+         * turretMotor.setIdleMode(IdleMode.kCoast);
+         * }
+         */
     }
 
     @Override
     public void simulationPeriodic() {
-        
+
     }
 
     /**
@@ -89,7 +97,6 @@ public class Shooter extends SubsystemBase {
     public void extendPusher() {
         leftSolenoid.set(kForward);
         rightSolenoid.set(kForward);
-
     }
 
     /**
@@ -97,10 +104,12 @@ public class Shooter extends SubsystemBase {
      */
     public void retractPusher() {
         leftSolenoid.set(kReverse);
-        rightSolenoid.set(kReverse);    }
+        rightSolenoid.set(kReverse);
+    }
 
     public void setShooterVelocity(double velocity) {
-        pidShooterMotor.set(velocity);
+        shooterMotor.set(velocity);
+        // pidShooterMotor.set(velocity);
     }
 
     public double getShooterVelocity() {
