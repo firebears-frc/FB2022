@@ -12,6 +12,8 @@ public class ChassisDriveCommand extends CommandBase {
   public ChassisDriveCommand(Chassis c, XboxController x) {
     m_chassis = c;
     xbox = x;
+
+    addRequirements(m_chassis);
   }
 
   @Override

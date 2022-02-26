@@ -10,15 +10,19 @@ import frc.robot.subsystems.Climber;
 public class ClimberExtendCommand extends CommandBase {
   /** Creates a new ClimberExtendCommand. */
   Climber m_climber;
-  public ClimberExtendCommand(Climber climber) {
+  double m_position;
+  public ClimberExtendCommand(double position, Climber climber) {
     m_climber = climber;
+    m_position = position;
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(m_climber);
   }
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {}
+  public void initialize() {
+    m_climber.extend(m_position);
+  }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override

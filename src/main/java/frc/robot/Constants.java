@@ -8,14 +8,14 @@ import static frc.robot.util.Config.printPreferences;
 public class Constants {
     public static boolean DEBUG = false;
     public static boolean CHASSIS_CLOSED_LOOP_DRIVING = false;
-    public static boolean PRACTICE_ROBOT = false;
+    public static boolean PRACTICE_ROBOT = true;
 
     public static final int ACQUISITION_SPIN_MOTOR_CAN_ID = 9;
     public static final int ACQUSITION_SPIN_MOTOR_CURRENT_LIMIT = 10;
 
     public static final int CHASSIS_FRONT_LEFT_MOTOR_CAN_ID = 2;
-    public static final int CHASSIS_FRONT_RIGHT_MOTOR_CAN_ID = 3;
-    public static final int CHASSIS_REAR_LEFT_MOTOR_CAN_ID = 4;
+    public static final int CHASSIS_REAR_LEFT_MOTOR_CAN_ID = 3;
+    public static final int CHASSIS_FRONT_RIGHT_MOTOR_CAN_ID = 4;
     public static final int CHASSIS_REAR_RIGHT_MOTOR_CAN_ID = 5;
     public static final double CHASSIS_DRIVE_P = 0.00025;
     public static final double CHASSIS_DRIVE_I = 0.0;
@@ -50,7 +50,7 @@ public class Constants {
         DEBUG = Preferences.getBoolean("DEBUG", false);
         CHASSIS_CLOSED_LOOP_DRIVING = Preferences.getBoolean("CHASSIS_CLOSED_LOOP_DRIVING", false);
 
-        PRACTICE_ROBOT = Preferences.getBoolean("PRACTICE_ROBOT", false);
+        PRACTICE_ROBOT = Preferences.getBoolean("PRACTICE_ROBOT", true);
 
 
     }
