@@ -10,7 +10,7 @@ public class Constants {
     public static boolean CHASSIS_CLOSED_LOOP_DRIVING = false;
     public static boolean PRACTICE_ROBOT = true;
 
-    public static final int ACQUISITION_SPIN_MOTOR_CAN_ID = 9;
+    public static final int ACQUISITION_SPIN_MOTOR_CAN_ID = 20;
     public static final int ACQUSITION_SPIN_MOTOR_CURRENT_LIMIT = 10;
 
     public static final int CHASSIS_FRONT_LEFT_MOTOR_CAN_ID = 2;
@@ -31,8 +31,8 @@ public class Constants {
     public static final int CLIMBER_SOLENOID_FORWARD_CHANNEL = 0;
     public static final int CLIMBER_SOLENOID_REVERSE_CHANNEL = 0;
     
-    public static final int SHOOTER_TURRET_MOTOR_CAN_ID = 11;
-    public static final int SHOOTER_SHOOTER_MOTOR_CAN_ID = 12;
+    public static final int SHOOTER_TURRET_MOTOR_CAN_ID = 14;
+    public static final int SHOOTER_SHOOTER_MOTOR_CAN_ID = 10;
 
     public static final int SHOOTER_TURRET_P = 1;
     public static final int SHOOTER_TURRET_I = 0;

@@ -38,15 +38,15 @@ public class Vision extends SubsystemBase {
   // every update we get the best target for the Vision Subsystem
   @Override
   public void periodic() {
-    // This method will be called once per scheduler run
-    var result = photonCam.getLatestResult();
+    // // This method will be called once per scheduler run
+    // var result = photonCam.getLatestResult();
 
-    if (result.hasTargets()) {
-      photonTarget = photonCam.getLatestResult().getBestTarget();
-      updateVisionYaw();
-    } else {
-      photonTarget = null;
-    }
+    // if (result.hasTargets()) {
+    //   photonTarget = photonCam.getLatestResult().getBestTarget();
+    //   updateVisionYaw();
+    // } else {
+    //   photonTarget = null;
+    // }
   }
 
   /* Functions That Return Values To Main.Java */

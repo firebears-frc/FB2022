@@ -12,6 +12,7 @@ import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.Solenoid;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.util.PIDSparkMotor;
 import frc.robot.util.SparkEncoder;
@@ -28,6 +29,7 @@ public class Shooter extends SubsystemBase {
     private PIDSparkMotor pidShooterMotor;
 
     private RelativeEncoder turretEncoder;
+    private RelativeEncoder shooterEncoder;
     private DoubleSolenoid leftSolenoid;
     private DoubleSolenoid rightSolenoid;
 
@@ -35,13 +37,15 @@ public class Shooter extends SubsystemBase {
 
     public Shooter() {
         shooterMotor = new SparkMotor(SHOOTER_SHOOTER_MOTOR_CAN_ID, MotorType.kBrushless);
-        addChild("shooterMotor", shooterMotor);
+        addChild("spinnerMotor", shooterMotor);
 
         shooterMotor.restoreFactoryDefaults();
         shooterMotor.setInverted(false);
         shooterMotor.setIdleMode(IdleMode.kCoast);
+        shooterEncoder = shooterMotor.getEncoder();
+        addChild("spinnerEncoder", new SparkEncoder(shooterEncoder));
 
-        pidShooterMotor = new PIDSparkMotor(shooterMotor, SHOOTER_WHEEL_P, SHOOTER_WHEEL_I, SHOOTER_WHEEL_D);
+        // pidShooterMotor = new PIDSparkMotor(shooterMotor, SHOOTER_WHEEL_P, SHOOTER_WHEEL_I, SHOOTER_WHEEL_D);
 
         turretMotor = new SparkMotor(SHOOTER_TURRET_MOTOR_CAN_ID, MotorType.kBrushless);
         addChild("turretMotor", turretMotor);
@@ -68,6 +72,7 @@ public class Shooter extends SubsystemBase {
 
     @Override
     public void periodic() {
+        SmartDashboard.putNumber("shooter velocity", shooterEncoder.getVelocity());
         /*
          * if (leftLimitSwitch.get()) {
          * turretMotor.setIdleMode(IdleMode.kBrake);
@@ -103,7 +108,8 @@ public class Shooter extends SubsystemBase {
     }
 
     public void setShooterVelocity(double velocity) {
-        pidShooterMotor.set(velocity);
+        shooterMotor.set(velocity);
+        // pidShooterMotor.set(velocity);
     }
 
     public double getShooterVelocity() {
