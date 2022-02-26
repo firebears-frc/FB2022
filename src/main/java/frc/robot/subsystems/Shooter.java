@@ -110,8 +110,7 @@ public class Shooter extends SubsystemBase {
     }
 
     public void setShooterVelocity(double velocity) {
-        shooterMotor.set(velocity);
-        // pidShooterMotor.set(velocity);
+        pidShooterMotor.set(velocity);
     }
 
     public double getShooterVelocity() {
@@ -145,6 +144,10 @@ public class Shooter extends SubsystemBase {
 
     public double getTurretPosition() {
         return turretEncoder.getPosition();
+    }
+
+    public double getMaxShooterRPM(){
+        return pidShooterMotor.getMaxRPM();
     }
 
 }
