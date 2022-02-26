@@ -113,6 +113,10 @@ public class Shooter extends SubsystemBase {
         pidShooterMotor.set(velocity);
     }
 
+    public void setShooterOutput(double output) {
+        shooterMotor.set(output);
+    }
+
     public double getShooterVelocity() {
         return shooterEncoder.getVelocity();
     }
