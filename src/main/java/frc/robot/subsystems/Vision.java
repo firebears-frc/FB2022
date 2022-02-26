@@ -15,81 +15,84 @@ import org.photonvision.*;
 import org.photonvision.targeting.PhotonTrackedTarget;
 import edu.wpi.first.math.util.Units;
 
+import static frc.robot.Constants.*;
+
 public class Vision extends SubsystemBase {
-  /** Creates a new Vision Subsystem. */
+    /**
+     * Creates a new Vision Subsystem.
+     */
 
-  PhotonCamera photonCam;
-  PhotonTrackedTarget photonTarget;
+    PhotonCamera photonCam;
+    PhotonTrackedTarget photonTarget;
 
-  double robotYaw;
-  double visionYaw;
+    double robotYaw;
+    double visionYaw;
 
-  private double camHeight;
-  private double targetHeight;
-  private double camPitch;
+    private double camHeight;
+    private double targetHeight;
+    private double camPitch;
 
-  public Vision(String CameraName, double cH, double tH, double cP) {
-    photonCam = new PhotonCamera(CameraName);
-    camHeight = cH;
-    targetHeight = tH;
-    camPitch = cP;
-  }
-
-  // every update we get the best target for the Vision Subsystem
-  @Override
-  public void periodic() {
-    // // This method will be called once per scheduler run
-    // var result = photonCam.getLatestResult();
-
-    // if (result.hasTargets()) {
-    //   photonTarget = photonCam.getLatestResult().getBestTarget();
-    //   updateVisionYaw();
-    // } else {
-    //   photonTarget = null;
-    // }
-  }
-
-  /* Functions That Return Values To Main.Java */
-
-  public PhotonTrackedTarget getBestTarget() {
-    return photonTarget;
-  }
-
-  /**
-   * 
-   * @return Returns The Angle ( -1 To 1 ), 0 Being The Middle
-   */
-  public double getAngle() {
-    if (photonTarget != null) {
-      return photonTarget.getYaw()/30;
-    } else {
-      return 0;
+    public Vision(String CameraName, double cH, double tH, double cP) {
+        photonCam = new PhotonCamera(CameraName);
+        camHeight = cH;
+        targetHeight = tH;
+        camPitch = cP;
     }
-  }
 
-  // returns distences in inches
-  public double getDistence() {
-    if (photonTarget == null)
-      return 0;
-    return Units.metersToInches(PhotonUtils.calculateDistanceToTargetMeters(
-        camHeight,
-        targetHeight,
-        camPitch,
-        Units.degreesToRadians(photonTarget.getPitch())));
-  }
+    // every update we get the best target for the Vision Subsystem
+    @Override
+    public void periodic() {
+        if (VISION_ENABLED) {
+            var result = photonCam.getLatestResult();
+            if (result.hasTargets()) {
+                photonTarget = photonCam.getLatestResult().getBestTarget();
+                updateVisionYaw();
+            } else {
+                photonTarget = null;
+            }
+        }
+    }
 
-  public void setRobotYaw(double y) {
-    robotYaw = y;
-  }
+    /* Functions That Return Values To Main.Java */
 
-  void updateVisionYaw() {
-    if (photonTarget == null)
-      return;
-    visionYaw = photonTarget.getYaw();
-  }
+    public PhotonTrackedTarget getBestTarget() {
+        return photonTarget;
+    }
 
-  public double getLastAngle() {
-    System.out.println(visionYaw + robotYaw);
-    return visionYaw + robotYaw;
-  }
+    /**
+     * @return Returns The Angle ( -1 To 1 ), 0 Being The Middle
+     */
+    public double getAngle() {
+        if (photonTarget != null) {
+            return photonTarget.getYaw() / 30;
+        } else {
+            return 0;
+        }
+    }
+
+    // returns distences in inches
+    public double getDistence() {
+        if (photonTarget == null)
+            return 0;
+        return Units.metersToInches(PhotonUtils.calculateDistanceToTargetMeters(
+                camHeight,
+                targetHeight,
+                camPitch,
+                Units.degreesToRadians(photonTarget.getPitch())));
+    }
+
+    public void setRobotYaw(double y) {
+        robotYaw = y;
+    }
+
+    void updateVisionYaw() {
+        if (photonTarget == null)
+            return;
+        visionYaw = photonTarget.getYaw();
+    }
+
+    public double getLastAngle() {
+        System.out.println(visionYaw + robotYaw);
+        return visionYaw + robotYaw;
+    }
 }
