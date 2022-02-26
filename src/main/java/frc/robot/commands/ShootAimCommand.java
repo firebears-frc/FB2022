@@ -5,6 +5,8 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.Shooter;
 
@@ -35,8 +37,15 @@ public class ShootAimCommand extends CommandBase {
 
   @Override
   public void execute() {
-    turretPosition += (Xbox.getRightX() * sensitivity);
-    shooter.setTurretPosition(turretPosition);
+    if (Xbox.getPOV() >= 45 && Xbox.getPOV() <= 135) { // POV is the dpad
+      turretPosition += sensitivity;
+      shooter.setTurretPosition(turretPosition);
+    } else if (Xbox.getPOV() >= 225 && Xbox.getPOV() <= 315) {
+      turretPosition -= sensitivity;
+      shooter.setTurretPosition(turretPosition);
+    }
+    //turretPosition += (Xbox.getRightX() * sensitivity);
+    //shooter.setTurretPosition(turretPosition);
   }
 
   // Called once the command ends or is interrupted.
