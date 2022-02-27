@@ -67,7 +67,9 @@ public class RobotContainer {
     compressor.enableDigital();
 
     // Driver's cameras and vision cameras
-    camera1 = CameraServer.startAutomaticCapture(0);
+    if (DRIVER_CAMERAS_ENABLED) {
+      camera1 = CameraServer.startAutomaticCapture(0);
+    }
 
     // Smartdashboard Subsystems
 
@@ -80,7 +82,7 @@ public class RobotContainer {
     m_chassis.setDefaultCommand(new ChassisDriveCommand(m_chassis, xController1));
 
     // Configure autonomous sendable chooser
-    //m_chooser.setDefaultOption("Autonomous Command", new AutonomousCommand());
+    // m_chooser.setDefaultOption("Autonomous Command", new AutonomousCommand());
 
     SmartDashboard.putData("Auto Mode", m_chooser);
   }
@@ -100,23 +102,24 @@ public class RobotContainer {
    * {@link edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
-    
+
     // Reload
     final JoystickButton bButton = new JoystickButton(xController1, XboxController.Button.kB.value);
     bButton.whenPressed(new ShooterResetCommand(m_shooter), true);
-    //bButton.whenPressed(new ClimberReachBackVerticalCommand(m_climber), true);
+    // bButton.whenPressed(new ClimberReachBackVerticalCommand(m_climber), true);
 
     // Shoot
     final JoystickButton aButton = new JoystickButton(xController1, XboxController.Button.kA.value);
     aButton.whenPressed(new ShooterShootCommand(m_shooter), true);
-    //aButton.whenPressed(new ClimberReachOutCommand(m_climber), true);
-     
+    // aButton.whenPressed(new ClimberReachOutCommand(m_climber), true);
 
-    //final JoystickButton bButton = new JoystickButton(xController1, XboxController.Button.kB.value);
-    //bButton.whenPressed(new ClimberReachBackVerticalCommand(m_climber), true);
+    // final JoystickButton bButton = new JoystickButton(xController1,
+    // XboxController.Button.kB.value);
+    // bButton.whenPressed(new ClimberReachBackVerticalCommand(m_climber), true);
 
-    //final JoystickButton aButton = new JoystickButton(xController1, XboxController.Button.kA.value);
-    //aButton.whenPressed(new ClimberReachOutCommand(m_climber), true);
+    // final JoystickButton aButton = new JoystickButton(xController1,
+    // XboxController.Button.kA.value);
+    // aButton.whenPressed(new ClimberReachOutCommand(m_climber), true);
 
     final JoystickButton xButton = new JoystickButton(xController1, XboxController.Button.kX.value);
     xButton.whenPressed(new ShooterOutputCommand(1.0, m_shooter), true);
@@ -142,7 +145,7 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
     // The selected command will be run in autonomous
-    return new AutonomousCommand(m_chassis,m_shooter); // m_chooser.getSelected();
+    return new AutonomousCommand(m_chassis, m_shooter); // m_chooser.getSelected();
   }
 
 }
