@@ -112,6 +112,9 @@ public class RobotContainer {
 
     final JoystickButton yButton = new JoystickButton(xController1, XboxController.Button.kY.value);
     yButton.whenPressed(new ShooterOutputCommand(0, m_shooter), true);
+
+    final JoystickButton rightBumperButton = new JoystickButton(xController1, XboxController.Button.kRightBumper.value);
+    rightBumperButton.whenPressed(new DriveToDistancePIDCommand(50, m_chassis), true);
   }
 
   /**
