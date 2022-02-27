@@ -16,10 +16,13 @@ public class ShooterShootCommand extends SequentialCommandGroup {
   public ShooterShootCommand(Shooter s) {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
-    addCommands(new ShooterSetVelocityCommand(2500, s), 
+    addCommands(
+                new ShooterOutputCommand(0.9, s),//new ShooterSetVelocityCommand(2500, s), 
+                new ShooterResetCommand(s),
+                new WaitCommand(2),
                 new ShooterPushCommand(s), 
-                new WaitCommand(0.25),
-                new ShooterResetCommand(s)
+                new WaitCommand(0.5),
+                new ShooterOutputCommand(0.0, s)
     );
   }
 }

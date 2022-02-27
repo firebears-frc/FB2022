@@ -6,12 +6,19 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.RobotContainer;
+import frc.robot.subsystems.*;
 
 public class AutonomousCommand extends SequentialCommandGroup {
 
-  public AutonomousCommand() {
+  Chassis chassis;
+  Shooter shooter;
+  public AutonomousCommand(Chassis c, Shooter s) {
+    chassis = c;
+    shooter = s;
     addCommands(
-      new DriveToDistancePIDCommand(-60, RobotContainer.getInstance().m_chassis)
+      new DriveToDistancePIDCommand(-24, chassis).withTimeout(2.0),
+      new ShooterShootCommand(shooter),
+      new DriveToDistancePIDCommand(84, chassis)
     );
   }
 }
