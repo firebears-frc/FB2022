@@ -15,7 +15,7 @@ public class Constants {
     /** Whether this robot is the Practice robot, rather than the Competition robot. */
     public static boolean PRACTICE_ROBOT = true;
 
-    /** Whether this robot has computer vision processing. E.e PhotonVision */
+    /** Whether this robot has computer vision processing. E.g PhotonVision */
     public static boolean VISION_ENABLED = false;
 
     /** Whether this robot has drivers cameras installed. */
