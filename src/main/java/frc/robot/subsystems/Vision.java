@@ -15,6 +15,7 @@ import org.photonvision.*;
 import org.photonvision.targeting.PhotonTrackedTarget;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.networktables.NetworkTable;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import com.kauailabs.navx.frc.*;
 
@@ -57,7 +58,7 @@ public class Vision extends SubsystemBase {
     var result = photonCam.getLatestResult();
     robotYaw = navX.getAngle();
 
-    System.out.println("RobotYaw From NavX : " + robotYaw);
+    SmartDashboard.putNumber("Robot Yaw", robotYaw);
 
     if (result.hasTargets()) {
       photonTarget = photonCam.getLatestResult().getBestTarget();
