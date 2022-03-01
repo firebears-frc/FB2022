@@ -5,14 +5,16 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.Acquisition;
+import frc.robot.subsystems.Shooter;
 
-public class AcquisitionStopCommand extends CommandBase {
-  private final Acquisition m_acquisition;
+/**
+ * Lower the ball pusher.
+ */
+public class ShooterResetCommand extends CommandBase {
+  private final Shooter shooter;
 
-  public AcquisitionStopCommand(Acquisition subsystem) {
-    m_acquisition = subsystem;
-    addRequirements(m_acquisition);
+  public ShooterResetCommand(Shooter s) {
+    shooter = s;
   }
 
   @Override
@@ -21,13 +23,11 @@ public class AcquisitionStopCommand extends CommandBase {
 
   @Override
   public void execute() {
-    m_acquisition.raise();
-    m_acquisition.stop();
+    shooter.retractPusher();
   }
 
   @Override
   public void end(boolean interrupted) {
-
   }
 
   @Override

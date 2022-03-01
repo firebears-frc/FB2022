@@ -12,13 +12,16 @@ import static frc.robot.Constants.*;
 
 public class Lights extends SubsystemBase {
 
-  public static final int MAX_ANIMATIONS = 3;
+  public static final int MAX_ANIMATIONS = 6;
   public static final int MAX_PIXELSTRIPS = 4;
   public static final int I2C_ADDRESS = 4;
 
   public static final int IDLE_FIRE_ANIMATION = 0;
   public static final int BLUE_ANIMATION = 1;
   public static final int RED_ANIMATION = 2;
+  public static final int RED_PULSE_ANIMATION = 3;
+  public static final int SPIN_ANIMATION = 4;
+  public static final int TARGET_ANIMATION = 5;
 
   public static final int BASE_STRIP = 0;
   public static final int CLIMBER_STRIP = 1;
@@ -33,7 +36,7 @@ public class Lights extends SubsystemBase {
 
   @Override
   public void periodic() {
-    // TODO:  Detect system changes and switch animations as needed
+    // TODO: Detect system changes and switch animations as needed
     sendAllAnimations();
   }
 
@@ -41,7 +44,6 @@ public class Lights extends SubsystemBase {
   private byte[] dataBack = new byte[0];
   private int[] currentAnimation = new int[MAX_PIXELSTRIPS];
   private int[] nextAnimation = new int[MAX_PIXELSTRIPS];
-
 
   public void resetAllAnimations() {
     for (int s = 0; s < MAX_PIXELSTRIPS; s++) {

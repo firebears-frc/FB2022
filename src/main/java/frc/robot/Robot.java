@@ -14,12 +14,11 @@ public class Robot extends TimedRobot {
 
     @Override
     public void robotInit() {
-        m_robotContainer = RobotContainer.getInstance();
-        HAL.report(tResourceType.kResourceType_Framework, tInstances.kFramework_RobotBuilder);
-
         Constants.init("/home/lvuser/deploy/config.properties",
                 "/home/lvuser/config.properties",
                 "/u/config.properties");
+        m_robotContainer = RobotContainer.getInstance();
+        HAL.report(tResourceType.kResourceType_Framework, tInstances.kFramework_RobotBuilder);
     }
 
     @Override
@@ -37,6 +36,7 @@ public class Robot extends TimedRobot {
 
     @Override
     public void autonomousInit() {
+        RobotContainer.getInstance().resetRobot();
         m_autonomousCommand = m_robotContainer.getAutonomousCommand();
         if (m_autonomousCommand != null) {
             m_autonomousCommand.schedule();
@@ -49,6 +49,7 @@ public class Robot extends TimedRobot {
 
     @Override
     public void teleopInit() {
+        RobotContainer.getInstance().resetRobot();
         if (m_autonomousCommand != null) {
             m_autonomousCommand.cancel();
         }

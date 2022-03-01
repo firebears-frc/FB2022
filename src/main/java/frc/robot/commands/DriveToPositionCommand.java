@@ -5,39 +5,50 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.Shooter;
-import frc.robot.subsystems.Vision;
+import frc.robot.subsystems.Chassis;
 
-public class ShootVisionCommand extends CommandBase {
-  /** Creates a new ShootVisionCommand. */
-  Vision vs;
-  Shooter shooter;
+public class DriveToPositionCommand extends CommandBase {
+  /** Creates a new DriveToPositionCommand. */
+  private double distance;
+  private Chassis m_chassis;
 
-  public ShootVisionCommand(Shooter localShooter, Vision visionSystem) {
+  public DriveToPositionCommand(double d, Chassis c) {
+    distance = d;
+    m_chassis = c;
     // Use addRequirements() here to declare subsystem dependencies.
-    vs = visionSystem;
-    shooter = localShooter;
+    addRequirements(m_chassis);
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    m_chassis.resetEncoder();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    shooter.setTurretPosition(vs.getAngle());
+    if (distance > 0) {
+      m_chassis.arcadeDrive(-0.7, 0);
+    } else {
+      m_chassis.arcadeDrive(0.7, 0);
+    }
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
+    m_chassis.arcadeDrive(0, 0);
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
+    if (distance > 0 && m_chassis.getEncoderDistance() > distance) {
+      return true;
+    } else if (distance < 0 && m_chassis.getEncoderDistance() < distance) {
+      return true;
+    }
     return false;
   }
 }

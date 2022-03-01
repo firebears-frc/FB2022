@@ -19,6 +19,8 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import com.kauailabs.navx.frc.*;
 
+import static frc.robot.Constants.*;
+
 public class Vision extends SubsystemBase {
   /** Creates a new Vision Subsystem. */
 

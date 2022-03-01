@@ -146,4 +146,8 @@ public class PIDSparkMotor implements MotorController {
 	public double getmaxEncoderVelocity() {
 		return maxEncoderVelocity;
 	}
+
+	public double getMaxRPM(){
+		return MAX_RPM;
+	}
 }

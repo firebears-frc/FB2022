@@ -4,19 +4,23 @@
 
 package frc.robot.commands;
 
+import org.ejml.interfaces.decomposition.DecompositionSparseInterface;
+
+import edu.wpi.first.wpilibj.Ultrasonic;
+import edu.wpi.first.wpilibj.simulation.UltrasonicSim;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.Shooter;
-import frc.robot.subsystems.Vision;
+import frc.robot.subsystems.Chassis;
 
-public class ShootVisionCommand extends CommandBase {
-  /** Creates a new ShootVisionCommand. */
-  Vision vs;
-  Shooter shooter;
+public class DriveToWallCommand extends CommandBase {
+  private Chassis m_chassis;
+  private double distance;
 
-  public ShootVisionCommand(Shooter localShooter, Vision visionSystem) {
-    // Use addRequirements() here to declare subsystem dependencies.
-    vs = visionSystem;
-    shooter = localShooter;
+  /** Creates a new DriveToWallCommand. */
+  public DriveToWallCommand(Chassis c, double d) {
+    m_chassis = c;
+    distance = d;
+
+    addRequirements(m_chassis);
   }
 
   // Called when the command is initially scheduled.
@@ -27,17 +31,18 @@ public class ShootVisionCommand extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    shooter.setTurretPosition(vs.getAngle());
+    m_chassis.arcadeDrive(0.7, 0);
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
+    m_chassis.arcadeDrive(0, 0);
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    return m_chassis.getUltrasonicDistanceInches() < distance;
   }
 }

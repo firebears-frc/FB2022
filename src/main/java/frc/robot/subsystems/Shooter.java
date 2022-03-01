@@ -1,19 +1,15 @@
 package frc.robot.subsystems;
 
 import com.revrobotics.CANSparkMax.IdleMode;
-import com.ctre.phoenix.motorcontrol.LimitSwitchNormal;
-import com.revrobotics.CANEncoder;
-import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
-import edu.wpi.first.wpilibj.Encoder;
-import edu.wpi.first.wpilibj.PneumaticsModuleType;
-import edu.wpi.first.wpilibj.Solenoid;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.util.PIDSparkMotor;
+import frc.robot.util.SparkEncoder;
 import frc.robot.util.SparkMotor;
 
 import static edu.wpi.first.wpilibj.DoubleSolenoid.Value.*;
@@ -21,77 +17,100 @@ import static edu.wpi.first.wpilibj.PneumaticsModuleType.*;
 import static frc.robot.Constants.*;
 
 public class Shooter extends SubsystemBase {
-    private CANSparkMax shooterMotor;
-    private CANSparkMax turretMotor;
+    private SparkMotor shooterMotor;
+    private SparkMotor turretMotor;
     private PIDSparkMotor pidTurretMotor;
     private PIDSparkMotor pidShooterMotor;
 
     private RelativeEncoder turretEncoder;
-    private DoubleSolenoid pusherSolenoid;
+    private RelativeEncoder shooterEncoder;
+    private DoubleSolenoid leftSolenoid;
+    private DoubleSolenoid rightSolenoid;
 
     private DigitalInput leftLimitSwitch, rightLimitSwitch;
 
     public Shooter() {
-        shooterMotor = new CANSparkMax(SHOOTER_SHOOTER_MOTOR_CAN_ID, MotorType.kBrushless);
+        shooterMotor = new SparkMotor(SHOOTER_SHOOTER_MOTOR_CAN_ID, MotorType.kBrushless);
+        addChild("spinnerMotor", shooterMotor);
 
         shooterMotor.restoreFactoryDefaults();
         shooterMotor.setInverted(false);
         shooterMotor.setIdleMode(IdleMode.kCoast);
+        shooterEncoder = shooterMotor.getEncoder();
+        addChild("spinnerEncoder", new SparkEncoder(shooterEncoder));
 
         pidShooterMotor = new PIDSparkMotor(shooterMotor, SHOOTER_WHEEL_P, SHOOTER_WHEEL_I, SHOOTER_WHEEL_D);
 
-        turretMotor = new CANSparkMax(SHOOTER_TURRET_MOTOR_CAN_ID, MotorType.kBrushless);
+        turretMotor = new SparkMotor(SHOOTER_TURRET_MOTOR_CAN_ID, MotorType.kBrushless);
+        addChild("turretMotor", turretMotor);
 
         turretMotor.restoreFactoryDefaults();
         turretMotor.setInverted(false);
         turretMotor.setIdleMode(IdleMode.kCoast);
 
         turretEncoder = turretMotor.getEncoder();
+        addChild("encoder", new SparkEncoder(turretEncoder));
 
         pidTurretMotor = new PIDSparkMotor(turretMotor, SHOOTER_TURRET_P, SHOOTER_TURRET_I, SHOOTER_TURRET_D);
 
-
-        pusherSolenoid = new DoubleSolenoid((int) Math.round((float) ((double) 6.9f)), PneumaticsModuleType.CTREPCM, 1, 2);
+        if (PRACTICE_ROBOT) {
+            leftSolenoid = new DoubleSolenoid(1, CTREPCM, 2, 3);
+            rightSolenoid = new DoubleSolenoid(1, CTREPCM, 1, 0);
+        } else {
+            leftSolenoid = new DoubleSolenoid(0, REVPH, 1, 2);
+            rightSolenoid = new DoubleSolenoid(0, REVPH, 1, 2);
+        }
+        addChild("leftSolenoid", leftSolenoid);
+        addChild("rightSolenoid", rightSolenoid);
     }
 
     @Override
     public void periodic() {
-        if (leftLimitSwitch.get()) {
-            turretMotor.setIdleMode(IdleMode.kBrake);
-            pidTurretMotor.set(0);
-        } else if (rightLimitSwitch.get()) {
-            turretMotor.setIdleMode(IdleMode.kBrake);
-            pidTurretMotor.set(0);
-        } else {
-            turretMotor.setIdleMode(IdleMode.kCoast);
-        }
+        SmartDashboard.putNumber("shooter velocity", shooterEncoder.getVelocity());
+        /*
+         * if (leftLimitSwitch.get()) {
+         * turretMotor.setIdleMode(IdleMode.kBrake);
+         * pidTurretMotor.set(0);
+         * } else if (rightLimitSwitch.get()) {
+         * turretMotor.setIdleMode(IdleMode.kBrake);
+         * pidTurretMotor.set(0);
+         * } else {
+         * turretMotor.setIdleMode(IdleMode.kCoast);
+         * }
+         */
     }
 
     @Override
     public void simulationPeriodic() {
-        
+
     }
 
     /**
      * Push the ball into the spinning wheel
      */
     public void extendPusher() {
-        pusherSolenoid.set(kForward);
+        leftSolenoid.set(kReverse);
+        rightSolenoid.set(kReverse);
     }
 
     /**
      * Lower the ball pusher.
      */
     public void retractPusher() {
-        pusherSolenoid.set(kReverse);
+        leftSolenoid.set(kForward);
+        rightSolenoid.set(kForward);
     }
 
     public void setShooterVelocity(double velocity) {
         pidShooterMotor.set(velocity);
     }
 
+    public void setShooterOutput(double output) {
+        shooterMotor.set(output);
+    }
+
     public double getShooterVelocity() {
-        return 0.0;
+        return shooterEncoder.getVelocity();
     }
 
     /**
@@ -121,6 +140,10 @@ public class Shooter extends SubsystemBase {
 
     public double getTurretPosition() {
         return turretEncoder.getPosition();
+    }
+
+    public double getMaxShooterRPM(){
+        return pidShooterMotor.getMaxRPM();
     }
 
 }

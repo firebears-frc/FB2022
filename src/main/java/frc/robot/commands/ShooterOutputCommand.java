@@ -5,20 +5,24 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.Climber;
+import frc.robot.subsystems.Shooter;
 
-public class ClimberReachBackCommand extends CommandBase {
-  /** Creates a new ClimberReachBackCommand. */
-  Climber m_climber;
-  public ClimberReachBackCommand(Climber climber) {
-    m_climber = climber;
-    // Use addRequirements() here to declare  subsystem dependencies.
-    addRequirements(m_climber);
+public class ShooterOutputCommand extends CommandBase {
+  /** Creates a new ShooterOutputCommand. */
+  double output;
+  Shooter shooter;
+  public ShooterOutputCommand(double o, Shooter s) {
+    // Use addRequirements() here to declare subsystem dependencies.
+    output = o;
+    shooter = s;
+    addRequirements(shooter);
   }
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {}
+  public void initialize() {
+    shooter.setShooterOutput(output);
+  }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
@@ -31,6 +35,6 @@ public class ClimberReachBackCommand extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    return true;
   }
 }
