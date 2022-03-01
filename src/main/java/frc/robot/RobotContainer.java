@@ -9,10 +9,13 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.cscore.UsbCamera;
 import edu.wpi.first.math.util.Units;
+import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 
 import static edu.wpi.first.wpilibj.PneumaticsModuleType.*;
 import static frc.robot.Constants.*;
@@ -44,6 +47,8 @@ public class RobotContainer {
   // Pneumatics
   public Compressor compressor;
   public PneumaticsModuleType pneumaticsType;
+  public NetworkTableEntry motorSpeed;
+  public ShuffleboardTab shooterTab;
 
   // Driver's cameras and vision cameras
   public UsbCamera camera1;
@@ -69,11 +74,13 @@ public class RobotContainer {
     // Driver's cameras and vision cameras
     if (DRIVER_CAMERAS_ENABLED) {
       camera1 = CameraServer.startAutomaticCapture(0);
+
     }
 
     // Smartdashboard Subsystems
 
     // SmartDashboard Buttons
+    
 
     // Configure the button bindings
     configureButtonBindings();
@@ -85,6 +92,12 @@ public class RobotContainer {
     // m_chooser.setDefaultOption("Autonomous Command", new AutonomousCommand());
 
     SmartDashboard.putData("Auto Mode", m_chooser);
+    
+    shooterTab = Shuffleboard.getTab("Shooter");
+
+    motorSpeed = shooterTab.add("Shooter Speed", 1.0).getEntry();
+
+    
   }
 
   public static RobotContainer getInstance() {
@@ -129,7 +142,7 @@ public class RobotContainer {
     // aButton.whenPressed(new ClimberReachOutCommand(m_climber), true);
 
     final JoystickButton xButton = new JoystickButton(xController1, XboxController.Button.kX.value);
-    xButton.whenPressed(new ShooterOutputCommand(1.0, m_shooter), true);
+    xButton.whenPressed(new ShooterOutputCommand(motorSpeed.getDouble(1.0), m_shooter), true);
 
     final JoystickButton yButton = new JoystickButton(xController1, XboxController.Button.kY.value);
     yButton.whenPressed(new ShooterOutputCommand(0, m_shooter), true);
@@ -154,5 +167,4 @@ public class RobotContainer {
     // The selected command will be run in autonomous
     return new AutonomousCommand(m_chassis, m_shooter); // m_chooser.getSelected();
   }
-
 }
