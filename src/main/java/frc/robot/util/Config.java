@@ -37,7 +37,7 @@ public final class Config {
      */
     public static void printPreferences(PrintStream outStream) {
         final NetworkTable networkTable = NetworkTableInstance.getDefault().getTable("Preferences");
-        SortedSet<String> sortedKeys = new TreeSet<String>(Preferences.getKeys());
+        SortedSet<String> sortedKeys = new TreeSet<>(Preferences.getKeys());
         for (String key : sortedKeys) {
             try {
                 switch (networkTable.getEntry(key).getType()) {
@@ -66,7 +66,7 @@ public final class Config {
      * clean slate.
      */
     public static void cleanAllPreferences() {
-        SortedSet<String> sortedKeys = new TreeSet<String>(Preferences.getKeys());
+        SortedSet<String> sortedKeys = new TreeSet<>(Preferences.getKeys());
         for (String key : sortedKeys) {
             Preferences.remove(key);
         }

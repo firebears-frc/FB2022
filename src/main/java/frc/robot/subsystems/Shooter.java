@@ -57,8 +57,8 @@ public class Shooter extends SubsystemBase {
             leftSolenoid = new DoubleSolenoid(1, CTREPCM, 2, 3);
             rightSolenoid = new DoubleSolenoid(1, CTREPCM, 1, 0);
         } else {
-            leftSolenoid = new DoubleSolenoid(0, REVPH, 1, 2);
-            rightSolenoid = new DoubleSolenoid(0, REVPH, 1, 2);
+            leftSolenoid = new DoubleSolenoid(1, REVPH, 5, 6);
+            rightSolenoid = new DoubleSolenoid(1, REVPH, 11, 10);
         }
         addChild("leftSolenoid", leftSolenoid);
         addChild("rightSolenoid", rightSolenoid);

@@ -47,8 +47,8 @@ public class Climber extends SubsystemBase {
             leftSolenoid = new DoubleSolenoid(0, PneumaticsModuleType.CTREPCM, 4, 3);
             rightSolenoid = new DoubleSolenoid(0, PneumaticsModuleType.CTREPCM, 0, 5);
         } else {
-            leftSolenoid = new DoubleSolenoid(0, PneumaticsModuleType.REVPH, 1, 2);
-            rightSolenoid = new DoubleSolenoid(0, PneumaticsModuleType.REVPH, 1, 2);
+            leftSolenoid = new DoubleSolenoid(1, PneumaticsModuleType.REVPH, 3, 4);
+            rightSolenoid = new DoubleSolenoid(1, PneumaticsModuleType.REVPH, 13, 12);
         }
         addChild("leftSolenoid", leftSolenoid);
         addChild("rightSolenoid", rightSolenoid);

@@ -12,8 +12,6 @@ import com.revrobotics.RelativeEncoder;
  */
 public class PIDSparkMotor implements MotorController {
 
-	// public static final double MAX_RPM = 5700.0;
-	// public static final double MAX_RPM = 6083.0;
 	public static final double MAX_RPM = 8000.0;
 	public static final double ENCODER_TICKS_PER_INCH = 0.4449;
 	public static final int SECONDARY_SLOT = 1;

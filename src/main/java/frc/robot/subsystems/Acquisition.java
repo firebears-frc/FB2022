@@ -26,8 +26,8 @@ public class Acquisition extends SubsystemBase {
             leftSolenoid = new DoubleSolenoid(0, CTREPCM, 2, 1);
             rightSolenoid = new DoubleSolenoid(0, CTREPCM, 6, 7);
         } else {
-            leftSolenoid = new DoubleSolenoid(0, REVPH, 1, 2);
-            rightSolenoid = new DoubleSolenoid(0, REVPH, 1, 2);
+            leftSolenoid = new DoubleSolenoid(1, REVPH, 2, 1);
+            rightSolenoid = new DoubleSolenoid(1, REVPH, 9, 8);
         }
         addChild("leftSolenoid", leftSolenoid);
         addChild("rightSolenoid", rightSolenoid);
