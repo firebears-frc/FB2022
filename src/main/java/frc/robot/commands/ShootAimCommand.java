@@ -37,12 +37,15 @@ public class ShootAimCommand extends CommandBase {
 
   @Override
   public void execute() {
-    if (Xbox.getPOV() >= 45 && Xbox.getPOV() <= 135) { // POV is the dpad
-      turretPosition += sensitivity;
+    if (Xbox.getPOV() > 90 && Xbox.getPOV() < 270) { // POV is the dpad
+      // Reload
+      new ShooterResetCommand(shooter);
+      //turretPosition += sensitivity;
       shooter.setTurretPosition(turretPosition);
-    } else if (Xbox.getPOV() >= 225 && Xbox.getPOV() <= 315) {
-      turretPosition -= sensitivity;
-      shooter.setTurretPosition(turretPosition);
+    } else if (Xbox.getPOV() > 270 || Xbox.getPOV() < 90) {
+      new ShooterPushCommand(shooter);
+      //turretPosition -= sensitivity;
+      //shooter.setTurretPosition(turretPosition);
     }
     //turretPosition += (Xbox.getRightX() * sensitivity);
     //shooter.setTurretPosition(turretPosition);
