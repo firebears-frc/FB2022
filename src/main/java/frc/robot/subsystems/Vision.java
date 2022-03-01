@@ -60,7 +60,7 @@ public class Vision extends SubsystemBase {
     var result = photonCam.getLatestResult();
     robotYaw = navX.getAngle();
 
-    SmartDashboard.putNumber("Robot Yaw", robotYaw);
+    SmartDashboard.putNumber("Robot Yaw", robotYaw%360);
 
     if (result.hasTargets()) {
       photonTarget = photonCam.getLatestResult().getBestTarget();
