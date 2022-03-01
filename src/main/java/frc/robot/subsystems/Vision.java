@@ -14,12 +14,18 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import org.photonvision.*;
 import org.photonvision.targeting.PhotonTrackedTarget;
 import edu.wpi.first.math.util.Units;
+import edu.wpi.first.networktables.NetworkTable;
+
+import com.kauailabs.navx.frc.*;
 
 public class Vision extends SubsystemBase {
   /** Creates a new Vision Subsystem. */
 
   PhotonCamera photonCam;
   PhotonTrackedTarget photonTarget;
+
+  //gyro
+  AHRS navX;
 
   double robotYaw;
   double visionYaw;
@@ -28,11 +34,20 @@ public class Vision extends SubsystemBase {
   private double targetHeight;
   private double camPitch;
 
-  public Vision(String CameraName, double cH, double tH, double cP) {
+  /**
+   * 
+   * @param CameraName - The Name Of The Camera
+   * @param cH - Camera Height : How High The Camera Is Off The Ground
+   * @param tH - Target Height : How Tall The Target Is , (8ft this year)
+   * @param cP - Camera Pitch : The Angle Of The Camera,
+   * @param gyro - Gyro NavX System Subsystem - Used To Detect The Rotation Of The Robot
+   */
+  public Vision(String CameraName, double cH, double tH, double cP, AHRS gyro) {
     photonCam = new PhotonCamera(CameraName);
     camHeight = cH;
     targetHeight = tH;
     camPitch = cP;
+    navX = gyro;
   }
 
   // every update we get the best target for the Vision Subsystem
@@ -40,6 +55,9 @@ public class Vision extends SubsystemBase {
   public void periodic() {
     // This method will be called once per scheduler run
     var result = photonCam.getLatestResult();
+    robotYaw = navX.getAngle();
+
+    System.out.println("RobotYaw From NavX : " + robotYaw);
 
     if (result.hasTargets()) {
       photonTarget = photonCam.getLatestResult().getBestTarget();
@@ -51,6 +69,10 @@ public class Vision extends SubsystemBase {
 
   /* Functions That Return Values To Main.Java */
 
+  /**
+   * 
+   * @return Returns The Best Target From PhotonVision IE: Largest, Center-Most Target
+   */
   public PhotonTrackedTarget getBestTarget() {
     return photonTarget;
   }
@@ -67,7 +89,10 @@ public class Vision extends SubsystemBase {
     }
   }
 
-  // returns distences in inches
+  /**
+   * 
+   * @return Returns The Distence, Based Off Robot's Camera and Target Height, + Camera and Target Pitch, Returns In Inches
+   */
   public double getDistence() {
     if (photonTarget == null)
       return 0;
@@ -78,9 +103,11 @@ public class Vision extends SubsystemBase {
         Units.degreesToRadians(photonTarget.getPitch())));
   }
 
+  /*
   public void setRobotYaw(double y) {
     robotYaw = y;
   }
+  */
 
   void updateVisionYaw() {
     if (photonTarget == null)
@@ -88,6 +115,10 @@ public class Vision extends SubsystemBase {
     visionYaw = photonTarget.getYaw();
   }
 
+  /**
+   * 
+   * @return Returns The Last 'Known' Angle Of The Robot, Returns The Angle Based Off Of The Robots Yaw, Robot Is North And Target Will Be Position Likewise
+   */
   public double getLastAngle() {
     System.out.println(visionYaw + robotYaw);
     return visionYaw + robotYaw;
