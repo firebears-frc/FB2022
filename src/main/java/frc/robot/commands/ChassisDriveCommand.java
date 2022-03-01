@@ -23,7 +23,7 @@ public class ChassisDriveCommand extends CommandBase {
   @Override
   public void execute() {
     double speed = xbox.getLeftY();
-    double rotation = xbox.getLeftX();
+    double rotation = xbox.getRightX();
     m_chassis.arcadeDrive(speed, rotation);
   }
 

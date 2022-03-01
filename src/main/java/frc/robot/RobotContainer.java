@@ -111,6 +111,13 @@ public class RobotContainer {
     // Shoot
     final JoystickButton aButton = new JoystickButton(xController1, XboxController.Button.kA.value);
     aButton.whenPressed(new ShooterShootCommand(m_shooter), true);
+
+    final JoystickButton leftBumperButton = new JoystickButton(xController1, XboxController.Button.kLeftBumper.value);
+    leftBumperButton.whenPressed(new AcquisitionStartCommand(m_acquisition), true);
+
+    final JoystickButton rightBumperButton = new JoystickButton(xController1, XboxController.Button.kRightBumper.value);
+    rightBumperButton.whenPressed(new AcquisitionStopCommand(m_acquisition), true);
+
     // aButton.whenPressed(new ClimberReachOutCommand(m_climber), true);
 
     // final JoystickButton bButton = new JoystickButton(xController1,
@@ -127,8 +134,8 @@ public class RobotContainer {
     final JoystickButton yButton = new JoystickButton(xController1, XboxController.Button.kY.value);
     yButton.whenPressed(new ShooterOutputCommand(0, m_shooter), true);
 
-    final JoystickButton rightBumperButton = new JoystickButton(xController1, XboxController.Button.kRightBumper.value);
-    rightBumperButton.whenPressed(new DriveToDistancePIDCommand(50, m_chassis), true);
+    //final JoystickButton rightBumperButton = new JoystickButton(xController1, XboxController.Button.kRightBumper.value);
+    //rightBumperButton.whenPressed(new DriveToDistancePIDCommand(50, m_chassis), true);
   }
 
   /**
