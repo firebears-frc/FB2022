@@ -31,7 +31,7 @@ public class Chassis extends SubsystemBase {
         ultrasonic = new AnalogPotentiometer(0, 100, 0);
         frontLeftMotor = new CANSparkMax(CHASSIS_FRONT_LEFT_MOTOR_CAN_ID, MotorType.kBrushless);
         frontLeftMotor.restoreFactoryDefaults();
-        frontLeftMotor.setInverted(true);
+        frontLeftMotor.setInverted(false);
         frontLeftMotor.setIdleMode(IdleMode.kCoast);
         frontLeftMotor.setSmartCurrentLimit(CHASSIS_STALL_CURRENT_LIMIT, CHASSIS_FREE_CURRENT_LIMIT);
 
@@ -51,7 +51,7 @@ public class Chassis extends SubsystemBase {
 
         rearLeftMotor = new CANSparkMax(CHASSIS_REAR_LEFT_MOTOR_CAN_ID, MotorType.kBrushless);
         rearLeftMotor.restoreFactoryDefaults();
-        rearLeftMotor.setInverted(true);
+        rearLeftMotor.setInverted(false);
         rearLeftMotor.setIdleMode(IdleMode.kCoast);
         rearLeftMotor.setSmartCurrentLimit(CHASSIS_STALL_CURRENT_LIMIT, CHASSIS_FREE_CURRENT_LIMIT);
 
