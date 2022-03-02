@@ -20,7 +20,8 @@ public class Acquisition extends SubsystemBase {
         spinMotor.configContinuousCurrentLimit(ACQUSITION_SPIN_MOTOR_CURRENT_LIMIT);
         spinMotor.configPeakCurrentLimit(0);
         spinMotor.enableCurrentLimit(true);
-        addChild("spinMotor", spinMotor);
+        spinMotor.setInverted(true);
+        addChild("spinMotor(" + ACQUISITION_SPIN_MOTOR_CAN_ID + ")", spinMotor);
 
         if (PRACTICE_ROBOT) {
             leftSolenoid = new DoubleSolenoid(0, CTREPCM, 2, 1);
@@ -52,7 +53,7 @@ public class Acquisition extends SubsystemBase {
     }
 
     public void spin(double speed) {
-        spinMotor.set(-1 * speed);
+        spinMotor.set(speed);
     }
 
     public void stop() {

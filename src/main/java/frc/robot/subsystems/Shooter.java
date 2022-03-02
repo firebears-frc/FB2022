@@ -31,7 +31,7 @@ public class Shooter extends SubsystemBase {
 
     public Shooter() {
         shooterMotor = new SparkMotor(SHOOTER_SHOOTER_MOTOR_CAN_ID, MotorType.kBrushless);
-        addChild("spinnerMotor", shooterMotor);
+        addChild("spinnerMotor(" + SHOOTER_SHOOTER_MOTOR_CAN_ID + ")", shooterMotor);
 
         shooterMotor.restoreFactoryDefaults();
         shooterMotor.setInverted(false);
@@ -42,7 +42,7 @@ public class Shooter extends SubsystemBase {
         pidShooterMotor = new PIDSparkMotor(shooterMotor, SHOOTER_WHEEL_P, SHOOTER_WHEEL_I, SHOOTER_WHEEL_D);
 
         turretMotor = new SparkMotor(SHOOTER_TURRET_MOTOR_CAN_ID, MotorType.kBrushless);
-        addChild("turretMotor", turretMotor);
+        addChild("turretMotor(" + SHOOTER_TURRET_MOTOR_CAN_ID + ")", turretMotor);
 
         turretMotor.restoreFactoryDefaults();
         turretMotor.setInverted(false);
@@ -142,7 +142,7 @@ public class Shooter extends SubsystemBase {
         return turretEncoder.getPosition();
     }
 
-    public double getMaxShooterRPM(){
+    public double getMaxShooterRPM() {
         return pidShooterMotor.getMaxRPM();
     }
 

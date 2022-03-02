@@ -25,7 +25,7 @@ public class Climber extends SubsystemBase {
 
     public Climber() {
         leftMotor = new SparkMotor(CLIMBER_LEFT_MOTOR_CAN_ID, MotorType.kBrushless);
-        addChild("leftMotor", leftMotor);
+        addChild("leftMotor(" + CLIMBER_LEFT_MOTOR_CAN_ID + ")", leftMotor);
 
         leftMotor.restoreFactoryDefaults();
         leftMotor.setInverted(false);
@@ -36,7 +36,7 @@ public class Climber extends SubsystemBase {
         pidMotor = new PIDSparkMotor(leftMotor, CLIMBER_P, CLIMBER_I, CLIMBER_D);
 
         rightMotor = new SparkMotor(CLIMBER_RIGHT_MOTOR_CAN_ID, MotorType.kBrushless);
-        addChild("rightMotor", rightMotor);
+        addChild("rightMotor(" + CLIMBER_RIGHT_MOTOR_CAN_ID + ")", rightMotor);
 
         rightMotor.restoreFactoryDefaults();
         rightMotor.setInverted(false);
