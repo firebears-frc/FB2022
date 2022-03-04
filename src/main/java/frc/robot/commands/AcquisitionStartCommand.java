@@ -23,7 +23,7 @@ public class AcquisitionStartCommand extends CommandBase {
   @Override
   public void execute() {
     m_acquisition.lower();
-    m_acquisition.spin(1);
+    m_acquisition.spin(1.0);
   }
 
   @Override

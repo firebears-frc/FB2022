@@ -53,6 +53,10 @@ public class PIDSparkMotor implements MotorController {
 		invertEncoder = b;
 	}
 
+	public void resetEncoder(){
+		encoder.setPosition(0.0);
+	}
+
 	public double inchesTraveled() {
 		return (invertEncoder ? -1 : 1) * encoder.getPosition() / ENCODER_TICKS_PER_INCH;
 	}

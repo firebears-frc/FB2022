@@ -1,5 +1,6 @@
 package frc.robot.subsystems;
 
+import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
@@ -12,8 +13,13 @@ import com.revrobotics.CANSparkMax.IdleMode;
 
 import static frc.robot.Constants.*;
 
+import java.util.function.DoubleSupplier;
+
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
+
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Climber extends SubsystemBase {
     private SparkMotor leftMotor;
@@ -41,7 +47,6 @@ public class Climber extends SubsystemBase {
         rightMotor.restoreFactoryDefaults();
         rightMotor.setInverted(false);
         rightMotor.setIdleMode(IdleMode.kCoast);
-        rightMotor.follow(leftMotor);
 
         if (PRACTICE_ROBOT) {
             leftSolenoid = new DoubleSolenoid(0, PneumaticsModuleType.CTREPCM, 4, 3);
@@ -50,12 +55,18 @@ public class Climber extends SubsystemBase {
             leftSolenoid = new DoubleSolenoid(1, PneumaticsModuleType.REVPH, 3, 4);
             rightSolenoid = new DoubleSolenoid(1, PneumaticsModuleType.REVPH, 13, 12);
         }
+
         addChild("leftSolenoid", leftSolenoid);
         addChild("rightSolenoid", rightSolenoid);
+
+        rightMotor.follow(leftMotor);
+
     }
 
     @Override
-    public void periodic() {
+    public void periodic() {   
+        SmartDashboard.putNumber("ClimberPosition", encoder.getPosition());
+    
     }
 
     @Override
@@ -75,15 +86,20 @@ public class Climber extends SubsystemBase {
     }
 
     /** Reach arm out to the side. */
+    //kReverse and kForward are mismatched here due to reverse
     public void reachOutToSide() {
         leftSolenoid.set(Value.kReverse);
-        rightSolenoid.set(Value.kReverse);
+        rightSolenoid.set(Value.kForward);
     }
 
     /** Move arm to the vertical */
     public void reachBackVertical() {
         leftSolenoid.set(Value.kForward);
-        rightSolenoid.set(Value.kForward);
+        rightSolenoid.set(Value.kReverse);
 
+    }
+
+    public void driveClimbers(double speed){
+        leftMotor.set(speed);
     }
 }

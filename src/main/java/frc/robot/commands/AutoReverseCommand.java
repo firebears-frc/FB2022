@@ -7,17 +7,13 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.subsystems.*;
 
-public class AutonomousCommand extends SequentialCommandGroup {
+public class AutoReverseCommand extends SequentialCommandGroup {
 
   Chassis chassis;
-  Shooter shooter;
-  public AutonomousCommand(Chassis c, Shooter s) {
+  public AutoReverseCommand(Chassis c) {
     chassis = c;
-    shooter = s;
     addCommands(
-      new DriveToDistancePIDCommand(-24, chassis).withTimeout(2.0),
-      new ShooterShootCommand(shooter),
-      new DriveToDistancePIDCommand(84, chassis)
+      new DriveToDistancePIDCommand(36, chassis)
     );
   }
 }

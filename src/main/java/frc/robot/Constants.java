@@ -19,7 +19,7 @@ public class Constants {
     public static boolean VISION_ENABLED = false;
 
     /** Whether this robot has drivers cameras installed. */
-    public static boolean DRIVER_CAMERAS_ENABLED = false;
+    public static boolean DRIVER_CAMERAS_ENABLED = true;
 
     public static final int ACQUISITION_SPIN_MOTOR_CAN_ID = 20;
     public static final int ACQUSITION_SPIN_MOTOR_CURRENT_LIMIT = 10;
@@ -34,8 +34,8 @@ public class Constants {
     public static final int CHASSIS_FREE_CURRENT_LIMIT = 65;
     public static final int CHASSIS_STALL_CURRENT_LIMIT = 65;
 
-    public static final int CLIMBER_LEFT_MOTOR_CAN_ID = 11;
-    public static final int CLIMBER_RIGHT_MOTOR_CAN_ID = 12;
+    public static final int CLIMBER_LEFT_MOTOR_CAN_ID = 12;
+    public static final int CLIMBER_RIGHT_MOTOR_CAN_ID = 11;
     public static final double CLIMBER_P = 0.0;
     public static final double CLIMBER_I = 0.0;
     public static final double CLIMBER_D = 0.0;

@@ -6,8 +6,8 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
-import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.cscore.UsbCamera;
+import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.wpilibj.Compressor;
@@ -77,7 +77,7 @@ public class RobotContainer {
     compressor.enableDigital();
 
     // Driver's cameras and vision cameras
-    if (DRIVER_CAMERAS_ENABLED) {
+    if (true) { //TODO: Fix This - Should be DRIVER_CAMERAS_ENABLED
       camera1 = CameraServer.startAutomaticCapture(0);
 
     }
@@ -147,14 +147,31 @@ public class RobotContainer {
     // aButton.whenPressed(new ClimberReachOutCommand(m_climber), true);
 
     final JoystickButton xButton = new JoystickButton(xController1, XboxController.Button.kX.value);
-    xButton.whenPressed(new ShooterOutputCommand(0.7, m_shooter), true);
+    xButton.whenPressed(new ShooterOutputCommand(1.0, m_shooter), true);
 
     final JoystickButton yButton = new JoystickButton(xController1, XboxController.Button.kY.value);
     yButton.whenPressed(new ShooterOutputCommand(0, m_shooter), true);
 
     //final JoystickButton rightBumperButton = new JoystickButton(xController1, XboxController.Button.kRightBumper.value);
     //rightBumperButton.whenPressed(new DriveToDistancePIDCommand(50, m_chassis), true);
+
+    final JoystickButton yButton2 = new JoystickButton(xController2, XboxController.Button.kY.value);
+    yButton2.whenPressed(new ClimberReachOutCommand(m_climber), true);
+
+    final JoystickButton xButton2 = new JoystickButton(xController2, XboxController.Button.kX.value);
+    xButton2.whenPressed(new ClimberReachBackVerticalCommand(m_climber), true);
+
+    final JoystickButton bButton2 = new JoystickButton(xController2, XboxController.Button.kB.value);
+    bButton2.whileHeld(new  ClimberDriveSpeed(0.25, m_climber), true);
+
+    final JoystickButton aButton2 = new JoystickButton(xController2, XboxController.Button.kA.value);
+    aButton2.whileHeld(new ClimberDriveSpeed(-0.25, m_climber), true);
+
+    final JoystickButton leftBumper2 = new JoystickButton(xController2, XboxController.Button.kLeftBumper.value);
+    leftBumper2.whenPressed(new ClimberUnlockBrake(m_climber), true); 
+
   }
+
 
   /**
    * Reset subsystems before Teleop or Autonomous.
@@ -170,6 +187,6 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
     // The selected command will be run in autonomous
-    return new AutonomousCommand(m_chassis, m_shooter); // m_chooser.getSelected();
+    return new AutoNothingCommand(); // m_chooser.getSelected();
   }
 }
