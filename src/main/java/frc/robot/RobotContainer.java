@@ -162,10 +162,10 @@ public class RobotContainer {
     xButton2.whenPressed(new ClimberReachBackVerticalCommand(m_climber), true);
 
     final JoystickButton bButton2 = new JoystickButton(xController2, XboxController.Button.kB.value);
-    bButton2.whileHeld(new  ClimberDriveSpeed(0.25, m_climber), true);
+    bButton2.whileHeld(new  ClimberDriveSpeed(1.0, m_climber), true);
 
     final JoystickButton aButton2 = new JoystickButton(xController2, XboxController.Button.kA.value);
-    aButton2.whileHeld(new ClimberDriveSpeed(-0.25, m_climber), true);
+    aButton2.whileHeld(new ClimberDriveSpeed(-1.0, m_climber), true);
 
     final JoystickButton leftBumper2 = new JoystickButton(xController2, XboxController.Button.kLeftBumper.value);
     leftBumper2.whenPressed(new ClimberUnlockBrake(m_climber), true); 
@@ -178,6 +178,7 @@ public class RobotContainer {
    */
   public void resetRobot() {
     m_shooter.retractPusher();
+    m_acquisition.raise();
   }
 
   /**
@@ -187,6 +188,6 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
     // The selected command will be run in autonomous
-    return new AutoNothingCommand(); // m_chooser.getSelected();
+    return new AutoReverseCommand(m_chassis, m_shooter); // m_chooser.getSelected();
   }
 }

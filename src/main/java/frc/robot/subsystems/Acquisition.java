@@ -44,12 +44,12 @@ public class Acquisition extends SubsystemBase {
 
     public void raise() {
         leftSolenoid.set(kForward);
-        rightSolenoid.set(kForward);
+        rightSolenoid.set(kReverse);
     }
 
     public void lower() {
         leftSolenoid.set(kReverse);
-        rightSolenoid.set(kReverse);
+        rightSolenoid.set(kForward);
     }
 
     public void spin(double speed) {

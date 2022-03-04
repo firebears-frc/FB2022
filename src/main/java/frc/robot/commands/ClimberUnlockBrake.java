@@ -16,10 +16,11 @@ public class ClimberUnlockBrake extends SequentialCommandGroup {
   /** Creates a new ClimberUnlockBrake. */
   Climber m_climber;
   public ClimberUnlockBrake(Climber climber) {
+    m_climber = climber;
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(new ClimberDriveSpeed(0.1, m_climber), 
-                new WaitCommand(0.5), 
-                new ClimberDriveSpeed(0.0, climber));
+                new WaitCommand(0.1), 
+                new ClimberDriveSpeed(0.0, m_climber));
   }
 }

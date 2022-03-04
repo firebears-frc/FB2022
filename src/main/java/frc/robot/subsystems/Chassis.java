@@ -38,6 +38,7 @@ public class Chassis extends SubsystemBase {
         frontLeftMotor.setSmartCurrentLimit(CHASSIS_STALL_CURRENT_LIMIT, CHASSIS_FREE_CURRENT_LIMIT);
 
         leftPIDSparkMotor = new PIDSparkMotor(frontLeftMotor, CHASSIS_DRIVE_P, CHASSIS_DRIVE_I, CHASSIS_DRIVE_D);
+        leftPIDSparkMotor.setSecondaryPID(CHASSIS_DRIVE_P, CHASSIS_DRIVE_I, CHASSIS_DRIVE_D);
         leftEncoder = frontLeftMotor.getEncoder();
         addChild("leftEncoder", new SparkEncoder(leftEncoder));
 
@@ -50,6 +51,8 @@ public class Chassis extends SubsystemBase {
         addChild("righEncoder", new SparkEncoder(righEncoder));
 
         rightPIDSparkMotor = new PIDSparkMotor(frontRightMotor, CHASSIS_DRIVE_P, CHASSIS_DRIVE_I, CHASSIS_DRIVE_D);
+        rightPIDSparkMotor.setSecondaryPID(CHASSIS_DRIVE_P, CHASSIS_DRIVE_I, CHASSIS_DRIVE_D);
+
 
         rearLeftMotor = new CANSparkMax(CHASSIS_REAR_LEFT_MOTOR_CAN_ID, MotorType.kBrushless);
         rearLeftMotor.restoreFactoryDefaults();
@@ -112,6 +115,10 @@ public class Chassis extends SubsystemBase {
         rightPIDSparkMotor.resetEncoder();
         leftPIDSparkMotor.resetEncoder();
 
+        System.out.println(leftPIDSparkMotor.inchesTraveled());
+        System.out.println(rightPIDSparkMotor.inchesTraveled());
+
+        
         rightPIDSparkMotor.driveToPosition(inches);
         leftPIDSparkMotor.driveToPosition(inches);
     }

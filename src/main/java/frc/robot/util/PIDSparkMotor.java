@@ -64,8 +64,8 @@ public class PIDSparkMotor implements MotorController {
 	public void driveToPosition(double inches) {
 		double setPointPosition = (invertEncoder ? -1 : 1) * inches * ENCODER_TICKS_PER_INCH;
 		if (pidController.setReference(setPointPosition, ControlType.kPosition, SECONDARY_SLOT) != REVLibError.kOk) {
-			System.out.println("ERROR: Failed to set Setpoint on " + this);
-		}
+			System.out.println("Error in setting" + this);
+		} else { System.out.println("Inches " + this); }
 	}
 
 	/**
