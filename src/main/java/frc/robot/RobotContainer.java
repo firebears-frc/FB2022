@@ -85,7 +85,7 @@ public class RobotContainer {
     // Smartdashboard Subsystems
 
     // SmartDashboard Buttons
-    
+    m_chassis.addChild("Compressor", compressor);
 
     // Configure the button bindings
     configureButtonBindings();
@@ -156,10 +156,10 @@ public class RobotContainer {
     //rightBumperButton.whenPressed(new DriveToDistancePIDCommand(50, m_chassis), true);
 
     final JoystickButton yButton2 = new JoystickButton(xController2, XboxController.Button.kY.value);
-    yButton2.whenPressed(new ClimberReachOutCommand(m_climber), true);
+    yButton2.whenPressed(new ClimberSetBrakeCommand(false, m_climber), true);
 
     final JoystickButton xButton2 = new JoystickButton(xController2, XboxController.Button.kX.value);
-    xButton2.whenPressed(new ClimberReachBackVerticalCommand(m_climber), true);
+    xButton2.whenPressed(new ClimberSetBrakeCommand(true, m_climber), true);
 
     final JoystickButton bButton2 = new JoystickButton(xController2, XboxController.Button.kB.value);
     bButton2.whileHeld(new  ClimberDriveSpeed(1.0, m_climber), true);
@@ -169,6 +169,8 @@ public class RobotContainer {
 
     final JoystickButton leftBumper2 = new JoystickButton(xController2, XboxController.Button.kLeftBumper.value);
     leftBumper2.whenPressed(new ClimberUnlockBrake(m_climber), true); 
+
+
 
   }
 

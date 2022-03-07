@@ -16,7 +16,7 @@ public class AutoReverseCommand extends SequentialCommandGroup {
     chassis = c;
     shooter = s;
     addCommands(
-      new ShooterOutputCommand(.9, s), new WaitCommand(1.5), 
+      new ShooterOutputCommand(.8, s), new WaitCommand(1.5), 
       new ShooterPushCommand(shooter), new WaitCommand(1.5),
       new DriveToPositionCommand(48.0, chassis).withTimeout(1.5)
     );

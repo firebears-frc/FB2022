@@ -102,4 +102,14 @@ public class Climber extends SubsystemBase {
     public void driveClimbers(double speed){
         leftMotor.set(speed);
     }
+
+    public void setBrake(boolean enabled){
+        if (enabled) {
+            rightMotor.setIdleMode(IdleMode.kBrake);
+            leftMotor.setIdleMode(IdleMode.kBrake);
+        } else {
+            rightMotor.setIdleMode(IdleMode.kCoast);
+            leftMotor.setIdleMode(IdleMode.kCoast);
+        }
+    }
 }
