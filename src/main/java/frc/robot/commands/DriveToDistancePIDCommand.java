@@ -4,37 +4,45 @@
 
 package frc.robot.commands;
 
-import edu.wpi.first.wpilibj2.command.CommandBase;
+import edu.wpi.first.math.MathUtil;
+import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.wpilibj2.command.PIDCommand;
 import frc.robot.subsystems.Chassis;
 
-public class DriveToDistancePIDCommand extends CommandBase {
+// NOTE:  Consider using this command inline, rather than writing a subclass.  For more
+// information, see:
+// https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
+public class DriveToDistancePIDCommand extends PIDCommand {
+  private static Chassis m_chassis;
+  private double m_distance;
   /** Creates a new DriveToDistancePIDCommand. */
-  private Chassis m_chassis;
-  private double m_inches;
-  public DriveToDistancePIDCommand(double inches, Chassis chassis) {
-    m_chassis = chassis;
-    m_inches = inches;
-
-    addRequirements(m_chassis);
+  public DriveToDistancePIDCommand(double distance, Chassis chassis) {
+    super(
+        // The controller that the command will use
+        new PIDController(0.05, 0, 0),
+        // This should return the measurement
+        () -> -1 * m_chassis.getEncoderDistance(),
+        // This should return the setpoint (can also be a constant)
+        distance,
+        // This uses the output
+        output -> {
+          // Use the output here
+          m_chassis.arcadeDrive(-1 * MathUtil.clamp(output, -0.5, 0.5), 0);
+        });
+        m_chassis = chassis;
+        m_distance = distance;
+        addRequirements(chassis);
+    // Configure additional PID options by calling `getController` here.
   }
-
-  // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    m_chassis.driveToPosition(m_inches);
+    m_chassis.resetEncoder();
   }
-
-  // Called every time the scheduler runs while the command is scheduled.
-  @Override
-  public void execute() {}
-
-  // Called once the command ends or is interrupted.
-  @Override
-  public void end(boolean interrupted) {}
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    System.out.println("Distance from setpoint: " + Math.abs(m_chassis.getEncoderDistance() + m_distance));
+    return Math.abs(m_chassis.getEncoderDistance() + m_distance) <= 2.0;
   }
 }

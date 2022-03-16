@@ -190,6 +190,6 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
     // The selected command will be run in autonomous
-    return new AutoReverseCommand(m_chassis, m_shooter); // m_chooser.getSelected();
+    return new AutoTwoBallCommand(m_chassis, m_shooter, m_acquisition); // m_chooser.getSelected();
   }
 }

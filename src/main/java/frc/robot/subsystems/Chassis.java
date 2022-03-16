@@ -34,7 +34,7 @@ public class Chassis extends SubsystemBase {
         frontLeftMotor = new CANSparkMax(CHASSIS_FRONT_LEFT_MOTOR_CAN_ID, MotorType.kBrushless);
         frontLeftMotor.restoreFactoryDefaults();
         frontLeftMotor.setInverted(false);
-        frontLeftMotor.setIdleMode(IdleMode.kCoast);
+        frontLeftMotor.setIdleMode(IdleMode.kBrake);
         frontLeftMotor.setSmartCurrentLimit(CHASSIS_STALL_CURRENT_LIMIT, CHASSIS_FREE_CURRENT_LIMIT);
 
         leftPIDSparkMotor = new PIDSparkMotor(frontLeftMotor, CHASSIS_DRIVE_P, CHASSIS_DRIVE_I, CHASSIS_DRIVE_D);
@@ -45,7 +45,7 @@ public class Chassis extends SubsystemBase {
         frontRightMotor = new CANSparkMax(CHASSIS_FRONT_RIGHT_MOTOR_CAN_ID, MotorType.kBrushless);
         frontRightMotor.restoreFactoryDefaults();
         frontRightMotor.setInverted(true);
-        frontRightMotor.setIdleMode(IdleMode.kCoast);
+        frontRightMotor.setIdleMode(IdleMode.kBrake);
         frontRightMotor.setSmartCurrentLimit(CHASSIS_STALL_CURRENT_LIMIT, CHASSIS_FREE_CURRENT_LIMIT);
         righEncoder = frontRightMotor.getEncoder();
         addChild("righEncoder", new SparkEncoder(righEncoder));
@@ -57,7 +57,7 @@ public class Chassis extends SubsystemBase {
         rearLeftMotor = new CANSparkMax(CHASSIS_REAR_LEFT_MOTOR_CAN_ID, MotorType.kBrushless);
         rearLeftMotor.restoreFactoryDefaults();
         rearLeftMotor.setInverted(false);
-        rearLeftMotor.setIdleMode(IdleMode.kCoast);
+        rearLeftMotor.setIdleMode(IdleMode.kBrake);
         rearLeftMotor.setSmartCurrentLimit(CHASSIS_STALL_CURRENT_LIMIT, CHASSIS_FREE_CURRENT_LIMIT);
 
         rearLeftMotor.follow(frontLeftMotor);
@@ -65,7 +65,7 @@ public class Chassis extends SubsystemBase {
         rearRightMotor = new CANSparkMax(CHASSIS_REAR_RIGHT_MOTOR_CAN_ID, MotorType.kBrushless);
         rearRightMotor.restoreFactoryDefaults();
         rearRightMotor.setInverted(true);
-        rearRightMotor.setIdleMode(IdleMode.kCoast);
+        rearRightMotor.setIdleMode(IdleMode.kBrake);
         rearRightMotor.setSmartCurrentLimit(CHASSIS_STALL_CURRENT_LIMIT, CHASSIS_FREE_CURRENT_LIMIT);
 
         rearRightMotor.follow(frontRightMotor);
@@ -75,6 +75,8 @@ public class Chassis extends SubsystemBase {
 
         differentialDrive = new DifferentialDrive(leftPIDSparkMotor, rightPIDSparkMotor);
         addChild("differentialDrive", differentialDrive);
+
+
 
     }
 
@@ -104,7 +106,7 @@ public class Chassis extends SubsystemBase {
      * @return distance in inches.
      */
     public double getEncoderDistance() {
-        return 2.3 * ((leftEncoder.getPosition() - leftOffSet) - (righEncoder.getPosition() - rightOffSet)) / 2;
+        return 2.3 * ((leftEncoder.getPosition() - leftOffSet) + (righEncoder.getPosition() - rightOffSet)) / 2;
     }
 
     public double getUltrasonicDistanceInches() {
@@ -121,6 +123,20 @@ public class Chassis extends SubsystemBase {
         
         rightPIDSparkMotor.driveToPosition(inches);
         leftPIDSparkMotor.driveToPosition(inches);
+    }
+
+    public void setBrake(Boolean brake) {
+        if (brake) {
+            frontLeftMotor.setIdleMode(IdleMode.kBrake);
+            frontRightMotor.setIdleMode(IdleMode.kBrake);
+            rearLeftMotor.setIdleMode(IdleMode.kBrake);
+            rearRightMotor.setIdleMode(IdleMode.kBrake);
+        } else {
+            frontLeftMotor.setIdleMode(IdleMode.kCoast);
+            frontRightMotor.setIdleMode(IdleMode.kCoast);
+            rearLeftMotor.setIdleMode(IdleMode.kCoast);
+            rearRightMotor.setIdleMode(IdleMode.kCoast);
+        }
     }
 
 }
