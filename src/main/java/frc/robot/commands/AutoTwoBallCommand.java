@@ -30,7 +30,8 @@ public class AutoTwoBallCommand extends SequentialCommandGroup {
                 new AcquisitionStopCommand(m_acquisition),
                 new ShooterShootCommand(m_shooter),
                 new WaitCommand(1.5),
-                new ShooterShootCommand(m_shooter)
+                new ShooterShootCommand(m_shooter),
+                new ShooterOutputCommand(0, m_shooter)
                 
     );
   }

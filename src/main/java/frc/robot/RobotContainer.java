@@ -13,6 +13,7 @@ import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
+import edu.wpi.first.wpilibj.PowerDistribution;
 import edu.wpi.first.wpilibj.SerialPort;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
@@ -55,6 +56,9 @@ public class RobotContainer {
   public NetworkTableEntry motorSpeed;
   public ShuffleboardTab shooterTab;
 
+  // PowerDistribution
+  private final PowerDistribution powerDistribution = new PowerDistribution();
+
   // Driver's cameras and vision cameras
   public UsbCamera camera1;
 
@@ -65,6 +69,8 @@ public class RobotContainer {
    * The container for the robot. Contains subsystems, OI devices, and commands.
    */
   private RobotContainer() {
+
+    powerDistribution.clearStickyFaults();
 
     // Pneumatics
     if (PRACTICE_ROBOT) {
@@ -77,7 +83,7 @@ public class RobotContainer {
     compressor.enableDigital();
 
     // Driver's cameras and vision cameras
-    if (true) { //TODO: Fix This - Should be DRIVER_CAMERAS_ENABLED
+    if (true) { // TODO: Fix This - Should be DRIVER_CAMERAS_ENABLED
       camera1 = CameraServer.startAutomaticCapture(0);
 
     }
@@ -94,15 +100,15 @@ public class RobotContainer {
     m_chassis.setDefaultCommand(new ChassisDriveCommand(m_chassis, xController1));
 
     // Configure autonomous sendable chooser
-    // m_chooser.setDefaultOption("Autonomous Command", new AutonomousCommand());
+    m_chooser.setDefaultOption("two ball", new AutoTwoBallCommand(m_chassis, m_shooter, m_acquisition));
+    m_chooser.addOption("one ball", new AutoTwoBallCommand(m_chassis, m_shooter, m_acquisition));
 
     SmartDashboard.putData("Auto Mode", m_chooser);
-    
+
     shooterTab = Shuffleboard.getTab("Shooter");
 
     motorSpeed = shooterTab.add("Shooter Speed", 1.0).getEntry();
 
-    
   }
 
   public static RobotContainer getInstance() {
@@ -152,8 +158,10 @@ public class RobotContainer {
     final JoystickButton yButton = new JoystickButton(xController1, XboxController.Button.kY.value);
     yButton.whenPressed(new ShooterOutputCommand(0, m_shooter), true);
 
-    //final JoystickButton rightBumperButton = new JoystickButton(xController1, XboxController.Button.kRightBumper.value);
-    //rightBumperButton.whenPressed(new DriveToDistancePIDCommand(50, m_chassis), true);
+    // final JoystickButton rightBumperButton = new JoystickButton(xController1,
+    // XboxController.Button.kRightBumper.value);
+    // rightBumperButton.whenPressed(new DriveToDistancePIDCommand(50, m_chassis),
+    // true);
 
     final JoystickButton yButton2 = new JoystickButton(xController2, XboxController.Button.kY.value);
     yButton2.whenPressed(new ClimberSetBrakeCommand(false, m_climber), true);
@@ -162,18 +170,15 @@ public class RobotContainer {
     xButton2.whenPressed(new ClimberSetBrakeCommand(true, m_climber), true);
 
     final JoystickButton bButton2 = new JoystickButton(xController2, XboxController.Button.kB.value);
-    bButton2.whileHeld(new  ClimberDriveSpeed(1.0, m_climber), true);
+    bButton2.whileHeld(new ClimberDriveSpeed(1.0, m_climber), true);
 
     final JoystickButton aButton2 = new JoystickButton(xController2, XboxController.Button.kA.value);
     aButton2.whileHeld(new ClimberDriveSpeed(-1.0, m_climber), true);
 
     final JoystickButton leftBumper2 = new JoystickButton(xController2, XboxController.Button.kLeftBumper.value);
-    leftBumper2.whenPressed(new ClimberUnlockBrake(m_climber), true); 
-
-
+    leftBumper2.whenPressed(new ClimberUnlockBrake(m_climber), true);
 
   }
-
 
   /**
    * Reset subsystems before Teleop or Autonomous.
@@ -189,7 +194,7 @@ public class RobotContainer {
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
-    // The selected command will be run in autonomous
-    return new AutoTwoBallCommand(m_chassis, m_shooter, m_acquisition); // m_chooser.getSelected();
+    return m_chooser.getSelected();
   }
+
 }
