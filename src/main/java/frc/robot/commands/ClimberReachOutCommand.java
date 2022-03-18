@@ -7,10 +7,11 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.Climber;
 
-/** Reach arm out to the side. */
+/** Reach Climber arms out to the side. */
 public class ClimberReachOutCommand extends CommandBase {
   Climber m_climber;
 
+  /** Reach Climber arms out to the side. */
   public ClimberReachOutCommand(Climber climber) {
     m_climber = climber;
     addRequirements(m_climber);

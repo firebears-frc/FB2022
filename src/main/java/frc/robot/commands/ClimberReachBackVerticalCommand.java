@@ -7,10 +7,11 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.Climber;
 
-/** Move arm to the vertical */
+/** Move climber arms to the vertical */
 public class ClimberReachBackVerticalCommand extends CommandBase {
   Climber m_climber;
 
+  /** Move climber arms to the vertical */
   public ClimberReachBackVerticalCommand(Climber climber) {
     m_climber = climber;
 

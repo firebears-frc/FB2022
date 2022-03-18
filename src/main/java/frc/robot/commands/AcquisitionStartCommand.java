@@ -10,6 +10,7 @@ import frc.robot.subsystems.Acquisition;
 public class AcquisitionStartCommand extends CommandBase {
   private final Acquisition m_acquisition;
 
+  /** Lower the Acquisition and start it spinning. */
   public AcquisitionStartCommand(Acquisition subsystem) {
     m_acquisition = subsystem;
     addRequirements(m_acquisition);

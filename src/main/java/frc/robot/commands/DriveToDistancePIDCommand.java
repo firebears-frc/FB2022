@@ -9,13 +9,11 @@ import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj2.command.PIDCommand;
 import frc.robot.subsystems.Chassis;
 
-// NOTE:  Consider using this command inline, rather than writing a subclass.  For more
-// information, see:
-// https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
 public class DriveToDistancePIDCommand extends PIDCommand {
   private static Chassis m_chassis;
   private double m_distance;
-  /** Creates a new DriveToDistancePIDCommand. */
+
+  /** Drive robot forward a distance in inches. */
   public DriveToDistancePIDCommand(double distance, Chassis chassis) {
     super(
         // The controller that the command will use
@@ -34,12 +32,12 @@ public class DriveToDistancePIDCommand extends PIDCommand {
         addRequirements(chassis);
     // Configure additional PID options by calling `getController` here.
   }
+
   @Override
   public void initialize() {
     m_chassis.resetEncoder();
   }
 
-  // Returns true when the command should end.
   @Override
   public boolean isFinished() {
     System.out.println("Distance from setpoint: " + Math.abs(m_chassis.getEncoderDistance() + m_distance));

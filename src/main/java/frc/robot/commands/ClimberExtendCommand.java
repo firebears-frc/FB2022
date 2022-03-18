@@ -7,30 +7,26 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.Climber;
 
+ /** Extend Climber arms to a given position in inches. */
 public class ClimberExtendCommand extends CommandBase {
-  /** Creates a new ClimberExtendCommand. */
   Climber m_climber;
   double m_position;
 
+  /** Extend Climber arms to a given position in inches. */
   public ClimberExtendCommand(double position, Climber climber) {
     m_climber = climber;
     m_position = position;
-    // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(m_climber);
   }
 
-  // Called when the command is initially scheduled.
   @Override
   public void initialize() {
     m_climber.extend(m_position);
   }
 
-  // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
   }
-
-  // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
   }

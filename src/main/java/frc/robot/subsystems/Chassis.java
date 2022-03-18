@@ -10,8 +10,6 @@ import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import frc.robot.util.PIDSparkMotor;
 import frc.robot.util.SparkEncoder;
 import edu.wpi.first.wpilibj.AnalogPotentiometer;
-import edu.wpi.first.cameraserver.CameraServer;
-import edu.wpi.first.cscore.CameraServerCvJNI;
 
 import static frc.robot.Constants.*;
 

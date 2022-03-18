@@ -15,14 +15,11 @@ public class AutoOneBallCommand extends SequentialCommandGroup {
   Shooter m_shooter;
   Acquisition m_acquisition;
 
-  /** Add your docs here. */
-
+  /** Wait, shoot ball, move out of Tarmac. */
   public AutoOneBallCommand(Chassis chassis, Shooter shooter, Acquisition acquisition) {
     m_chassis = chassis;
     m_shooter = shooter;
     m_acquisition = acquisition;
-    // Add your commands in the addCommands() call, e.g.
-    // addCommands(new FooCommand(), new BarCommand());
     addCommands(
         new WaitCommand(6.0),
         new DriveToDistancePIDCommand(48.0, m_chassis),
@@ -30,7 +27,7 @@ public class AutoOneBallCommand extends SequentialCommandGroup {
         new ShooterShootCommand(m_shooter),
         new WaitCommand(1.5),
         new ShooterOutputCommand(0, m_shooter)
-    
+
     );
 
   }

@@ -83,7 +83,7 @@ public class RobotContainer {
     compressor.enableDigital();
 
     // Driver's cameras and vision cameras
-    if (true) { // TODO: Fix This - Should be DRIVER_CAMERAS_ENABLED
+    if (DRIVER_CAMERAS_ENABLED) {
       camera1 = CameraServer.startAutomaticCapture(0);
 
     }

@@ -4,23 +4,20 @@
 
 package frc.robot.commands;
 
-import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.subsystems.Climber;
 
-// NOTE:  Consider using this command inline, rather than writing a subclass.  For more
-// information, see:
-// https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
+/** Unlock the brake that was holding in the Climber arms. */
 public class ClimberUnlockBrake extends SequentialCommandGroup {
-  /** Creates a new ClimberUnlockBrake. */
+
   Climber m_climber;
+
+  /** Unlock the brake that was holding in the Climber arms. */
   public ClimberUnlockBrake(Climber climber) {
     m_climber = climber;
-    // Add your commands in the addCommands() call, e.g.
-    // addCommands(new FooCommand(), new BarCommand());
-    addCommands(new ClimberDriveSpeed(0.1, m_climber), 
-                new WaitCommand(0.1), 
-                new ClimberDriveSpeed(0.0, m_climber));
+    addCommands(new ClimberDriveSpeed(0.1, m_climber),
+        new WaitCommand(0.1),
+        new ClimberDriveSpeed(0.0, m_climber));
   }
 }

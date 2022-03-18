@@ -8,18 +8,12 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.util.PIDSparkMotor;
 import frc.robot.util.SparkEncoder;
 import frc.robot.util.SparkMotor;
-
 import com.revrobotics.CANSparkMax.IdleMode;
-
-import static frc.robot.Constants.*;
-
-import java.util.function.DoubleSupplier;
-
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
-
-import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+
+import static frc.robot.Constants.*;
 
 public class Climber extends SubsystemBase {
     private SparkMotor leftMotor;
@@ -73,6 +67,7 @@ public class Climber extends SubsystemBase {
     public void simulationPeriodic() {
     }
 
+    /** Extend Climber arms to a position in inches. */
     public void extend(double position) {
         pidMotor.driveToPosition(position);
     }

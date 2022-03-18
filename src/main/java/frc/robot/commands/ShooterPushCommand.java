@@ -13,6 +13,7 @@ import frc.robot.subsystems.Shooter;
 public class ShooterPushCommand extends CommandBase {
   private final Shooter shooter;
 
+  /** Push the ball into the spinning wheel. */
   public ShooterPushCommand(Shooter s) {
     shooter = s;
   }

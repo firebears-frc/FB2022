@@ -13,6 +13,7 @@ import frc.robot.subsystems.Shooter;
 public class ShooterResetCommand extends CommandBase {
   private final Shooter shooter;
 
+  /** Lower the ball pusher. */
   public ShooterResetCommand(Shooter s) {
     shooter = s;
   }

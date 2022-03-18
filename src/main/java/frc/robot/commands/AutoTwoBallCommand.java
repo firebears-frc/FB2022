@@ -10,29 +10,26 @@ import frc.robot.subsystems.Acquisition;
 import frc.robot.subsystems.Chassis;
 import frc.robot.subsystems.Shooter;
 
-// NOTE:  Consider using this command inline, rather than writing a subclass.  For more
-// information, see:
-// https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
 public class AutoTwoBallCommand extends SequentialCommandGroup {
-  /** Creates a new AutoPIDReverseCommand. */
+
   Chassis m_chassis;
   Shooter m_shooter;
   Acquisition m_acquisition;
+
+  /** Drive back to acquire another ball, shoot both balls, move out of Tarmac. */
   public AutoTwoBallCommand(Chassis chassis, Shooter shooter, Acquisition acquisition) {
     m_chassis = chassis;
     m_shooter = shooter;
     m_acquisition = acquisition;
-    // Add your commands in the addCommands() call, e.g.
-    // addCommands(new FooCommand(), new BarCommand());
     addCommands(new AcquisitionStartCommand(m_acquisition),
-                new DriveToDistancePIDCommand(60.0, m_chassis),
-                new WaitCommand(1.0),
-                new AcquisitionStopCommand(m_acquisition),
-                new ShooterShootCommand(m_shooter),
-                new WaitCommand(1.5),
-                new ShooterShootCommand(m_shooter),
-                new ShooterOutputCommand(0, m_shooter)
-                
+        new DriveToDistancePIDCommand(60.0, m_chassis),
+        new WaitCommand(1.0),
+        new AcquisitionStopCommand(m_acquisition),
+        new ShooterShootCommand(m_shooter),
+        new WaitCommand(1.5),
+        new ShooterShootCommand(m_shooter),
+        new ShooterOutputCommand(0, m_shooter)
+
     );
   }
 }

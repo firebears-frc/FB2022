@@ -10,6 +10,7 @@ import frc.robot.subsystems.Acquisition;
 public class AcquisitionStopCommand extends CommandBase {
   private final Acquisition m_acquisition;
 
+  /** Raise the Acquisition and stop it from spinning. */
   public AcquisitionStopCommand(Acquisition subsystem) {
     m_acquisition = subsystem;
     addRequirements(m_acquisition);
