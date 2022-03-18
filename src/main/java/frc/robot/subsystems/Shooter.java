@@ -22,8 +22,8 @@ public class Shooter extends SubsystemBase {
     private PIDSparkMotor pidTurretMotor;
     private PIDSparkMotor pidShooterMotor;
 
-    private RelativeEncoder turretEncoder;
-    private RelativeEncoder shooterEncoder;
+    private SparkEncoder turretEncoder;
+    private SparkEncoder shooterEncoder;
     private DoubleSolenoid leftSolenoid;
     private DoubleSolenoid rightSolenoid;
 
@@ -36,8 +36,8 @@ public class Shooter extends SubsystemBase {
         shooterMotor.restoreFactoryDefaults();
         shooterMotor.setInverted(false);
         shooterMotor.setIdleMode(IdleMode.kCoast);
-        shooterEncoder = shooterMotor.getEncoder();
-        addChild("spinnerEncoder", new SparkEncoder(shooterEncoder));
+        shooterEncoder = new SparkEncoder(shooterMotor.getEncoder());
+        addChild("spinnerEncoder", shooterEncoder);
 
         pidShooterMotor = new PIDSparkMotor(shooterMotor, SHOOTER_WHEEL_P, SHOOTER_WHEEL_I, SHOOTER_WHEEL_D);
 
@@ -48,8 +48,8 @@ public class Shooter extends SubsystemBase {
         turretMotor.setInverted(false);
         turretMotor.setIdleMode(IdleMode.kCoast);
 
-        turretEncoder = turretMotor.getEncoder();
-        addChild("encoder", new SparkEncoder(turretEncoder));
+        turretEncoder = new SparkEncoder(turretMotor.getEncoder());
+        addChild("encoder", turretEncoder);
 
         pidTurretMotor = new PIDSparkMotor(turretMotor, SHOOTER_TURRET_P, SHOOTER_TURRET_I, SHOOTER_TURRET_D);
 
@@ -131,7 +131,7 @@ public class Shooter extends SubsystemBase {
      * Reset encoder to zero.
      */
     public void resetTurretEncoder() {
-        turretEncoder.setPosition(0);
+        turretEncoder.resetEncoder();
     }
 
     public void setTurretPosition(double position) {

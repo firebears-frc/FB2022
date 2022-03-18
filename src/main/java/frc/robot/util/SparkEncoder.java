@@ -14,6 +14,7 @@ import edu.wpi.first.util.sendable.SendableBuilder;
 public class SparkEncoder implements RelativeEncoder, Sendable {
 
     private final RelativeEncoder baseEncoder;
+    private double encoderOffset = 0.0;
 
     public SparkEncoder(RelativeEncoder baseEncoder) {
         this.baseEncoder = baseEncoder;
@@ -26,9 +27,13 @@ public class SparkEncoder implements RelativeEncoder, Sendable {
         builder.addDoubleProperty("Position", this::getPosition, null);
     }
 
+    public void resetEncoder() {
+		encoderOffset = baseEncoder.getPosition();
+	}
+
     @Override
     public double getPosition() {
-        return baseEncoder.getPosition();
+        return baseEncoder.getPosition() - encoderOffset;
     }
 
     @Override

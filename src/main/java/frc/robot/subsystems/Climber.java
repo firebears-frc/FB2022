@@ -1,24 +1,20 @@
 package frc.robot.subsystems;
 
-import edu.wpi.first.networktables.NetworkTableEntry;
+import com.revrobotics.CANSparkMax.IdleMode;
+import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
-import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
+import edu.wpi.first.wpilibj.PneumaticsModuleType;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.util.PIDSparkMotor;
-import frc.robot.util.SparkEncoder;
 import frc.robot.util.SparkMotor;
-import com.revrobotics.CANSparkMax.IdleMode;
-import com.revrobotics.RelativeEncoder;
-import com.revrobotics.CANSparkMaxLowLevel.MotorType;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import static frc.robot.Constants.*;
 
 public class Climber extends SubsystemBase {
     private SparkMotor leftMotor;
     private SparkMotor rightMotor;
-    private final RelativeEncoder encoder;
     private DoubleSolenoid leftSolenoid;
     private DoubleSolenoid rightSolenoid;
     private PIDSparkMotor pidMotor;
@@ -30,10 +26,8 @@ public class Climber extends SubsystemBase {
         leftMotor.restoreFactoryDefaults();
         leftMotor.setInverted(false);
         leftMotor.setIdleMode(IdleMode.kCoast);
-        encoder = leftMotor.getEncoder();
-        addChild("encoder", new SparkEncoder(encoder));
 
-        pidMotor = new PIDSparkMotor(leftMotor, CLIMBER_P, CLIMBER_I, CLIMBER_D);
+        pidMotor = new PIDSparkMotor(leftMotor, CLIMBER_P, CLIMBER_I, CLIMBER_D, 1.0);
 
         rightMotor = new SparkMotor(CLIMBER_RIGHT_MOTOR_CAN_ID, MotorType.kBrushless);
         addChild("rightMotor(" + CLIMBER_RIGHT_MOTOR_CAN_ID + ")", rightMotor);
@@ -54,13 +48,12 @@ public class Climber extends SubsystemBase {
         addChild("rightSolenoid", rightSolenoid);
 
         rightMotor.follow(leftMotor);
-
+        resetEncoder();
     }
 
     @Override
     public void periodic() {   
-        SmartDashboard.putNumber("ClimberPosition", encoder.getPosition());
-    
+        SmartDashboard.putNumber("ClimberPosition", this.getEncoderPosition());
     }
 
     @Override
@@ -73,11 +66,11 @@ public class Climber extends SubsystemBase {
     }
 
     public double getEncoderPosition() {
-        return encoder.getPosition();
+        return pidMotor.inchesTraveled();
     }
 
     public void resetEncoder() {
-        encoder.setPosition(0);
+        pidMotor.resetEncoder();
     }
 
     /** Reach arm out to the side. */

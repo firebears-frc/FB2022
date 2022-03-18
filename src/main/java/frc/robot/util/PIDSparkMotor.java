@@ -12,8 +12,8 @@ import com.revrobotics.RelativeEncoder;
  */
 public class PIDSparkMotor implements MotorController {
 
-	public static final double MAX_RPM = 8000.0;
-	public static final double ENCODER_TICKS_PER_INCH = 0.4449;
+	public final double MAX_RPM = 8000.0;
+	public final double ENCODER_TICKS_PER_INCH;
 	public static final int SECONDARY_SLOT = 1;
 
 	private final CANSparkMax motor;
@@ -23,14 +23,19 @@ public class PIDSparkMotor implements MotorController {
 	private boolean invertEncoder = false;
 	private double currentSpeed = 0.0;
 	private double maxEncoderVelocity = 0.0;
-	
+	private double encoderOffset = 0.0;
 
 	public PIDSparkMotor(CANSparkMax m, double kP, double kI, double kD) {
+		this(m, kP, kI, kD, 0.4449);
+	}
+
+	public PIDSparkMotor(CANSparkMax m, double kP, double kI, double kD, double encoderTicksPerInch) {
 		motor = m;
 		pidController = motor.getPIDController();
 		pidController.setP(kP);
 		pidController.setI(kI);
 		pidController.setD(kD);
+		ENCODER_TICKS_PER_INCH = encoderTicksPerInch;
 		encoder = motor.getEncoder();
 	}
 
@@ -53,19 +58,22 @@ public class PIDSparkMotor implements MotorController {
 		invertEncoder = b;
 	}
 
-	public void resetEncoder(){
-		encoder.setPosition(0.0);
+	public void resetEncoder() {
+		encoderOffset = encoder.getPosition();
 	}
 
 	public double inchesTraveled() {
-		return (invertEncoder ? -1 : 1) * encoder.getPosition() / ENCODER_TICKS_PER_INCH;
+		double encoderPosition = encoder.getPosition() - encoderOffset;
+		return (invertEncoder ? -1 : 1) * encoderPosition / ENCODER_TICKS_PER_INCH;
 	}
 
 	public void driveToPosition(double inches) {
 		double setPointPosition = (invertEncoder ? -1 : 1) * inches * ENCODER_TICKS_PER_INCH;
 		if (pidController.setReference(setPointPosition, ControlType.kPosition, SECONDARY_SLOT) != REVLibError.kOk) {
-			System.out.println("Error in setting" + this);
-		} else { System.out.println("Inches " + this); }
+			System.out.println("Error in setting " + this);
+		} else {
+			System.out.println("Inches " + this);
+		}
 	}
 
 	/**
@@ -139,17 +147,16 @@ public class PIDSparkMotor implements MotorController {
 		motor.stopMotor();
 	}
 
-
 	@Override
 	public String toString() {
 		return "PIDSparkMotor(" + motor.getDeviceId() + ")";
 	}
 
-	public double getmaxEncoderVelocity() {
+	public double getMaxEncoderVelocity() {
 		return maxEncoderVelocity;
 	}
 
-	public double getMaxRPM(){
+	public double getMaxRPM() {
 		return MAX_RPM;
 	}
 }
