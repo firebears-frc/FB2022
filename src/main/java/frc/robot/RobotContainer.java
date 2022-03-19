@@ -153,7 +153,7 @@ public class RobotContainer {
     // aButton.whenPressed(new ClimberReachOutCommand(m_climber), true);
 
     final JoystickButton xButton = new JoystickButton(xController1, XboxController.Button.kX.value);
-    xButton.whenPressed(new ShooterOutputCommand(1.0, m_shooter), true);
+    xButton.whenPressed(new ShooterOutputCommand(0.9, m_shooter), true);
 
     final JoystickButton yButton = new JoystickButton(xController1, XboxController.Button.kY.value);
     yButton.whenPressed(new ShooterOutputCommand(0, m_shooter), true);

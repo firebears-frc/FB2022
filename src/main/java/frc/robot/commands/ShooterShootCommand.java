@@ -15,7 +15,7 @@ public class ShooterShootCommand extends SequentialCommandGroup {
   /** Shoot the ball. */
   public ShooterShootCommand(Shooter shooter) {
     m_shooter = shooter;
-    addCommands(new ShooterOutputCommand(1.0, m_shooter),
+    addCommands(new ShooterOutputCommand(0.9, m_shooter),
                 new WaitCommand(1.0),
                 new ShooterPushCommand(m_shooter),
                 new WaitCommand(1.0),
