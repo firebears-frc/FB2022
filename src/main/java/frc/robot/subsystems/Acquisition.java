@@ -3,7 +3,9 @@ package frc.robot.subsystems;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
 import edu.wpi.first.wpilibj.DoubleSolenoid;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.RobotContainer;
 
 import static edu.wpi.first.wpilibj.DoubleSolenoid.Value.*;
 import static edu.wpi.first.wpilibj.PneumaticsModuleType.*;
@@ -38,6 +40,9 @@ public class Acquisition extends SubsystemBase {
 
     @Override
     public void periodic() {
+        if (!PRACTICE_ROBOT) {
+            SmartDashboard.putNumber("Pneumatics Pressure", RobotContainer.getInstance().getPneumaticsPressure());
+        }
     }
 
     @Override

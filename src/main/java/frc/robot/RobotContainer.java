@@ -12,6 +12,7 @@ import edu.wpi.first.math.util.Units;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.GenericHID;
+import edu.wpi.first.wpilibj.PneumaticHub;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.PowerDistribution;
 import edu.wpi.first.wpilibj.SerialPort;
@@ -55,6 +56,7 @@ public class RobotContainer {
   public PneumaticsModuleType pneumaticsType;
   public NetworkTableEntry motorSpeed;
   public ShuffleboardTab shooterTab;
+  public PneumaticHub pneumaticHub = null;
 
   // PowerDistribution
   private final PowerDistribution powerDistribution = new PowerDistribution();
@@ -79,13 +81,13 @@ public class RobotContainer {
     } else {
       pneumaticsType = REVPH;
       compressor = new Compressor(1, REVPH);
+      pneumaticHub = new PneumaticHub();
     }
     compressor.enableDigital();
 
     // Driver's cameras and vision cameras
     if (DRIVER_CAMERAS_ENABLED) {
       camera1 = CameraServer.startAutomaticCapture(0);
-
     }
 
     // Smartdashboard Subsystems
@@ -198,6 +200,14 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
     return m_chooser.getSelected();
+  }
+
+  public double getPneumaticsPressure() {
+    if (pneumaticHub == null) {
+      return 0.0;
+    } else {
+      return pneumaticHub.getPressure(0);
+    }
   }
 
 }
