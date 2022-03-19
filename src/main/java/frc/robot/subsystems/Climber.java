@@ -1,23 +1,30 @@
 package frc.robot.subsystems;
 
+import com.revrobotics.CANSparkMax.ControlType;
 import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
+import com.revrobotics.REVLibError;
+import com.revrobotics.SparkMaxPIDController;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.util.PIDSparkMotor;
+import frc.robot.util.SparkEncoder;
 import frc.robot.util.SparkMotor;
 
 import static frc.robot.Constants.*;
 
 public class Climber extends SubsystemBase {
+
+    public static final double ENCODER_TICKS_PER_INCH = 1.0;
+
     private SparkMotor leftMotor;
     private SparkMotor rightMotor;
+    private SparkMaxPIDController pidController;
     private DoubleSolenoid leftSolenoid;
     private DoubleSolenoid rightSolenoid;
-    private PIDSparkMotor pidMotor;
+    private SparkEncoder encoder;
 
     public Climber() {
         leftMotor = new SparkMotor(CLIMBER_LEFT_MOTOR_CAN_ID, MotorType.kBrushless);
@@ -27,7 +34,11 @@ public class Climber extends SubsystemBase {
         leftMotor.setInverted(false);
         leftMotor.setIdleMode(IdleMode.kCoast);
 
-        pidMotor = new PIDSparkMotor(leftMotor, CLIMBER_P, CLIMBER_I, CLIMBER_D, 1.0);
+        pidController = leftMotor.getPIDController();
+        pidController.setP(CLIMBER_P);
+		pidController.setI(CLIMBER_I);
+		pidController.setD(CLIMBER_D);
+        pidController.setFF(CLIMBER_F);
 
         rightMotor = new SparkMotor(CLIMBER_RIGHT_MOTOR_CAN_ID, MotorType.kBrushless);
         addChild("rightMotor(" + CLIMBER_RIGHT_MOTOR_CAN_ID + ")", rightMotor);
@@ -48,6 +59,9 @@ public class Climber extends SubsystemBase {
         addChild("rightSolenoid", rightSolenoid);
 
         rightMotor.follow(leftMotor);
+
+        encoder = new SparkEncoder(leftMotor.getEncoder());
+        addChild("encoder", encoder);
         resetEncoder();
     }
 
@@ -61,16 +75,21 @@ public class Climber extends SubsystemBase {
     }
 
     /** Extend Climber arms to a position in inches. */
-    public void extend(double position) {
-        pidMotor.driveToPosition(position);
+    public void extend(double inches) {
+        double setPointTicks = inches * ENCODER_TICKS_PER_INCH + encoder.getOffset();
+        REVLibError err = pidController.setReference(setPointTicks, ControlType.kPosition);
+        if (err != REVLibError.kOk) {
+			System.out.println("Error in Climber: " + err);
+		} 
     }
 
+    /** @return relative encoder position in inches. */
     public double getEncoderPosition() {
-        return pidMotor.inchesTraveled();
+        return encoder.getPosition() / ENCODER_TICKS_PER_INCH;
     }
 
     public void resetEncoder() {
-        pidMotor.resetEncoder();
+        encoder.resetEncoder();
     }
 
     /** Reach arm out to the side. */
@@ -80,11 +99,10 @@ public class Climber extends SubsystemBase {
         rightSolenoid.set(Value.kForward);
     }
 
-    /** Move arm to the vertical */
+    /** Move arm to the vertical. */
     public void reachBackVertical() {
         leftSolenoid.set(Value.kForward);
         rightSolenoid.set(Value.kReverse);
-
     }
 
     public void driveClimbers(double speed){

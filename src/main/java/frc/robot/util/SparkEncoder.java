@@ -31,7 +31,13 @@ public class SparkEncoder implements RelativeEncoder, Sendable {
 		encoderOffset = baseEncoder.getPosition();
 	}
 
+    /** @return current offset in ticks. */
+    public double getOffset() {
+        return encoderOffset;
+    }
+
     @Override
+    /** @return current relative position, measured in ticks. */
     public double getPosition() {
         return baseEncoder.getPosition() - encoderOffset;
     }
