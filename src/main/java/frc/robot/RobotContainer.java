@@ -101,7 +101,7 @@ public class RobotContainer {
 
     // Configure autonomous sendable chooser
     m_chooser.setDefaultOption("two ball", new AutoTwoBallCommand(m_chassis, m_shooter, m_acquisition));
-    m_chooser.addOption("one ball", new AutoTwoBallCommand(m_chassis, m_shooter, m_acquisition));
+    m_chooser.addOption("one ball", new AutoOneBallCommand(m_chassis, m_shooter, m_acquisition));
 
     SmartDashboard.putData("Auto Mode", m_chooser);
 

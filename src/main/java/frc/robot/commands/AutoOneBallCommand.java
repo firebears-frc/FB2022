@@ -27,7 +27,6 @@ public class AutoOneBallCommand extends SequentialCommandGroup {
         new ShooterShootCommand(m_shooter),
         new WaitCommand(1.5),
         new ShooterOutputCommand(0, m_shooter)
-
     );
 
   }
