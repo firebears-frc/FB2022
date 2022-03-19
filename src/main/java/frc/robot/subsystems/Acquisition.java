@@ -14,9 +14,11 @@ public class Acquisition extends SubsystemBase {
     private WPI_TalonSRX spinMotor;
     private DoubleSolenoid leftSolenoid;
     private DoubleSolenoid rightSolenoid;
+    private boolean isLowered = false;
 
     public Acquisition() {
         spinMotor = new WPI_TalonSRX(ACQUISITION_SPIN_MOTOR_CAN_ID);
+        spinMotor.configFactoryDefault();
         spinMotor.configContinuousCurrentLimit(ACQUSITION_SPIN_MOTOR_CURRENT_LIMIT);
         spinMotor.configPeakCurrentLimit(0);
         spinMotor.enableCurrentLimit(true);
@@ -45,11 +47,17 @@ public class Acquisition extends SubsystemBase {
     public void raise() {
         leftSolenoid.set(kForward);
         rightSolenoid.set(kReverse);
+        isLowered = false;
     }
 
     public void lower() {
         leftSolenoid.set(kReverse);
         rightSolenoid.set(kForward);
+        isLowered = true;
+    }
+
+    public boolean isLowered() {
+        return isLowered;
     }
 
     public void spin(double speed) {
