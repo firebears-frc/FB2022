@@ -27,6 +27,8 @@ public class Shooter extends SubsystemBase {
 
     private DigitalInput leftLimitSwitch, rightLimitSwitch;
 
+    private boolean isLowered = false;
+
     public Shooter() {
         shooterMotor = new SparkMotor(SHOOTER_SHOOTER_MOTOR_CAN_ID, MotorType.kBrushless);
         addChild("spinnerMotor(" + SHOOTER_SHOOTER_MOTOR_CAN_ID + ")", shooterMotor);
@@ -89,6 +91,7 @@ public class Shooter extends SubsystemBase {
     public void extendPusher() {
         leftSolenoid.set(kForward);
         rightSolenoid.set(kReverse);
+        isLowered = false;
     }
 
     /**
@@ -97,6 +100,12 @@ public class Shooter extends SubsystemBase {
     public void retractPusher() {
         leftSolenoid.set(kReverse);
         rightSolenoid.set(kForward);
+        isLowered = true;
+    }
+
+    /** @return whether the ball pusher is in the low position. */
+    public boolean isLowered() {
+        return isLowered;
     }
 
     public void setShooterVelocity(double velocity) {

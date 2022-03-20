@@ -61,6 +61,7 @@ public class Acquisition extends SubsystemBase {
         isLowered = true;
     }
 
+    /** @return whether the Acquisition is lowered to pick up cargo. */
     public boolean isLowered() {
         return isLowered;
     }

@@ -26,6 +26,8 @@ public class Climber extends SubsystemBase {
     private DoubleSolenoid rightSolenoid;
     private SparkEncoder encoder;
 
+    private boolean isVertical = true;
+
     public Climber() {
         leftMotor = new SparkMotor(CLIMBER_LEFT_MOTOR_CAN_ID, MotorType.kBrushless);
         addChild("leftMotor(" + CLIMBER_LEFT_MOTOR_CAN_ID + ")", leftMotor);
@@ -97,12 +99,19 @@ public class Climber extends SubsystemBase {
     public void reachOutToSide() {
         leftSolenoid.set(Value.kReverse);
         rightSolenoid.set(Value.kForward);
+        isVertical = false;
     }
 
     /** Move arm to the vertical. */
     public void reachBackVertical() {
         leftSolenoid.set(Value.kForward);
         rightSolenoid.set(Value.kReverse);
+        isVertical = true;
+    }
+
+    /** @return whether the climbers are upright in the vertical position. */
+    public boolean isVertical() {
+        return isVertical;
     }
 
     public void driveClimbers(double speed){
