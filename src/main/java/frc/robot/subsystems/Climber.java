@@ -17,7 +17,7 @@ import static frc.robot.Constants.*;
 
 public class Climber extends SubsystemBase {
 
-    public static final double ENCODER_TICKS_PER_INCH = 1.0;
+    public static final double ENCODER_TICKS_PER_INCH = 3.2;
 
     private SparkMotor leftMotor;
     private SparkMotor rightMotor;
@@ -87,7 +87,7 @@ public class Climber extends SubsystemBase {
 
     /** @return relative encoder position in inches. */
     public double getEncoderPosition() {
-        return encoder.getPosition() / ENCODER_TICKS_PER_INCH;
+        return -1 * encoder.getPosition() / ENCODER_TICKS_PER_INCH;
     }
 
     public void resetEncoder() {
