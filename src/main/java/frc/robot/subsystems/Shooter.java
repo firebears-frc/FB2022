@@ -66,7 +66,9 @@ public class Shooter extends SubsystemBase {
 
     @Override
     public void periodic() {
-        SmartDashboard.putNumber("shooter velocity", shooterEncoder.getVelocity());
+        if (DEBUG) {
+            SmartDashboard.putNumber("shooter velocity", shooterEncoder.getVelocity());
+        }
         /*
          * if (leftLimitSwitch.get()) {
          * turretMotor.setIdleMode(IdleMode.kBrake);

@@ -36,10 +36,10 @@ public class Constants {
 
     public static final int CLIMBER_LEFT_MOTOR_CAN_ID = 12;
     public static final int CLIMBER_RIGHT_MOTOR_CAN_ID = 11;
-    public static final double CLIMBER_P = 1.0;
+    public static final double CLIMBER_P = 0.06;
     public static final double CLIMBER_I = 0.0;
     public static final double CLIMBER_D = 0.0;
-    public static final double CLIMBER_F = 0.0;
+    public static final double CLIMBER_F = 0.001;
     public static final int CLIMBER_SOLENOID_FORWARD_CHANNEL = 0;
     public static final int CLIMBER_SOLENOID_REVERSE_CHANNEL = 0;
 
