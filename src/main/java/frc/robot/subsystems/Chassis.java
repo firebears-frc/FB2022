@@ -31,8 +31,8 @@ public class Chassis extends SubsystemBase {
         ultrasonic = new AnalogPotentiometer(0, 100, 0);
         frontLeftMotor = new CANSparkMax(CHASSIS_FRONT_LEFT_MOTOR_CAN_ID, MotorType.kBrushless);
         frontLeftMotor.restoreFactoryDefaults();
-        frontLeftMotor.setInverted(false);
-        frontLeftMotor.setIdleMode(IdleMode.kBrake);
+        frontLeftMotor.setInverted(true);
+        frontLeftMotor.setIdleMode(IdleMode.kCoast);
         frontLeftMotor.setSmartCurrentLimit(CHASSIS_STALL_CURRENT_LIMIT, CHASSIS_FREE_CURRENT_LIMIT);
 
         leftPIDSparkMotor = new PIDSparkMotor(frontLeftMotor, CHASSIS_DRIVE_P, CHASSIS_DRIVE_I, CHASSIS_DRIVE_D);
@@ -42,8 +42,8 @@ public class Chassis extends SubsystemBase {
 
         frontRightMotor = new CANSparkMax(CHASSIS_FRONT_RIGHT_MOTOR_CAN_ID, MotorType.kBrushless);
         frontRightMotor.restoreFactoryDefaults();
-        frontRightMotor.setInverted(true);
-        frontRightMotor.setIdleMode(IdleMode.kBrake);
+        frontRightMotor.setInverted(true); // true
+        frontRightMotor.setIdleMode(IdleMode.kCoast);
         frontRightMotor.setSmartCurrentLimit(CHASSIS_STALL_CURRENT_LIMIT, CHASSIS_FREE_CURRENT_LIMIT);
         righEncoder = frontRightMotor.getEncoder();
         addChild("righEncoder", new SparkEncoder(righEncoder));
@@ -54,16 +54,16 @@ public class Chassis extends SubsystemBase {
 
         rearLeftMotor = new CANSparkMax(CHASSIS_REAR_LEFT_MOTOR_CAN_ID, MotorType.kBrushless);
         rearLeftMotor.restoreFactoryDefaults();
-        rearLeftMotor.setInverted(false);
-        rearLeftMotor.setIdleMode(IdleMode.kBrake);
+        rearLeftMotor.setInverted(true);
+        rearLeftMotor.setIdleMode(IdleMode.kCoast);
         rearLeftMotor.setSmartCurrentLimit(CHASSIS_STALL_CURRENT_LIMIT, CHASSIS_FREE_CURRENT_LIMIT);
 
         rearLeftMotor.follow(frontLeftMotor);
 
         rearRightMotor = new CANSparkMax(CHASSIS_REAR_RIGHT_MOTOR_CAN_ID, MotorType.kBrushless);
         rearRightMotor.restoreFactoryDefaults();
-        rearRightMotor.setInverted(true);
-        rearRightMotor.setIdleMode(IdleMode.kBrake);
+        rearRightMotor.setInverted(true); // true
+        rearRightMotor.setIdleMode(IdleMode.kCoast);
         rearRightMotor.setSmartCurrentLimit(CHASSIS_STALL_CURRENT_LIMIT, CHASSIS_FREE_CURRENT_LIMIT);
 
         rearRightMotor.follow(frontRightMotor);

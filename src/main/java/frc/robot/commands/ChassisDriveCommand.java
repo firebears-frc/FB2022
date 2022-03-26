@@ -2,6 +2,7 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.Chassis;
 
@@ -25,6 +26,8 @@ public class ChassisDriveCommand extends CommandBase {
   public void execute() {
     double speed = xbox.getLeftY();
     double rotation = xbox.getRightX();
+    SmartDashboard.putNumber("speed", speed);
+    SmartDashboard.putNumber("rotation", rotation);
     m_chassis.arcadeDrive(speed, rotation);
   }
 
