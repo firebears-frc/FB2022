@@ -20,6 +20,8 @@ public class Climber extends SubsystemBase {
 
     public static final double ENCODER_TICKS_PER_INCH = 3.2;
 
+    private double m_setpoint;
+
     private SparkMotor leftMotor;
     private SparkMotor rightMotor;
     private SparkMaxPIDController pidController;
@@ -51,6 +53,9 @@ public class Climber extends SubsystemBase {
         rightMotor.restoreFactoryDefaults();
         rightMotor.setInverted(false);
         rightMotor.setIdleMode(IdleMode.kCoast);
+        rightMotor.follow(leftMotor);
+
+        m_setpoint = 0;
 
         if (PRACTICE_ROBOT) {
             leftSolenoid = new DoubleSolenoid(0, PneumaticsModuleType.CTREPCM, 4, 3);
@@ -63,7 +68,7 @@ public class Climber extends SubsystemBase {
         addChild("leftSolenoid", leftSolenoid);
         addChild("rightSolenoid", rightSolenoid);
 
-        rightMotor.follow(leftMotor);
+        
 
         encoder = new SparkEncoder(leftMotor.getEncoder());
         addChild("encoder", encoder);
@@ -79,6 +84,9 @@ public class Climber extends SubsystemBase {
             SmartDashboard.putNumber("ClimberPosition", this.getEncoderPosition());
             SmartDashboard.putBoolean("ClimberUpperLimit", upperLimitSwitch.isPressed());
             SmartDashboard.putBoolean("ClimberLowerLimit", lowerLimitSwitch.isPressed());
+            SmartDashboard.putNumber("ClimberPositionTicks", encoder.getPosition());
+            System.out.println("Setpoint: " + m_setpoint + " Encoder Position: " + encoder.getRawEncoderPosition());
+
         }
         if (lowerLimitSwitch.isPressed()) {
             resetEncoder();
@@ -91,7 +99,8 @@ public class Climber extends SubsystemBase {
 
     /** Extend Climber arms to a position in inches. */
     public void extend(double inches) {
-        double setPointTicks = inches * ENCODER_TICKS_PER_INCH + encoder.getOffset();
+        double setPointTicks = encoder.getOffset() - (inches * ENCODER_TICKS_PER_INCH);
+        m_setpoint = setPointTicks;
         REVLibError err = pidController.setReference(setPointTicks, ControlType.kPosition);
         if (err != REVLibError.kOk) {
             System.out.println("Error in Climber: " + err);
