@@ -149,4 +149,8 @@ public class Climber extends SubsystemBase {
             leftMotor.setIdleMode(IdleMode.kCoast);
         }
     }
+
+    public boolean lowerLimitPressed(){
+        return lowerLimitSwitch.isPressed();
+    }
 }
