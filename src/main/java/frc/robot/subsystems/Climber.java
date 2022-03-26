@@ -20,7 +20,7 @@ public class Climber extends SubsystemBase {
 
     public static final double ENCODER_TICKS_PER_INCH = 3.2;
 
-    private double m_setpoint;
+    private double m_setpointTicks;
 
     private SparkMotor leftMotor;
     private SparkMotor rightMotor;
@@ -32,6 +32,7 @@ public class Climber extends SubsystemBase {
     private SparkMaxLimitSwitch lowerLimitSwitch;
 
     private boolean isVertical = true;
+    private boolean brakeReleased = false;
 
     public Climber() {
         leftMotor = new SparkMotor(CLIMBER_LEFT_MOTOR_CAN_ID, MotorType.kBrushless);
@@ -55,7 +56,7 @@ public class Climber extends SubsystemBase {
         rightMotor.setIdleMode(IdleMode.kCoast);
         rightMotor.follow(leftMotor);
 
-        m_setpoint = 0;
+        m_setpointTicks = 0;
 
         if (PRACTICE_ROBOT) {
             leftSolenoid = new DoubleSolenoid(0, PneumaticsModuleType.CTREPCM, 4, 3);
@@ -85,11 +86,12 @@ public class Climber extends SubsystemBase {
             SmartDashboard.putBoolean("ClimberUpperLimit", upperLimitSwitch.isPressed());
             SmartDashboard.putBoolean("ClimberLowerLimit", lowerLimitSwitch.isPressed());
             SmartDashboard.putNumber("ClimberPositionTicks", encoder.getPosition());
-            System.out.println("Setpoint: " + m_setpoint + " Encoder Position: " + encoder.getRawEncoderPosition());
+            // System.out.println("Setpoint: " + m_setpointTicks + " Encoder Position: " + encoder.getRawEncoderPosition());
 
         }
         if (lowerLimitSwitch.isPressed()) {
             resetEncoder();
+            brakeReleased = true;
         }
     }
 
@@ -99,9 +101,8 @@ public class Climber extends SubsystemBase {
 
     /** Extend Climber arms to a position in inches. */
     public void extend(double inches) {
-        double setPointTicks = encoder.getOffset() - (inches * ENCODER_TICKS_PER_INCH);
-        m_setpoint = setPointTicks;
-        REVLibError err = pidController.setReference(setPointTicks, ControlType.kPosition);
+        m_setpointTicks = encoder.getOffset() - (inches * ENCODER_TICKS_PER_INCH);
+        REVLibError err = pidController.setReference(m_setpointTicks, ControlType.kPosition);
         if (err != REVLibError.kOk) {
             System.out.println("Error in Climber: " + err);
         }
@@ -134,6 +135,10 @@ public class Climber extends SubsystemBase {
     /** @return whether the climbers are upright in the vertical position. */
     public boolean isVertical() {
         return isVertical;
+    }
+
+    public boolean isBrakeReleased() {
+        return brakeReleased;
     }
 
     public void driveClimbers(double speed) {
