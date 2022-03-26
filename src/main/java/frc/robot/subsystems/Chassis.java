@@ -51,7 +51,6 @@ public class Chassis extends SubsystemBase {
         rightPIDSparkMotor = new PIDSparkMotor(frontRightMotor, CHASSIS_DRIVE_P, CHASSIS_DRIVE_I, CHASSIS_DRIVE_D);
         rightPIDSparkMotor.setSecondaryPID(CHASSIS_DRIVE_P, CHASSIS_DRIVE_I, CHASSIS_DRIVE_D);
 
-
         rearLeftMotor = new CANSparkMax(CHASSIS_REAR_LEFT_MOTOR_CAN_ID, MotorType.kBrushless);
         rearLeftMotor.restoreFactoryDefaults();
         rearLeftMotor.setInverted(false);
@@ -74,14 +73,14 @@ public class Chassis extends SubsystemBase {
         differentialDrive = new DifferentialDrive(leftPIDSparkMotor, rightPIDSparkMotor);
         addChild("differentialDrive", differentialDrive);
 
-
-
     }
 
     @Override
     public void periodic() {
-        SmartDashboard.putNumber("ultrasonic", getUltrasonicDistanceInches());
-        SmartDashboard.putNumber("getDistance", getEncoderDistance());
+        if (DEBUG) {
+            SmartDashboard.putNumber("ultrasonic", getUltrasonicDistanceInches());
+            SmartDashboard.putNumber("getDistance", getEncoderDistance());
+        }
     }
 
     @Override
@@ -118,7 +117,6 @@ public class Chassis extends SubsystemBase {
         System.out.println(leftPIDSparkMotor.inchesTraveled());
         System.out.println(rightPIDSparkMotor.inchesTraveled());
 
-        
         rightPIDSparkMotor.driveToPosition(inches);
         leftPIDSparkMotor.driveToPosition(inches);
     }

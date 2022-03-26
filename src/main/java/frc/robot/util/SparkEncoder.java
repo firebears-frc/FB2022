@@ -106,4 +106,8 @@ public class SparkEncoder implements RelativeEncoder, Sendable {
     public boolean getInverted() {
         return baseEncoder.getInverted();
     }
+
+    public double getRawEncoderPosition() {
+        return baseEncoder.getPosition();
+    }
 }

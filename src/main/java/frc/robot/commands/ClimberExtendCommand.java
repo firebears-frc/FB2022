@@ -27,6 +27,7 @@ public class ClimberExtendCommand extends CommandBase {
   @Override
   public void execute() {
   }
+
   @Override
   public void end(boolean interrupted) {
   }
@@ -34,6 +35,6 @@ public class ClimberExtendCommand extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    return Math.abs(m_climber.getEncoderPosition() - m_position) < 2.0;
   }
 }
