@@ -77,7 +77,8 @@ public class Climber extends SubsystemBase {
     }
 
     /** Extend Climber arms to a position in inches. */
-    public void extend(double inches) {
+    public void 
+    extend(double inches) {
         double setPointTicks = inches * ENCODER_TICKS_PER_INCH + encoder.getOffset();
         REVLibError err = pidController.setReference(setPointTicks, ControlType.kPosition);
         if (err != REVLibError.kOk) {
