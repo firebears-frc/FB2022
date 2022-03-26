@@ -137,6 +137,7 @@ public class RobotContainer {
     // Shoot
     final JoystickButton aButton = new JoystickButton(xController1, XboxController.Button.kA.value);
     aButton.whenPressed(new ShooterPushCommand(m_shooter), true);
+    
 
     final JoystickButton leftBumperButton = new JoystickButton(xController1, XboxController.Button.kLeftBumper.value);
     leftBumperButton.whenPressed(new AcquisitionStartCommand(m_acquisition), true);
