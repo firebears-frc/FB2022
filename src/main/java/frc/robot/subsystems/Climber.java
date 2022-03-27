@@ -40,20 +40,21 @@ public class Climber extends SubsystemBase {
 
         leftMotor.restoreFactoryDefaults();
         leftMotor.setInverted(false);
-        leftMotor.setIdleMode(IdleMode.kCoast);
+        leftMotor.setIdleMode(IdleMode.kBrake);
 
         pidController = leftMotor.getPIDController();
         pidController.setP(CLIMBER_P);
         pidController.setI(CLIMBER_I);
         pidController.setD(CLIMBER_D);
         pidController.setFF(CLIMBER_F);
+        pidController.setOutputRange(-1 * CLIMBER_MAX_SPEED, CLIMBER_MAX_SPEED);
 
         rightMotor = new SparkMotor(CLIMBER_RIGHT_MOTOR_CAN_ID, MotorType.kBrushless);
         // addChild("rightMotor(" + CLIMBER_RIGHT_MOTOR_CAN_ID + ")", rightMotor);
 
         rightMotor.restoreFactoryDefaults();
         rightMotor.setInverted(false);
-        rightMotor.setIdleMode(IdleMode.kCoast);
+        rightMotor.setIdleMode(IdleMode.kBrake);
         rightMotor.follow(leftMotor);
 
         m_setpointTicks = 0;
@@ -82,12 +83,11 @@ public class Climber extends SubsystemBase {
     @Override
     public void periodic() {
         if (DEBUG) {
-            SmartDashboard.putNumber("ClimberPosition", this.getEncoderPosition());
+            SmartDashboard.putString("ClimberPosition",  String.format("%.2f", this.getEncoderPosition()));
             SmartDashboard.putBoolean("ClimberUpperLimit", upperLimitSwitch.isPressed());
             SmartDashboard.putBoolean("ClimberLowerLimit", lowerLimitSwitch.isPressed());
             SmartDashboard.putNumber("ClimberPositionTicks", encoder.getPosition());
-            // System.out.println("Setpoint: " + m_setpointTicks + " Encoder Position: " + encoder.getRawEncoderPosition());
-
+            // System.out.println("Setpoint: " + m_setpointTicks + " Encoder Position: " +
         }
         if (lowerLimitSwitch.isPressed()) {
             resetEncoder();
@@ -155,7 +155,7 @@ public class Climber extends SubsystemBase {
         }
     }
 
-    public boolean lowerLimitPressed(){
+    public boolean lowerLimitPressed() {
         return lowerLimitSwitch.isPressed();
     }
 }
