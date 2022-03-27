@@ -191,7 +191,6 @@ public class RobotContainer {
 
     final JoystickButton rightBumper2 = new JoystickButton(xController2, XboxController.Button.kRightBumper.value);
     rightBumper2.whenPressed(new ClimberExtendCommand(CLIMBER_SETPOINT_BOTTOM, m_climber), true);
-
   }
 
   /**
