@@ -12,7 +12,9 @@ public class Constants {
     /** Whether to use PID on the Chassis to control velocity. */
     public static boolean CHASSIS_CLOSED_LOOP_DRIVING = false;
 
-    /** Whether this robot is the Practice robot, rather than the Competition robot. */
+    /**
+     * Whether this robot is the Practice robot, rather than the Competition robot.
+     */
     public static boolean PRACTICE_ROBOT = true;
 
     /** Whether this robot has computer vision processing. E.g PhotonVision */
@@ -41,9 +43,10 @@ public class Constants {
     public static final double CLIMBER_D = 0.0;
     public static final double CLIMBER_F = 0.001;
     public static final double CLIMBER_SETPOINT_TOP_1 = 17.0; // Max height when arms are vertical
-    public static final double CLIMBER_SETPOINT_TOP_2 = 26.0; // Max height when arms are extended
+    public static final double CLIMBER_SETPOINT_TOP_2 = 28.0; // Max height when arms are extended
     public static final double CLIMBER_SETPOINT_BOTTOM = -1.7;
     public static final double CLIMBER_MAX_SPEED = 0.3;
+    public static final double CLIMBER_MAX_CURRENT = 60.0;
     public static final int CLIMBER_SOLENOID_FORWARD_CHANNEL = 0;
     public static final int CLIMBER_SOLENOID_REVERSE_CHANNEL = 0;
 

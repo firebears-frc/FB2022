@@ -137,7 +137,6 @@ public class RobotContainer {
     // Shoot
     final JoystickButton aButton = new JoystickButton(xController1, XboxController.Button.kA.value);
     aButton.whenPressed(new ShooterPushCommand(m_shooter), true);
-    
 
     final JoystickButton leftBumperButton = new JoystickButton(xController1, XboxController.Button.kLeftBumper.value);
     leftBumperButton.whenPressed(new AcquisitionStartCommand(m_acquisition), true);
@@ -170,10 +169,10 @@ public class RobotContainer {
     // true);
 
     final JoystickButton startButton2 = new JoystickButton(xController2, XboxController.Button.kStart.value);
-    startButton2.whenPressed(new AutoClimberCommand(m_climber));
+    startButton2.whenPressed(new ClimberUnlockBrake(m_climber));
 
     final JoystickButton backButton2 = new JoystickButton(xController2, XboxController.Button.kBack.value);
-    backButton2.whenPressed(new ClimberExtendCommand(12.0, m_climber));
+    backButton2.whenPressed(new AutoClimberCommand(m_climber));
 
     final JoystickButton yButton2 = new JoystickButton(xController2, XboxController.Button.kY.value);
     yButton2.whenPressed(new ClimberReachBackVerticalCommand(m_climber), true);
@@ -192,7 +191,6 @@ public class RobotContainer {
 
     final JoystickButton rightBumper2 = new JoystickButton(xController2, XboxController.Button.kRightBumper.value);
     rightBumper2.whenPressed(new ClimberExtendCommand(CLIMBER_SETPOINT_BOTTOM, m_climber), true);
-
 
   }
 
@@ -219,6 +217,10 @@ public class RobotContainer {
     } else {
       return pneumaticHub.getPressure(0);
     }
+  }
+
+  public double getPdpCurrent(int channel) {
+    return powerDistribution.getCurrent(channel);
   }
 
 }

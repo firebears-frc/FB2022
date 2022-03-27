@@ -47,6 +47,9 @@ public class ClimberExtendUpCommand extends CommandBase {
     if (timer.hasElapsed(4.0)) {
       return true;
     }
+    if (m_climber.upperLimitPressed()) {
+      return true;
+    }
     return Math.abs(m_climber.getEncoderPosition() - position) < 0.5;
   }
 }

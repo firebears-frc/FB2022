@@ -29,17 +29,17 @@ public class AutoClimberCommand extends SequentialCommandGroup {
         // arms extend to catch next rung
         new ClimberExtendUpCommand(m_climber),
 
-        new WaitCommand(1),
+        new WaitCommand(0.5),
 
         // arms reach back to hold onto next rung
         new ClimberReachBackVerticalCommand(m_climber),
 
-        new WaitCommand(1),
+        new WaitCommand(0.5),
 
         // pulls until Trex arms come loose
         new ClimberExtendCommand(12.0, m_climber),
 
-        new WaitCommand(3),
+        new WaitCommand(2),
 
         // pull up til Trex arms catch next rung
         new ClimberExtendCommand(CLIMBER_SETPOINT_BOTTOM, m_climber),

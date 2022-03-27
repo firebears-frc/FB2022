@@ -11,6 +11,7 @@ import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.RobotContainer;
 import frc.robot.util.SparkEncoder;
 import frc.robot.util.SparkMotor;
 
@@ -70,8 +71,6 @@ public class Climber extends SubsystemBase {
         addChild("leftSolenoid", leftSolenoid);
         addChild("rightSolenoid", rightSolenoid);
 
-        
-
         encoder = new SparkEncoder(leftMotor.getEncoder());
         addChild("encoder", encoder);
         resetEncoder();
@@ -83,10 +82,11 @@ public class Climber extends SubsystemBase {
     @Override
     public void periodic() {
         if (DEBUG) {
-            SmartDashboard.putString("ClimberPosition",  String.format("%.2f", this.getEncoderPosition()));
+            SmartDashboard.putString("ClimberPosition", String.format("%.2f", this.getEncoderPosition()));
             SmartDashboard.putBoolean("ClimberUpperLimit", upperLimitSwitch.isPressed());
             SmartDashboard.putBoolean("ClimberLowerLimit", lowerLimitSwitch.isPressed());
             SmartDashboard.putNumber("ClimberPositionTicks", encoder.getPosition());
+            SmartDashboard.putNumber("ClimberCurrent", this.getPdpCurrent());
             // System.out.println("Setpoint: " + m_setpointTicks + " Encoder Position: " +
             SmartDashboard.putBoolean("vertical", isVertical());
         }
@@ -158,5 +158,24 @@ public class Climber extends SubsystemBase {
 
     public boolean lowerLimitPressed() {
         return lowerLimitSwitch.isPressed();
+    }
+
+    public boolean upperLimitPressed() {
+        return upperLimitSwitch.isPressed();
+    }
+
+    /** @return the maximum current in amps of the climber motor. */
+    public double getPdpCurrent() {
+        RobotContainer rc = RobotContainer.getInstance();
+        double current = 0;
+        if (PRACTICE_ROBOT) {
+            current = Math.max(rc.getPdpCurrent(0), rc.getPdpCurrent(2));
+        } else {
+            current = Math.max(rc.getPdpCurrent(4), rc.getPdpCurrent(5));
+        }
+        if (current > CLIMBER_MAX_CURRENT) {
+            System.err.println("WARNING: CLIMBER CURRENT = " + current);
+        }
+        return current;
     }
 }
