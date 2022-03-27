@@ -42,6 +42,7 @@ public class Climber extends SubsystemBase {
         leftMotor.restoreFactoryDefaults();
         leftMotor.setInverted(false);
         leftMotor.setIdleMode(IdleMode.kBrake);
+        leftMotor.setSmartCurrentLimit(MOTOR_CURRENT_LIMIT_STALL, MOTOR_CURRENT_LIMIT_FREE);
 
         pidController = leftMotor.getPIDController();
         pidController.setP(CLIMBER_P);
@@ -51,12 +52,12 @@ public class Climber extends SubsystemBase {
         pidController.setOutputRange(-1 * CLIMBER_MAX_SPEED, CLIMBER_MAX_SPEED);
 
         rightMotor = new SparkMotor(CLIMBER_RIGHT_MOTOR_CAN_ID, MotorType.kBrushless);
-        // addChild("rightMotor(" + CLIMBER_RIGHT_MOTOR_CAN_ID + ")", rightMotor);
 
         rightMotor.restoreFactoryDefaults();
         rightMotor.setInverted(false);
         rightMotor.setIdleMode(IdleMode.kBrake);
         rightMotor.follow(leftMotor);
+        rightMotor.setSmartCurrentLimit(MOTOR_CURRENT_LIMIT_STALL, MOTOR_CURRENT_LIMIT_FREE);
 
         m_setpointTicks = 0;
 

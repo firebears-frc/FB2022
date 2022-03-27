@@ -61,6 +61,10 @@ public class Constants {
     public static final double SHOOTER_WHEEL_I = 0;
     public static final double SHOOTER_WHEEL_D = 0.00001;
 
+    public static final int MOTOR_CURRENT_LIMIT_STALL = 20;
+    public static final int MOTOR_CURRENT_LIMIT_FREE = 65;
+
+
     public static void init(String... fileNames) {
         cleanAllPreferences();
         loadConfiguration(fileNames);
