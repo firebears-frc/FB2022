@@ -170,7 +170,7 @@ public class RobotContainer {
     // true);
 
     final JoystickButton startButton2 = new JoystickButton(xController2, XboxController.Button.kStart.value);
-    startButton2.whenPressed(new ClimberDriveDownCommand(m_climber));
+    startButton2.whenPressed(new AutoClimberCommand(m_climber));
 
     final JoystickButton backButton2 = new JoystickButton(xController2, XboxController.Button.kBack.value);
     backButton2.whenPressed(new ClimberExtendCommand(12.0, m_climber));
@@ -188,10 +188,11 @@ public class RobotContainer {
     aButton2.whileHeld(new ClimberDriveSpeed(-0.2, m_climber), true);
 
     final JoystickButton leftBumper2 = new JoystickButton(xController2, XboxController.Button.kLeftBumper.value);
-    leftBumper2.whenPressed(new ClimberExtendCommand(CLIMBER_SETPOINT_TOP_1, m_climber), true);
+    leftBumper2.whenPressed(new ClimberExtendUpCommand(m_climber), true);
 
     final JoystickButton rightBumper2 = new JoystickButton(xController2, XboxController.Button.kRightBumper.value);
     rightBumper2.whenPressed(new ClimberExtendCommand(CLIMBER_SETPOINT_BOTTOM, m_climber), true);
+
 
   }
 

@@ -88,6 +88,7 @@ public class Climber extends SubsystemBase {
             SmartDashboard.putBoolean("ClimberLowerLimit", lowerLimitSwitch.isPressed());
             SmartDashboard.putNumber("ClimberPositionTicks", encoder.getPosition());
             // System.out.println("Setpoint: " + m_setpointTicks + " Encoder Position: " +
+            SmartDashboard.putBoolean("vertical", isVertical());
         }
         if (lowerLimitSwitch.isPressed()) {
             resetEncoder();

@@ -40,7 +40,7 @@ public class Constants {
     public static final double CLIMBER_I = 0.0;
     public static final double CLIMBER_D = 0.0;
     public static final double CLIMBER_F = 0.001;
-    public static final double CLIMBER_SETPOINT_TOP_1 = 21.0; // Max height when arms are vertical
+    public static final double CLIMBER_SETPOINT_TOP_1 = 17.0; // Max height when arms are vertical
     public static final double CLIMBER_SETPOINT_TOP_2 = 26.0; // Max height when arms are extended
     public static final double CLIMBER_SETPOINT_BOTTOM = -1.7;
     public static final double CLIMBER_MAX_SPEED = 0.3;
