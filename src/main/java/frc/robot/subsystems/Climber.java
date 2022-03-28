@@ -42,7 +42,7 @@ public class Climber extends SubsystemBase {
         leftMotor.restoreFactoryDefaults();
         leftMotor.setInverted(false);
         leftMotor.setIdleMode(IdleMode.kBrake);
-        leftMotor.setSmartCurrentLimit(MOTOR_CURRENT_LIMIT_STALL, MOTOR_CURRENT_LIMIT_FREE);
+        leftMotor.setSmartCurrentLimit(CLIMBER_STALL_CURRENT_LIMIT, CLIMBER_FREE_CURRENT_LIMIT);
 
         pidController = leftMotor.getPIDController();
         pidController.setP(CLIMBER_P);
@@ -57,7 +57,7 @@ public class Climber extends SubsystemBase {
         rightMotor.setInverted(false);
         rightMotor.setIdleMode(IdleMode.kBrake);
         rightMotor.follow(leftMotor);
-        rightMotor.setSmartCurrentLimit(MOTOR_CURRENT_LIMIT_STALL, MOTOR_CURRENT_LIMIT_FREE);
+        rightMotor.setSmartCurrentLimit(CLIMBER_STALL_CURRENT_LIMIT, CLIMBER_FREE_CURRENT_LIMIT);
 
         m_setpointTicks = 0;
 

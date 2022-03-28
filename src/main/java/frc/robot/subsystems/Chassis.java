@@ -88,10 +88,9 @@ public class Chassis extends SubsystemBase {
     }
 
     public void arcadeDrive(double speed, double rotation) {
-        
-        if(PRACTICE_ROBOT){
+        if (PRACTICE_ROBOT) {
             differentialDrive.arcadeDrive(speed * -1, rotation);
-        }  else{
+        } else {
             differentialDrive.arcadeDrive(speed, rotation);
         }
     }
@@ -108,8 +107,9 @@ public class Chassis extends SubsystemBase {
      * @return distance in inches.
      */
     public double getEncoderDistance() {
-        double inches = 2.3 * ((leftEncoder.getPosition() - leftOffSet) + (righEncoder.getPosition() - rightOffSet)) / 2;
-        if(PRACTICE_ROBOT){
+        double inches = 2.3 * ((leftEncoder.getPosition() - leftOffSet) + (righEncoder.getPosition() - rightOffSet))
+                / 2;
+        if (PRACTICE_ROBOT) {
             inches = inches * -1;
         }
         return inches;

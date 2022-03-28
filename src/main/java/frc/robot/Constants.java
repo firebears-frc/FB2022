@@ -33,8 +33,8 @@ public class Constants {
     public static final double CHASSIS_DRIVE_P = 0.12;
     public static final double CHASSIS_DRIVE_I = 0.0;
     public static final double CHASSIS_DRIVE_D = 0.0;
-    public static final int CHASSIS_FREE_CURRENT_LIMIT = 65;
     public static final int CHASSIS_STALL_CURRENT_LIMIT = 65;
+    public static final int CHASSIS_FREE_CURRENT_LIMIT = 65;
 
     public static final int CLIMBER_LEFT_MOTOR_CAN_ID = 12;
     public static final int CLIMBER_RIGHT_MOTOR_CAN_ID = 11;
@@ -49,6 +49,8 @@ public class Constants {
     public static final double CLIMBER_MAX_CURRENT = 60.0;
     public static final int CLIMBER_SOLENOID_FORWARD_CHANNEL = 0;
     public static final int CLIMBER_SOLENOID_REVERSE_CHANNEL = 0;
+    public static final int CLIMBER_STALL_CURRENT_LIMIT = 20;
+    public static final int CLIMBER_FREE_CURRENT_LIMIT = 65;
 
     public static final int SHOOTER_TURRET_MOTOR_CAN_ID = 14;
     public static final int SHOOTER_SHOOTER_MOTOR_CAN_ID = 13;
@@ -60,9 +62,6 @@ public class Constants {
     public static final double SHOOTER_WHEEL_P = 0.0002;
     public static final double SHOOTER_WHEEL_I = 0;
     public static final double SHOOTER_WHEEL_D = 0.00001;
-
-    public static final int MOTOR_CURRENT_LIMIT_STALL = 20;
-    public static final int MOTOR_CURRENT_LIMIT_FREE = 65;
 
 
     public static void init(String... fileNames) {
