@@ -42,7 +42,7 @@ public class Climber extends SubsystemBase {
         leftMotor.restoreFactoryDefaults();
         leftMotor.setInverted(false);
         leftMotor.setIdleMode(IdleMode.kBrake);
-        leftMotor.setSmartCurrentLimit(CLIMBER_STALL_CURRENT_LIMIT, CLIMBER_FREE_CURRENT_LIMIT);
+        //leftMotor.setSmartCurrentLimit(CLIMBER_STALL_CURRENT_LIMIT, CLIMBER_FREE_CURRENT_LIMIT);
 
         pidController = leftMotor.getPIDController();
         pidController.setP(CLIMBER_P);
@@ -57,7 +57,7 @@ public class Climber extends SubsystemBase {
         rightMotor.setInverted(false);
         rightMotor.setIdleMode(IdleMode.kBrake);
         rightMotor.follow(leftMotor);
-        rightMotor.setSmartCurrentLimit(CLIMBER_STALL_CURRENT_LIMIT, CLIMBER_FREE_CURRENT_LIMIT);
+        //rightMotor.setSmartCurrentLimit(CLIMBER_STALL_CURRENT_LIMIT, CLIMBER_FREE_CURRENT_LIMIT);
 
         m_setpointTicks = 0;
 
@@ -83,7 +83,8 @@ public class Climber extends SubsystemBase {
     @Override
     public void periodic() {
         if (DEBUG) {
-            SmartDashboard.putString("ClimberPosition", String.format("%.2f", this.getEncoderPosition()));
+            SmartDashboard.putNumber("ClimberPosition", this.getEncoderPosition());
+          //  SmartDashboard.putString("ClimberPosition", String.format("%.2f", this.getEncoderPosition()));
             SmartDashboard.putBoolean("ClimberUpperLimit", upperLimitSwitch.isPressed());
             SmartDashboard.putBoolean("ClimberLowerLimit", lowerLimitSwitch.isPressed());
             SmartDashboard.putNumber("ClimberPositionTicks", encoder.getPosition());

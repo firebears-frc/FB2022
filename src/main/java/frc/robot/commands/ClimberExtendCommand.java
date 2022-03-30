@@ -38,7 +38,7 @@ public class ClimberExtendCommand extends CommandBase {
 
   @Override
   public boolean isFinished() {
-    if (timer.hasElapsed(4.0)) {
+    if (timer.hasElapsed(2.0)) {
       return true;
     }
     return Math.abs(m_climber.getEncoderPosition() - m_position) < 0.5;

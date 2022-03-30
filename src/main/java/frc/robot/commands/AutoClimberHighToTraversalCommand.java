@@ -7,21 +7,21 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.subsystems.Climber;
-import static frc.robot.Constants.*;
 
-public class AutoClimberCommand extends SequentialCommandGroup {
+// NOTE:  Consider using this command inline, rather than writing a subclass.  For more
+// information, see:
+// https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
+public class AutoClimberHighToTraversalCommand extends SequentialCommandGroup {
+  /** Creates a new AutoClimberSecondBarCommand. */
   Climber m_climber;
 
-  public AutoClimberCommand(Climber climber) {
-
+  public AutoClimberHighToTraversalCommand(Climber climber) {
     m_climber = climber;
 
+    // Add your commands in the addCommands() call, e.g.
+    // addCommands(new FooCommand(), new BarCommand());
     addCommands(
-        // pulls up til Trex arms catch
-        //new ClimberExtendCommand(CLIMBER_SETPOINT_BOTTOM, m_climber),
-        new ClimberDriveToLowerLimitCommand(m_climber),
-
-        // extends arms 12 in
+    // extends arms 12 in
         new ClimberExtendCommand(12.0, m_climber),
 
         // arms fall back
@@ -48,6 +48,8 @@ public class AutoClimberCommand extends SequentialCommandGroup {
 
 
         // makes sure Trex arms are holding onto the rung
-        new ClimberExtendCommand(12.0, m_climber));
+        new ClimberExtendCommand(12.0, m_climber)
+    
+    );
   }
 }
