@@ -46,7 +46,7 @@ public class AutoClimberHighToTraversalCommand extends SequentialCommandGroup {
         //new ClimberExtendCommand(CLIMBER_SETPOINT_BOTTOM, m_climber),
         new ClimberDriveToLowerLimitCommand(m_climber),
 
-
+      
         // makes sure Trex arms are holding onto the rung
         new ClimberExtendCommand(12.0, m_climber)
     
