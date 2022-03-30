@@ -192,6 +192,18 @@ public class RobotContainer {
 
     final JoystickButton rightBumper2 = new JoystickButton(xController2, XboxController.Button.kRightBumper.value);
     rightBumper2.whenPressed(new ClimberExtendCommand(CLIMBER_SETPOINT_BOTTOM, m_climber), true);
+
+    final POVButton povButtonUp = new POVButton(xController2, 0);
+    povButtonUp.whileHeld(new ClimberDriveSpeed(-0.2, m_climber), true);
+
+    final POVButton povButtonDown = new POVButton(xController2, 180);
+    povButtonDown.whileHeld(new ClimberDriveSpeed(0.2, m_climber), true);
+
+    final POVButton povButtonLeft = new POVButton(xController2, 270);
+    povButtonLeft.whenPressed(new ClimberReachBackVerticalCommand(m_climber), true);
+
+    final POVButton povButtonRight = new POVButton(xController2, 90);
+    povButtonRight.whenPressed(new ClimberReachOutCommand(m_climber), true);
   }
 
   /**
