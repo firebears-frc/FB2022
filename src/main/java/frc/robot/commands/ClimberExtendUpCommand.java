@@ -7,25 +7,31 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.Climber;
+import static frc.robot.Constants.*;
 
 /** Extend Climber arms to a given position in inches. */
-public class ClimberExtendCommand extends CommandBase {
+public class ClimberExtendUpCommand extends CommandBase {
   Climber m_climber;
-  double m_position;
+  double position;
   Timer timer = new Timer();
 
   /** Extend Climber arms to a given position in inches. */
-  public ClimberExtendCommand(double position, Climber climber) {
+  public ClimberExtendUpCommand(Climber climber) {
     m_climber = climber;
-    m_position = position;
     addRequirements(m_climber);
   }
 
   @Override
   public void initialize() {
+
+    position = CLIMBER_SETPOINT_TOP_2;
+    if (m_climber.isVertical()) {
+      position = CLIMBER_SETPOINT_TOP_1;
+    }
+
     timer.reset();
     timer.start();
-    m_climber.extend(m_position);
+    m_climber.extend(position);
   }
 
   @Override
@@ -41,6 +47,9 @@ public class ClimberExtendCommand extends CommandBase {
     if (timer.hasElapsed(4.0)) {
       return true;
     }
-    return Math.abs(m_climber.getEncoderPosition() - m_position) < 0.5;
+    if (m_climber.upperLimitPressed()) {
+      return true;
+    }
+    return Math.abs(m_climber.getEncoderPosition() - position) < 0.5;
   }
 }

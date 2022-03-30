@@ -169,11 +169,17 @@ public class RobotContainer {
     // rightBumperButton.whenPressed(new DriveToDistancePIDCommand(50, m_chassis),
     // true);
 
+    final JoystickButton startButton2 = new JoystickButton(xController2, XboxController.Button.kStart.value);
+    startButton2.whenPressed(new ClimberUnlockBrake(m_climber));
+
+    final JoystickButton backButton2 = new JoystickButton(xController2, XboxController.Button.kBack.value);
+    backButton2.whenPressed(new AutoClimberCommand(m_climber));
+
     final JoystickButton yButton2 = new JoystickButton(xController2, XboxController.Button.kY.value);
-    yButton2.whenPressed(new ClimberSetBrakeCommand(false, m_climber), true);
+    yButton2.whenPressed(new ClimberReachBackVerticalCommand(m_climber), true);
 
     final JoystickButton xButton2 = new JoystickButton(xController2, XboxController.Button.kX.value);
-    xButton2.whenPressed(new ClimberSetBrakeCommand(true, m_climber), true);
+    xButton2.whenPressed(new ClimberReachOutCommand(m_climber), true);
 
     final JoystickButton bButton2 = new JoystickButton(xController2, XboxController.Button.kB.value);
     bButton2.whileHeld(new ClimberDriveSpeed(0.2, m_climber), true);
@@ -182,23 +188,10 @@ public class RobotContainer {
     aButton2.whileHeld(new ClimberDriveSpeed(-0.2, m_climber), true);
 
     final JoystickButton leftBumper2 = new JoystickButton(xController2, XboxController.Button.kLeftBumper.value);
-    leftBumper2.whenPressed(new ClimberExtendCommand(18.0, m_climber), true);
+    leftBumper2.whenPressed(new ClimberExtendUpCommand(m_climber), true);
 
     final JoystickButton rightBumper2 = new JoystickButton(xController2, XboxController.Button.kRightBumper.value);
-    rightBumper2.whenPressed(new ClimberExtendCommand(24.0, m_climber), true);
-
-    final POVButton povButtonUp = new POVButton(xController2, 0);
-    povButtonUp.whileHeld(new ClimberDriveSpeed(-0.2, m_climber), true);
-
-    final POVButton povButtonDown = new POVButton(xController2, 180);
-    povButtonDown.whileHeld(new ClimberDriveSpeed(0.2, m_climber), true);
-
-    final POVButton povButtonLeft = new POVButton(xController2, 270);
-    povButtonLeft.whenPressed(new ClimberReachBackVerticalCommand(m_climber), true);
-
-    final POVButton povButtonRight = new POVButton(xController2, 90);
-    povButtonRight.whenPressed(new ClimberReachOutCommand(m_climber), true);
-
+    rightBumper2.whenPressed(new ClimberExtendCommand(CLIMBER_SETPOINT_BOTTOM, m_climber), true);
   }
 
   /**
@@ -224,6 +217,10 @@ public class RobotContainer {
     } else {
       return pneumaticHub.getPressure(0);
     }
+  }
+
+  public double getPdpCurrent(int channel) {
+    return powerDistribution.getCurrent(channel);
   }
 
 }

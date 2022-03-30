@@ -14,7 +14,7 @@ public class Lights extends SubsystemBase {
 
   public static final int MAX_ANIMATIONS = 6;
   public static final int MAX_PIXELSTRIPS = 4;
-  public static final int I2C_ADDRESS = 4;
+  public static final int I2C_ADDRESS = 0x41;
 
   public static final int IDLE_FIRE_ANIMATION = 0;
   public static final int BLUE_ANIMATION = 1;
@@ -31,7 +31,7 @@ public class Lights extends SubsystemBase {
   public final I2C i2c;
 
   public Lights() {
-    i2c = new I2C(Port.kOnboard, I2C_ADDRESS);
+    i2c = new I2C(Port.kMXP, I2C_ADDRESS);
   }
 
   @Override

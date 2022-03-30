@@ -11,6 +11,7 @@ import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.RobotContainer;
 import frc.robot.util.SparkEncoder;
 import frc.robot.util.SparkMotor;
 
@@ -20,7 +21,7 @@ public class Climber extends SubsystemBase {
 
     public static final double ENCODER_TICKS_PER_INCH = 3.2;
 
-    private double m_setpoint;
+    private double m_setpointTicks;
 
     private SparkMotor leftMotor;
     private SparkMotor rightMotor;
@@ -32,6 +33,7 @@ public class Climber extends SubsystemBase {
     private SparkMaxLimitSwitch lowerLimitSwitch;
 
     private boolean isVertical = true;
+    private boolean brakeReleased = false;
 
     public Climber() {
         leftMotor = new SparkMotor(CLIMBER_LEFT_MOTOR_CAN_ID, MotorType.kBrushless);
@@ -39,23 +41,25 @@ public class Climber extends SubsystemBase {
 
         leftMotor.restoreFactoryDefaults();
         leftMotor.setInverted(false);
-        leftMotor.setIdleMode(IdleMode.kCoast);
+        leftMotor.setIdleMode(IdleMode.kBrake);
+        leftMotor.setSmartCurrentLimit(CLIMBER_STALL_CURRENT_LIMIT, CLIMBER_FREE_CURRENT_LIMIT);
 
         pidController = leftMotor.getPIDController();
         pidController.setP(CLIMBER_P);
         pidController.setI(CLIMBER_I);
         pidController.setD(CLIMBER_D);
         pidController.setFF(CLIMBER_F);
+        pidController.setOutputRange(-1 * CLIMBER_MAX_SPEED, CLIMBER_MAX_SPEED);
 
         rightMotor = new SparkMotor(CLIMBER_RIGHT_MOTOR_CAN_ID, MotorType.kBrushless);
-        // addChild("rightMotor(" + CLIMBER_RIGHT_MOTOR_CAN_ID + ")", rightMotor);
 
         rightMotor.restoreFactoryDefaults();
         rightMotor.setInverted(false);
-        rightMotor.setIdleMode(IdleMode.kCoast);
+        rightMotor.setIdleMode(IdleMode.kBrake);
         rightMotor.follow(leftMotor);
+        rightMotor.setSmartCurrentLimit(CLIMBER_STALL_CURRENT_LIMIT, CLIMBER_FREE_CURRENT_LIMIT);
 
-        m_setpoint = 0;
+        m_setpointTicks = 0;
 
         if (PRACTICE_ROBOT) {
             leftSolenoid = new DoubleSolenoid(0, PneumaticsModuleType.CTREPCM, 4, 3);
@@ -68,8 +72,6 @@ public class Climber extends SubsystemBase {
         addChild("leftSolenoid", leftSolenoid);
         addChild("rightSolenoid", rightSolenoid);
 
-        
-
         encoder = new SparkEncoder(leftMotor.getEncoder());
         addChild("encoder", encoder);
         resetEncoder();
@@ -81,15 +83,17 @@ public class Climber extends SubsystemBase {
     @Override
     public void periodic() {
         if (DEBUG) {
-            SmartDashboard.putNumber("ClimberPosition", this.getEncoderPosition());
+            SmartDashboard.putString("ClimberPosition", String.format("%.2f", this.getEncoderPosition()));
             SmartDashboard.putBoolean("ClimberUpperLimit", upperLimitSwitch.isPressed());
             SmartDashboard.putBoolean("ClimberLowerLimit", lowerLimitSwitch.isPressed());
             SmartDashboard.putNumber("ClimberPositionTicks", encoder.getPosition());
-            System.out.println("Setpoint: " + m_setpoint + " Encoder Position: " + encoder.getRawEncoderPosition());
-
+            SmartDashboard.putNumber("ClimberCurrent", this.getPdpCurrent());
+            // System.out.println("Setpoint: " + m_setpointTicks + " Encoder Position: " +
+            SmartDashboard.putBoolean("vertical", isVertical());
         }
         if (lowerLimitSwitch.isPressed()) {
             resetEncoder();
+            brakeReleased = true;
         }
     }
 
@@ -99,9 +103,8 @@ public class Climber extends SubsystemBase {
 
     /** Extend Climber arms to a position in inches. */
     public void extend(double inches) {
-        double setPointTicks = encoder.getOffset() - (inches * ENCODER_TICKS_PER_INCH);
-        m_setpoint = setPointTicks;
-        REVLibError err = pidController.setReference(setPointTicks, ControlType.kPosition);
+        m_setpointTicks = encoder.getOffset() - (inches * ENCODER_TICKS_PER_INCH);
+        REVLibError err = pidController.setReference(m_setpointTicks, ControlType.kPosition);
         if (err != REVLibError.kOk) {
             System.out.println("Error in Climber: " + err);
         }
@@ -136,6 +139,10 @@ public class Climber extends SubsystemBase {
         return isVertical;
     }
 
+    public boolean isBrakeReleased() {
+        return brakeReleased;
+    }
+
     public void driveClimbers(double speed) {
         leftMotor.set(speed);
     }
@@ -148,5 +155,28 @@ public class Climber extends SubsystemBase {
             rightMotor.setIdleMode(IdleMode.kCoast);
             leftMotor.setIdleMode(IdleMode.kCoast);
         }
+    }
+
+    public boolean lowerLimitPressed() {
+        return lowerLimitSwitch.isPressed();
+    }
+
+    public boolean upperLimitPressed() {
+        return upperLimitSwitch.isPressed();
+    }
+
+    /** @return the maximum current in amps of the climber motor. */
+    public double getPdpCurrent() {
+        RobotContainer rc = RobotContainer.getInstance();
+        double current = 0;
+        if (PRACTICE_ROBOT) {
+            current = Math.max(rc.getPdpCurrent(0), rc.getPdpCurrent(2));
+        } else {
+            current = Math.max(rc.getPdpCurrent(4), rc.getPdpCurrent(5));
+        }
+        if (current > CLIMBER_MAX_CURRENT) {
+            System.err.println("WARNING: CLIMBER CURRENT = " + current);
+        }
+        return current;
     }
 }
