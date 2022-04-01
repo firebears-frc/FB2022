@@ -7,15 +7,17 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.subsystems.Shooter;
+import frc.robot.subsystems.Lights;
 
 public class ShooterShootCommand extends SequentialCommandGroup {
   
   private Shooter m_shooter;
+  private Lights m_lights;
 
   /** Shoot the ball. */
   public ShooterShootCommand(Shooter shooter) {
     m_shooter = shooter;
-    addCommands(new ShooterOutputCommand(0.9, m_shooter),
+    addCommands(new ShooterOutputCommand(0.9, m_shooter, m_lights),
                 new WaitCommand(1.0),
                 new ShooterPushCommand(m_shooter),
                 new WaitCommand(1.0),

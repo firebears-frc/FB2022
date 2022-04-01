@@ -9,11 +9,13 @@ import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.subsystems.Acquisition;
 import frc.robot.subsystems.Chassis;
 import frc.robot.subsystems.Shooter;
+import frc.robot.subsystems.Lights;
 
 public class AutoOneBallCommand extends SequentialCommandGroup {
   Chassis m_chassis;
   Shooter m_shooter;
   Acquisition m_acquisition;
+  Lights m_lights;
 
   /** Wait, shoot ball, move out of Tarmac. */
   public AutoOneBallCommand(Chassis chassis, Shooter shooter, Acquisition acquisition) {
@@ -26,7 +28,7 @@ public class AutoOneBallCommand extends SequentialCommandGroup {
         new WaitCommand(1.0),
         new ShooterShootCommand(m_shooter),
         new WaitCommand(1.5),
-        new ShooterOutputCommand(0, m_shooter)
+        new ShooterOutputCommand(0, m_shooter, m_lights)
     );
 
   }

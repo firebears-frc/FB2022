@@ -1,4 +1,4 @@
-package frc.robot;
+   package frc.robot;
 
 import frc.robot.commands.*;
 import frc.robot.subsystems.*;
@@ -156,10 +156,10 @@ public class RobotContainer {
     // aButton.whenPressed(new ClimberReachOutCommand(m_climber), true);
 
     final JoystickButton xButton = new JoystickButton(xController1, XboxController.Button.kX.value);
-    xButton.whenPressed(new ShooterOutputCommand(0.9, m_shooter), true);
+    xButton.whenPressed(new ShooterOutputCommand(0.9, m_shooter, m_lights), true);
 
     final JoystickButton yButton = new JoystickButton(xController1, XboxController.Button.kY.value);
-    yButton.whenPressed(new ShooterOutputCommand(0, m_shooter), true);
+    yButton.whenPressed(new ShooterOutputCommand(0, m_shooter, m_lights), true);
 
     final JoystickButton menuButton = new JoystickButton(xController1, XboxController.Button.kStart.value);
     menuButton.whenPressed(new EjectCommand(m_acquisition).withTimeout(1.5));

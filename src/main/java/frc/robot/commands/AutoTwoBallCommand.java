@@ -9,12 +9,14 @@ import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.subsystems.Acquisition;
 import frc.robot.subsystems.Chassis;
 import frc.robot.subsystems.Shooter;
+import frc.robot.subsystems.Lights;
 
 public class AutoTwoBallCommand extends SequentialCommandGroup {
 
   Chassis m_chassis;
   Shooter m_shooter;
   Acquisition m_acquisition;
+  Lights m_lights;
 
   /** Drive back to acquire another ball, shoot both balls, move out of Tarmac. */
   public AutoTwoBallCommand(Chassis chassis, Shooter shooter, Acquisition acquisition) {
@@ -30,7 +32,7 @@ public class AutoTwoBallCommand extends SequentialCommandGroup {
         new DriveToDistancePIDCommand(-18.0, m_chassis),
         new WaitCommand(1.0),
         new ShooterShootCommand(m_shooter),
-        new ShooterOutputCommand(0, m_shooter)
+        new ShooterOutputCommand(0, m_shooter, m_lights)
 
     );
   }
