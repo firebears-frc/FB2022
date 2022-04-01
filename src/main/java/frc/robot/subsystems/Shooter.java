@@ -36,6 +36,7 @@ public class Shooter extends SubsystemBase {
         shooterMotor.restoreFactoryDefaults();
         shooterMotor.setInverted(false);
         shooterMotor.setIdleMode(IdleMode.kCoast);
+        shooterMotor.burnFlash();
         shooterEncoder = new SparkEncoder(shooterMotor.getEncoder());
         addChild("spinnerEncoder", shooterEncoder);
 
@@ -47,6 +48,7 @@ public class Shooter extends SubsystemBase {
         turretMotor.restoreFactoryDefaults();
         turretMotor.setInverted(false);
         turretMotor.setIdleMode(IdleMode.kCoast);
+        turretMotor.burnFlash();
 
         turretEncoder = new SparkEncoder(turretMotor.getEncoder());
         addChild("encoder", turretEncoder);
