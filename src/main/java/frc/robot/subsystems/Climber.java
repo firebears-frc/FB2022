@@ -6,6 +6,7 @@ import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import com.revrobotics.REVLibError;
 import com.revrobotics.SparkMaxLimitSwitch;
 import com.revrobotics.SparkMaxPIDController;
+import edu.wpi.first.wpilibj.BuiltInAccelerometer;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
@@ -20,6 +21,8 @@ import static frc.robot.Constants.*;
 public class Climber extends SubsystemBase {
 
     public static final double ENCODER_TICKS_PER_INCH = 3.2;
+    public static final int SAMPLES = 25;
+    public static final double SWING_THRESHOLD = 0.4;
 
     private double m_setpointTicks;
 
@@ -31,9 +34,11 @@ public class Climber extends SubsystemBase {
     private SparkEncoder encoder;
     private SparkMaxLimitSwitch upperLimitSwitch;
     private SparkMaxLimitSwitch lowerLimitSwitch;
+    private BuiltInAccelerometer accelerometer;
 
     private boolean isVertical = true;
     private boolean brakeReleased = false;
+    private double swingSum = 0.0;
 
     public Climber() {
         leftMotor = new SparkMotor(CLIMBER_LEFT_MOTOR_CAN_ID, MotorType.kBrushless);
@@ -78,19 +83,28 @@ public class Climber extends SubsystemBase {
 
         upperLimitSwitch = leftMotor.getReverseLimitSwitch(SparkMaxLimitSwitch.Type.kNormallyOpen);
         lowerLimitSwitch = leftMotor.getForwardLimitSwitch(SparkMaxLimitSwitch.Type.kNormallyOpen);
+
+        accelerometer = new BuiltInAccelerometer();
+        addChild("accelerometer", accelerometer);
     }
 
     @Override
     public void periodic() {
+        double sample = Math.abs(accelerometer.getY());
+        double currentAverage = swingSum / SAMPLES;
+        swingSum = swingSum + sample - currentAverage;
+
         if (DEBUG) {
             SmartDashboard.putNumber("ClimberPosition", this.getEncoderPosition());
-          //  SmartDashboard.putString("ClimberPosition", String.format("%.2f", this.getEncoderPosition()));
             SmartDashboard.putBoolean("ClimberUpperLimit", upperLimitSwitch.isPressed());
             SmartDashboard.putBoolean("ClimberLowerLimit", lowerLimitSwitch.isPressed());
             SmartDashboard.putNumber("ClimberPositionTicks", encoder.getPosition());
             SmartDashboard.putNumber("ClimberCurrent", this.getPdpCurrent());
-            // System.out.println("Setpoint: " + m_setpointTicks + " Encoder Position: " +
             SmartDashboard.putBoolean("vertical", isVertical());
+
+            SmartDashboard.putBoolean("swinging", isSwinging());
+            SmartDashboard.putNumber("swing", currentAverage);
+            SmartDashboard.putNumber("getY", Math.abs(accelerometer.getY()));
         }
         if (lowerLimitSwitch.isPressed()) {
             resetEncoder();
@@ -179,5 +193,10 @@ public class Climber extends SubsystemBase {
             System.err.println("WARNING: CLIMBER CURRENT = " + current);
         }
         return current;
+    }
+
+    public boolean isSwinging() {
+        double currentAverage = swingSum / SAMPLES;
+        return Math.abs(currentAverage) > SWING_THRESHOLD;
     }
 }
