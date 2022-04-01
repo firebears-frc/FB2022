@@ -34,6 +34,7 @@ public class Chassis extends SubsystemBase {
         frontLeftMotor.setInverted(false);
         frontLeftMotor.setIdleMode(IdleMode.kBrake);
         frontLeftMotor.setSmartCurrentLimit(CHASSIS_STALL_CURRENT_LIMIT, CHASSIS_FREE_CURRENT_LIMIT);
+        frontLeftMotor.burnFlash();
 
         leftPIDSparkMotor = new PIDSparkMotor(frontLeftMotor, CHASSIS_DRIVE_P, CHASSIS_DRIVE_I, CHASSIS_DRIVE_D);
         leftPIDSparkMotor.setSecondaryPID(CHASSIS_DRIVE_P, CHASSIS_DRIVE_I, CHASSIS_DRIVE_D);
@@ -45,6 +46,7 @@ public class Chassis extends SubsystemBase {
         frontRightMotor.setInverted(true);
         frontRightMotor.setIdleMode(IdleMode.kBrake);
         frontRightMotor.setSmartCurrentLimit(CHASSIS_STALL_CURRENT_LIMIT, CHASSIS_FREE_CURRENT_LIMIT);
+        frontRightMotor.burnFlash();
         righEncoder = frontRightMotor.getEncoder();
         addChild("righEncoder", new SparkEncoder(righEncoder));
 
@@ -56,6 +58,7 @@ public class Chassis extends SubsystemBase {
         rearLeftMotor.setInverted(false);
         rearLeftMotor.setIdleMode(IdleMode.kBrake);
         rearLeftMotor.setSmartCurrentLimit(CHASSIS_STALL_CURRENT_LIMIT, CHASSIS_FREE_CURRENT_LIMIT);
+        rearLeftMotor.burnFlash();
 
         rearLeftMotor.follow(frontLeftMotor);
 
@@ -64,6 +67,7 @@ public class Chassis extends SubsystemBase {
         rearRightMotor.setInverted(true);
         rearRightMotor.setIdleMode(IdleMode.kBrake);
         rearRightMotor.setSmartCurrentLimit(CHASSIS_STALL_CURRENT_LIMIT, CHASSIS_FREE_CURRENT_LIMIT);
+        rearRightMotor.burnFlash();
 
         rearRightMotor.follow(frontRightMotor);
 
