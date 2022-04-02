@@ -81,8 +81,9 @@ public class RobotContainer {
       compressor = new Compressor(0, CTREPCM);
     } else {
       pneumaticsType = REVPH;
-      compressor = new Compressor(1, REVPH);
-      pneumaticHub = new PneumaticHub();
+      compressor = new Compressor(0, CTREPCM);  // Pneumatics Hack: Competition robot uses a CTRE PCM to control compressor
+      // compressor = new Compressor(1, REVPH);
+      // pneumaticHub = new PneumaticHub();
     }
     compressor.enableDigital();
 
