@@ -22,7 +22,7 @@ public class AutoOneBallCommand extends SequentialCommandGroup {
     m_acquisition = acquisition;
     addCommands(
         new WaitCommand(6.0),
-        new DriveToDistancePIDCommand(48.0, m_chassis),
+        new DriveToDistancePIDCommand(72.0, m_chassis),
         new WaitCommand(1.0),
         new ShooterShootCommand(m_shooter),
         new WaitCommand(1.5),

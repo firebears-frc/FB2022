@@ -201,4 +201,8 @@ public class Climber extends SubsystemBase {
         double currentAverage = swingSum / SAMPLES;
         return Math.abs(currentAverage) > SWING_THRESHOLD;
     }
+
+    public double getYAcceleration() {
+        return accelerometer.getY();
+    }
 }

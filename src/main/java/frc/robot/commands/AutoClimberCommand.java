@@ -40,6 +40,7 @@ public class AutoClimberCommand extends SequentialCommandGroup {
         // pulls until Trex arms come loose
         new ClimberExtendCommand(12.0, m_climber),
 
+        // Wait for robot to stop swinging
         new WaitCommand(2),
 
         // pull up til Trex arms catch next rung
