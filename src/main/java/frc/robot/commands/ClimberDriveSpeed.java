@@ -5,6 +5,7 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import static frc.robot.Constants.*;
 import frc.robot.subsystems.Climber;
 
 public class ClimberDriveSpeed extends CommandBase {
@@ -22,13 +23,23 @@ public class ClimberDriveSpeed extends CommandBase {
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {
-    m_climber.driveClimbers(m_speed);
-  }
+  public void initialize() {}
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
-  public void execute() {}
+  public void execute() {
+    double setpoint = CLIMBER_SETPOINT_TOP_1;
+    if (!m_climber.isVertical())
+      setpoint = CLIMBER_SETPOINT_TOP_2;
+
+    if (m_speed > 0 || m_climber.getEncoderPosition() < setpoint-3) {
+      m_climber.driveClimbers(m_speed);
+    } else if (m_climber.getEncoderPosition() < setpoint) {
+      m_climber.driveClimbers(m_speed/2);
+    } else {
+      m_climber.driveClimbers(0);
+    }
+  }
 
   // Called once the command ends or is interrupted.
   @Override
