@@ -11,20 +11,28 @@ import static frc.robot.Constants.*;
 /** Move climber arms to the vertical */
 public class ClimberReachBackVerticalCommand extends CommandBase {
   Climber m_climber;
+  boolean retract;
 
   /** Move climber arms to the vertical */
   public ClimberReachBackVerticalCommand(Climber climber) {
-    m_climber = climber;
+    this(climber, true);
+  }
 
+  /** Move climber arms to the vertical */
+  public ClimberReachBackVerticalCommand(Climber climber, boolean retract) {
+    m_climber = climber;
+    this.retract = retract;
     addRequirements(m_climber);
   }
 
   @Override
   public void initialize() {
-    if (m_climber.getEncoderPosition() > CLIMBER_SETPOINT_TOP_1) {
-      m_climber.extend(CLIMBER_SETPOINT_TOP_1);
-    }
-    m_climber.reachBackVertical();
+    // if (retract) {
+    //   if (m_climber.getEncoderPosition() > CLIMBER_SETPOINT_TOP_1) {
+    //     m_climber.extend(CLIMBER_SETPOINT_TOP_1);
+    //   }
+      m_climber.reachBackVertical();
+    // }
   }
 
   @Override

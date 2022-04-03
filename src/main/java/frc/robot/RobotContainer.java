@@ -195,10 +195,10 @@ public class RobotContainer {
     rightBumper2.whenPressed(new ClimberExtendCommand(CLIMBER_SETPOINT_BOTTOM, m_climber), true);
 
     final POVButton povButtonUp = new POVButton(xController2, 0);
-    povButtonUp.whileHeld(new ClimberDriveSpeed(-0.6, m_climber), true);
+    povButtonUp.whileHeld(new ClimberDriveSpeed(-1 * CLIMBER_MAX_SPEED, m_climber), true);
 
     final POVButton povButtonDown = new POVButton(xController2, 180);
-    povButtonDown.whileHeld(new ClimberDriveSpeed(0.6, m_climber), true);
+    povButtonDown.whileHeld(new ClimberDriveSpeed(CLIMBER_MAX_SPEED, m_climber), true);
 
     final POVButton povButtonLeft = new POVButton(xController2, 270);
     povButtonLeft.whenPressed(new ClimberReachBackVerticalCommand(m_climber), true);

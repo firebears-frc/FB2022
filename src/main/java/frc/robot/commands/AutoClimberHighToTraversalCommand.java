@@ -33,7 +33,7 @@ public class AutoClimberHighToTraversalCommand extends SequentialCommandGroup {
         new WaitCommand(0.5),
 
         // arms reach back to hold onto next rung
-        new ClimberReachBackVerticalCommand(m_climber),
+        new ClimberReachBackVerticalCommand(m_climber, false),
 
         new WaitCommand(1.5),
 

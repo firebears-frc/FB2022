@@ -30,6 +30,8 @@ public class AutoTwoBallCommand extends SequentialCommandGroup {
         new DriveToDistancePIDCommand(-18.0, m_chassis),
         new WaitCommand(1.0),
         new ShooterShootCommand(m_shooter),
+        new WaitCommand(2),
+        new ShooterShootCommand(shooter),
         new ShooterOutputCommand(0, m_shooter)
 
     );
