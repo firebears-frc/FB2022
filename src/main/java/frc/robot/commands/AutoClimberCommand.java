@@ -20,6 +20,7 @@ public class AutoClimberCommand extends SequentialCommandGroup {
         // pulls up til Trex arms catch
         //new ClimberExtendCommand(CLIMBER_SETPOINT_BOTTOM, m_climber),
         new ClimberDriveToLowerLimitCommand(m_climber),
+        new WaitCommand(2.0),
 
         // extends arms 12 in
         new ClimberExtendCommand(12.0, m_climber),
