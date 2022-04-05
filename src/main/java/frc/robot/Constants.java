@@ -17,6 +17,13 @@ public class Constants {
 
     /** Whether this robot has computer vision processing. E.g PhotonVision */
     public static boolean VISION_ENABLED = false;
+    /** Vision Min and Max Distance For Accurite Fire Of The Ball */
+    public static double VISION_DISTANCE_TO_FIRE_MAX = 155;
+    public static double VISION_DISTANCE_TO_FIRE_MIN = 153;
+    /** Vision Movement PID For Driving To Target Distance */
+    public static double VISION_P = 0.25;
+    public static double VISION_I = 0.025;
+    public static double VISION_D = 0;
 
     /** Whether this robot has drivers cameras installed. */
     public static boolean DRIVER_CAMERAS_ENABLED = true;

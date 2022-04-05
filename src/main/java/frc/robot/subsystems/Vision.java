@@ -38,16 +38,15 @@ public class Vision extends SubsystemBase {
   private double targetHeight;
   private double camPitch;
 
-  private double CameraFOV = 30;
+  private double CameraFOV = 3;
 
   /**
    * 
    * @param CameraName - The Name Of The Camera
-   * @param cH         - Camera Height : How High The Camera Is Off The Ground
-   * @param tH         - Target Height : How Tall The Target Is , (8ft this year)
-   * @param cP         - Camera Pitch : The Angle Of The Camera,
-   * @param gyro       - Gyro NavX System Subsystem - Used To Detect The Rotation
-   *                   Of The Robot
+   * @param cH         - Camera Height : How High The Camera Is Off The Ground (Inches)
+   * @param tH         - Target Height : How Tall The Target Is , (8ft this year) (Inches)
+   * @param cP         - Camera Pitch : The Angle Of The Camera, (Degrees)
+   * @param gyro       - Gyro NavX System Subsystem - Used To Detect The Rotation Of The Robot (ARHS)
    */
   public Vision(String CameraName, double cH, double tH, double cP, AHRS gyro) {
     if (VISION_ENABLED) {
@@ -65,13 +64,13 @@ public class Vision extends SubsystemBase {
     if (VISION_ENABLED) {
       // This method will be called once per scheduler run
       var result = photonCam.getLatestResult();
-      robotYaw = (navX.getAngle()) %  360;
+      robotYaw = (navX.getAngle() %  360);
 
       SmartDashboard.putNumber("Robot Yaw", robotYaw % 360);
 
       if (result.hasTargets()) {
         photonTarget = photonCam.getLatestResult().getBestTarget();
-        updateVisionYaw();
+        if(photonTarget != null) visionYaw = photonTarget.getYaw();
       } else {
         photonTarget = null;
       }
@@ -107,7 +106,7 @@ public class Vision extends SubsystemBase {
    */
   public double getAngleRaw() {
     if (photonTarget != null) {
-      return photonTarget.getYaw()/CameraFOV;
+      return photonTarget.getYaw();
     }
     else {
       return 0;
@@ -121,16 +120,10 @@ public class Vision extends SubsystemBase {
   public double getDistence() {
     if (photonTarget == null) return 0;
     return Units.metersToInches(PhotonUtils.calculateDistanceToTargetMeters(
-        camHeight,
-        targetHeight,
-        camPitch,
+        Units.inchesToMeters(camHeight),
+        Units.inchesToMeters(targetHeight),
+        Units.degreesToRadians(camPitch),
         Units.degreesToRadians(photonTarget.getPitch())));
-  }
-
-  void updateVisionYaw() {
-    if (photonTarget == null)
-      return;
-    visionYaw = getAngleRaw();
   }
 
   /**
@@ -140,8 +133,8 @@ public class Vision extends SubsystemBase {
    *         Likewise **Untested
    */
   public double getLastAngleRaw() {
-    System.out.println(visionYaw + robotYaw);
-    return visionYaw + robotYaw;
+    //System.out.println(visionYaw + robotYaw);
+    return visionYaw;
   }
 
   /**
