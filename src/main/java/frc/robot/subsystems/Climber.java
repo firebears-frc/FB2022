@@ -213,5 +213,6 @@ public class Climber extends SubsystemBase {
 
     public void setMaxSpeed(double max) {
         maxSpeed = max;
+        pidController.setOutputRange(-1 * maxSpeed, maxSpeed);
     }
 }
