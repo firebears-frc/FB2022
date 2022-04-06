@@ -39,6 +39,7 @@ public class Climber extends SubsystemBase {
     private boolean isVertical = true;
     private boolean brakeReleased = false;
     private double swingSum = 0.0;
+    private double maxSpeed = CLIMBER_MAX_SPEED;
 
     public Climber() {
         leftMotor = new SparkMotor(CLIMBER_LEFT_MOTOR_CAN_ID, MotorType.kBrushless);
@@ -55,7 +56,7 @@ public class Climber extends SubsystemBase {
         pidController.setI(CLIMBER_I);
         pidController.setD(CLIMBER_D);
         pidController.setFF(CLIMBER_F);
-        pidController.setOutputRange(-1 * CLIMBER_MAX_SPEED, CLIMBER_MAX_SPEED);
+        pidController.setOutputRange(-1 * maxSpeed, maxSpeed);
 
         rightMotor = new SparkMotor(CLIMBER_RIGHT_MOTOR_CAN_ID, MotorType.kBrushless);
 
@@ -204,5 +205,13 @@ public class Climber extends SubsystemBase {
 
     public double getYAcceleration() {
         return accelerometer.getY();
+    }
+    
+    public double getMaxSpeed() {
+        return maxSpeed;
+    }
+
+    public void setMaxSpeed(double max) {
+        maxSpeed = max;
     }
 }

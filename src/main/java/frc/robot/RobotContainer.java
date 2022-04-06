@@ -185,6 +185,9 @@ public class RobotContainer {
     //final JoystickButton bButton2 = new JoystickButton(xController2, XboxController.Button.kB.value);
     //bButton2.whileHeld(new ClimberDriveSpeed(0.2, m_climber), true);
 
+    final JoystickButton yButton2 = new JoystickButton(xController2, XboxController.Button.kY.value);
+    yButton2.whenPressed(new ClimberDeadCommand(m_climber), true);
+
     final JoystickButton aButton2 = new JoystickButton(xController2, XboxController.Button.kA.value);
     aButton2.whenPressed(new ClimberExtendCommand(12, m_climber), true);
 

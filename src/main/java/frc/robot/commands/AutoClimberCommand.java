@@ -23,7 +23,7 @@ public class AutoClimberCommand extends SequentialCommandGroup {
         new WaitCommand(2.0),
 
         // extends arms 12 in
-        new ClimberExtendCommand(12.0, m_climber),
+        new ClimberExtendWithMaxSpeedCommand(12.0, 0.1, m_climber),
 
         // arms fall back
         new ClimberReachOutCommand(m_climber),
@@ -42,14 +42,15 @@ public class AutoClimberCommand extends SequentialCommandGroup {
         new ClimberExtendCommand(12.0, m_climber),
 
         // Wait for robot to stop swinging
-        new WaitCommand(2),
+        new WaitCommand(3.5),
 
         // pull up til Trex arms catch next rung
         //new ClimberExtendCommand(CLIMBER_SETPOINT_BOTTOM, m_climber),
         new ClimberDriveToLowerLimitCommand(m_climber),
 
+        new WaitCommand(2.0),
 
         // makes sure Trex arms are holding onto the rung
-        new ClimberExtendCommand(12.0, m_climber));
+        new ClimberExtendWithMaxSpeedCommand(12.0, 0.1, m_climber));
   }
 }
