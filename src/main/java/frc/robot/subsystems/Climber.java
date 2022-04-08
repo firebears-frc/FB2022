@@ -10,6 +10,7 @@ import edu.wpi.first.wpilibj.BuiltInAccelerometer;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.RobotContainer;
@@ -40,6 +41,8 @@ public class Climber extends SubsystemBase {
     private boolean brakeReleased = false;
     private double swingSum = 0.0;
     private double maxSpeed = CLIMBER_MAX_SPEED;
+    private Timer legalLimitTimer = new Timer();
+    private boolean legalCheckNeeded = false;
 
     public Climber() {
         leftMotor = new SparkMotor(CLIMBER_LEFT_MOTOR_CAN_ID, MotorType.kBrushless);
@@ -48,7 +51,8 @@ public class Climber extends SubsystemBase {
         leftMotor.restoreFactoryDefaults();
         leftMotor.setInverted(false);
         leftMotor.setIdleMode(IdleMode.kBrake);
-        //leftMotor.setSmartCurrentLimit(CLIMBER_STALL_CURRENT_LIMIT, CLIMBER_FREE_CURRENT_LIMIT);
+        // leftMotor.setSmartCurrentLimit(CLIMBER_STALL_CURRENT_LIMIT,
+        // CLIMBER_FREE_CURRENT_LIMIT);
         leftMotor.burnFlash();
 
         pidController = leftMotor.getPIDController();
@@ -64,7 +68,8 @@ public class Climber extends SubsystemBase {
         rightMotor.setInverted(false);
         rightMotor.setIdleMode(IdleMode.kBrake);
         rightMotor.follow(leftMotor);
-        //rightMotor.setSmartCurrentLimit(CLIMBER_STALL_CURRENT_LIMIT, CLIMBER_FREE_CURRENT_LIMIT);
+        // rightMotor.setSmartCurrentLimit(CLIMBER_STALL_CURRENT_LIMIT,
+        // CLIMBER_FREE_CURRENT_LIMIT);
         rightMotor.burnFlash();
 
         m_setpointTicks = 0;
@@ -109,10 +114,23 @@ public class Climber extends SubsystemBase {
             SmartDashboard.putNumber("swing", currentAverage);
             SmartDashboard.putNumber("getY", Math.abs(accelerometer.getY()));
         }
-        if (lowerLimitSwitch.isPressed()) {
+        if (lowerLimitPressed()) {
             resetEncoder();
-            brakeReleased = true;
+            if (DEBUG) System.out.println("Climber: Reset Encoder");
         }
+        if (isVertical() && getEncoderPosition() > CLIMBER_SETPOINT_TOP_1 && !legalCheckNeeded) {
+            legalCheckNeeded = true;
+            legalLimitTimer.reset();
+            legalLimitTimer.start();
+            if (DEBUG) System.out.println("Climber: Start Legal Fix");
+        }
+        if (legalCheckNeeded && legalLimitTimer.get() > 0.5) {
+            extend(CLIMBER_SETPOINT_TOP_1);
+            legalCheckNeeded = false;
+            legalLimitTimer.stop();
+            if (DEBUG) System.out.println("Climber: Start Legal Fix");
+        }
+
     }
 
     @Override
@@ -206,7 +224,7 @@ public class Climber extends SubsystemBase {
     public double getYAcceleration() {
         return accelerometer.getY();
     }
-    
+
     public double getMaxSpeed() {
         return maxSpeed;
     }
