@@ -6,7 +6,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
-import edu.wpi.first.wpilibj2.command.button.POVButton;
+//import edu.wpi.first.wpilibj2.command.button.POVButton;
 import edu.wpi.first.cscore.UsbCamera;
 import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.math.util.Units;
@@ -50,7 +50,6 @@ public class RobotContainer {
   public final Vision m_vision = new Vision("CameraName", 0, Units.metersToFeet(8), 0, m_navx);
 
   // Joysticks
-  private final XboxController Controller = new XboxController(0);
   private final Joystick joystick = new Joystick(0);
 
   // Pneumatics
@@ -133,19 +132,20 @@ public class RobotContainer {
   private void configureButtonBindings() {
 
     // Reload
-    final JoystickButton bButton = new JoystickButton(Controller, XboxController.Button.kB.value);
-    bButton.whenPressed(new ShooterResetCommand(m_shooter), true);
+    final JoystickButton joystick2 = new JoystickButton(joystick, 2);
+    joystick2.whenPressed(new ShooterResetCommand(m_shooter), true);
     // bButton.whenPressed(new ClimberReachBackVerticalCommand(m_climber), true);
 
     // Shoot
-    final JoystickButton aButton = new JoystickButton(Controller, XboxController.Button.kA.value);
-    aButton.whenPressed(new ShooterPushCommand(m_shooter), true);
+    //
+    final JoystickButton joystick1 = new JoystickButton(joystick, 1);
+    joystick1.whenPressed(new ShooterPushCommand(m_shooter), true);
 
-    final JoystickButton leftBumperButton = new JoystickButton(Controller, XboxController.Button.kLeftBumper.value);
-    leftBumperButton.whenPressed(new AcquisitionStartCommand(m_acquisition), true);
+    final JoystickButton joystick3 = new JoystickButton(joystick, 3);
+    joystick3.whenPressed(new AcquisitionStartCommand(m_acquisition), true);
 
-    final JoystickButton rightBumperButton = new JoystickButton(Controller, XboxController.Button.kRightBumper.value);
-    rightBumperButton.whenPressed(new AcquisitionStopCommand(m_acquisition), true);
+    final JoystickButton joystick4 = new JoystickButton(joystick, 4);
+    joystick4.whenPressed(new AcquisitionStopCommand(m_acquisition), true);
 
     // aButton.whenPressed(new ClimberReachOutCommand(m_climber), true);
 
@@ -157,14 +157,20 @@ public class RobotContainer {
     // XboxController.Button.kA.value);
     // aButton.whenPressed(new ClimberReachOutCommand(m_climber), true);
 
-    final JoystickButton xButton = new JoystickButton(Controller, XboxController.Button.kX.value);
-    xButton.whenPressed(new ShooterOutputCommand(0.9, m_shooter), true);
+    final JoystickButton joystick5 = new JoystickButton(joystick, 5);
+    joystick5.whenPressed(new ShooterOutputCommand(0.45, m_shooter), true);
 
-    final JoystickButton yButton = new JoystickButton(Controller, XboxController.Button.kY.value);
-    yButton.whenPressed(new ShooterOutputCommand(0, m_shooter), true);
+    final JoystickButton joystick11 = new JoystickButton(joystick, 11);
+    joystick11.whenPressed(new ShooterOutputCommand(0.6, m_shooter), true);
+    
+    final JoystickButton joystick12 = new JoystickButton(joystick, 12);
+    joystick12.whenPressed(new ShooterOutputCommand(0.95, m_shooter), true);
 
-    final JoystickButton menuButton = new JoystickButton(Controller, XboxController.Button.kStart.value);
-    menuButton.whenPressed(new EjectCommand(m_acquisition).withTimeout(1.5));
+    final JoystickButton joystick6 = new JoystickButton(joystick, 6);
+    joystick6.whenPressed(new ShooterOutputCommand(0, m_shooter), true);
+
+    //final JoystickButton menuButton = new JoystickButton(Controller, XboxController.Button.kStart.value);
+    //menuButton.whenPressed(new EjectCommand(m_acquisition).withTimeout(1.5));
 
     // final JoystickButton rightBumperButton = new JoystickButton(Controller,
     // XboxController.Button.kRightBumper.value);
