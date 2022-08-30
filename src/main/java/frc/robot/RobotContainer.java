@@ -6,7 +6,8 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
-//import edu.wpi.first.wpilibj2.command.button.POVButton;
+import edu.wpi.first.wpilibj2.command.button.Trigger;
+import edu.wpi.first.wpilibj2.command.button.POVButton;
 import edu.wpi.first.cscore.UsbCamera;
 import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.math.util.Units;
@@ -19,8 +20,10 @@ import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.PowerDistribution;
 import edu.wpi.first.wpilibj.SerialPort;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.Joystick.AxisType;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
+import edu.wpi.first.wpilibj.simulation.JoystickSim;
 
 import static edu.wpi.first.wpilibj.PneumaticsModuleType.*;
 import static frc.robot.Constants.*;
@@ -51,6 +54,7 @@ public class RobotContainer {
 
   // Joysticks
   private final Joystick joystick = new Joystick(0);
+  private final XboxController xController = new XboxController(1);
 
   // Pneumatics
   public Compressor compressor;
@@ -126,7 +130,7 @@ public class RobotContainer {
    * Use this method to define your button->command mappings. Buttons can be
    * created by instantiating a {@link GenericHID} or one of its subclasses
    * ({@link edu.wpi.first.wpilibj.Joystick} or {@link XboxController}), and
-   * then passing it to a
+   * then passing it to 
    * {@link edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
@@ -138,6 +142,7 @@ public class RobotContainer {
 
     // Shoot
     //
+
     final JoystickButton joystick1 = new JoystickButton(joystick, 1);
     joystick1.whenPressed(new ShooterPushCommand(m_shooter), true);
 
@@ -158,63 +163,55 @@ public class RobotContainer {
     // aButton.whenPressed(new ClimberReachOutCommand(m_climber), true);
 
     final JoystickButton joystick5 = new JoystickButton(joystick, 5);
-    joystick5.whenPressed(new ShooterOutputCommand(0.45, m_shooter), true);
-
-    final JoystickButton joystick11 = new JoystickButton(joystick, 11);
-    joystick11.whenPressed(new ShooterOutputCommand(0.6, m_shooter), true);
-    
-    final JoystickButton joystick12 = new JoystickButton(joystick, 12);
-    joystick12.whenPressed(new ShooterOutputCommand(0.95, m_shooter), true);
+    joystick5.whenPressed(new ShooterOutputCommand(0.95, m_shooter), true);
 
     final JoystickButton joystick6 = new JoystickButton(joystick, 6);
-    joystick6.whenPressed(new ShooterOutputCommand(0, m_shooter), true);
+    joystick6.whenPressed(new ShooterOutputCommand(0.05, m_shooter), true);
 
     //final JoystickButton menuButton = new JoystickButton(Controller, XboxController.Button.kStart.value);
-    //menuButton.whenPressed(new EjectCommand(m_acquisition).withTimeout(1.5));
+    //menuButton.whenPressed(new EjectCommand(m_acquisition).withTimeout(1.5));x
 
-    // final JoystickButton rightBumperButton = new JoystickButton(Controller,
-    // XboxController.Button.kRightBumper.value);
-    // rightBumperButton.whenPressed(new DriveToDistancePIDCommand(50, m_chassis),
-    // true);
+    /*final JoystickButton rightBumperButton = new JoystickButton(xController,XboxController.Button.kRightBumper.value);
+    rightBumperButton.whenPressed(new DriveToDistancePIDCommand(50, m_chassis),true);
 
-    //final JoystickButton startButton2 = new JoystickButton(xController2, XboxController.Button.kStart.value);
-    //startButton2.whenPressed(new ClimberUnlockBrake(m_climber));
+    final JoystickButton startButton2 = new JoystickButton(xController, XboxController.Button.kStart.value);
+    startButton2.whenPressed(new ClimberUnlockBrake(m_climber));
 
-    //final JoystickButton backButton2 = new JoystickButton(xController2, XboxController.Button.kBack.value);
-    //backButton2.whenPressed(new AutoClimberCommand(m_climber));
+    final JoystickButton backButton2 = new JoystickButton(xController, XboxController.Button.kBack.value);
+    backButton2.whenPressed(new AutoClimberCommand(m_climber));
 
-    //final JoystickButton yButton2 = new JoystickButton(xController2, XboxController.Button.kY.value);
-    //yButton2.whenPressed(new ClimberReachBackVerticalCommand(m_climber), true);
+    final JoystickButton yButton2 = new JoystickButton(xController, XboxController.Button.kY.value);
+    yButton2.whenPressed(new ClimberReachBackVerticalCommand(m_climber), true);
 
-    //final JoystickButton xButton2 = new JoystickButton(xController2, XboxController.Button.kX.value);
-    //xButton2.whenPressed(new ClimberReachOutCommand(m_climber), true);
+    final JoystickButton xButton2 = new JoystickButton(xController, XboxController.Button.kX.value);
+    xButton2.whenPressed(new ClimberReachOutCommand(m_climber), true);
 
-    //final JoystickButton bButton2 = new JoystickButton(xController2, XboxController.Button.kB.value);
-    //bButton2.whileHeld(new ClimberDriveSpeed(0.2, m_climber), true);
+    final JoystickButton bButton2 = new JoystickButton(xController, XboxController.Button.kB.value);
+    bButton2.whileHeld(new ClimberDriveSpeed(0.2, m_climber), true);
 
-    //final JoystickButton yButton2 = new JoystickButton(xController2, XboxController.Button.kY.value);
+    //final JoystickButton yButton2 = new JoystickButton(xController, XboxController.Button.kY.value);
     //yButton2.whenPressed(new ClimberDeadCommand(m_climber), true);
 
-    //final JoystickButton aButton2 = new JoystickButton(xController2, XboxController.Button.kA.value);
-    //aButton2.whenPressed(new ClimberExtendCommand(12, m_climber), true);
+    final JoystickButton aButton2 = new JoystickButton(xController, XboxController.Button.kA.value);
+    aButton2.whenPressed(new ClimberExtendCommand(12, m_climber), true);
 
-    //final JoystickButton leftBumper2 = new JoystickButton(xController2, XboxController.Button.kLeftBumper.value);
-    //leftBumper2.whenPressed(new ClimberExtendUpCommand(m_climber), true);
+    final JoystickButton leftBumper2 = new JoystickButton(xController, XboxController.Button.kLeftBumper.value);
+    leftBumper2.whenPressed(new ClimberExtendUpCommand(m_climber), true);
 
-    //final JoystickButton rightBumper2 = new JoystickButton(xController2, XboxController.Button.kRightBumper.value);
-    //rightBumper2.whenPressed(new ClimberExtendCommand(CLIMBER_SETPOINT_BOTTOM, m_climber), true);
+    final JoystickButton rightBumper2 = new JoystickButton(xController, XboxController.Button.kRightBumper.value);
+    rightBumper2.whenPressed(new ClimberExtendCommand(CLIMBER_SETPOINT_BOTTOM, m_climber), true);*/
 
-    //final POVButton povButtonUp = new POVButton(xController2, 0);
-    //povButtonUp.whileHeld(new ClimberDriveSpeed(-1 * CLIMBER_MAX_SPEED, m_climber), true);
+    final POVButton povButtonUp = new POVButton(xController, 0);
+    povButtonUp.whileHeld(new ClimberDriveSpeed(-1 * CLIMBER_MAX_SPEED, m_climber), true);
 
-    //final POVButton povButtonDown = new POVButton(xController2, 180);
-    //povButtonDown.whileHeld(new ClimberDriveSpeed(CLIMBER_MAX_SPEED, m_climber), true);
+    final POVButton povButtonDown = new POVButton(xController, 180);
+    povButtonDown.whileHeld(new ClimberDriveSpeed(CLIMBER_MAX_SPEED, m_climber), true);
 
-    //final POVButton povButtonLeft = new POVButton(xController2, 270);
-    //povButtonLeft.whenPressed(new ClimberReachBackVerticalCommand(m_climber), true);
+    final POVButton povButtonLeft = new POVButton(xController, 270);
+    povButtonLeft.whenPressed(new ClimberReachBackVerticalCommand(m_climber), true);
 
-    //final POVButton povButtonRight = new POVButton(xController2, 90);
-    //povButtonRight.whenPressed(new ClimberReachOutCommand(m_climber), true);
+    final POVButton povButtonRight = new POVButton(xController, 90);
+    povButtonRight.whenPressed(new ClimberReachOutCommand(m_climber), true);
   }
 
   /**
