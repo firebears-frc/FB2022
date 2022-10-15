@@ -10,6 +10,7 @@ import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import frc.robot.util.PIDSparkMotor;
 import frc.robot.util.SparkEncoder;
 import edu.wpi.first.wpilibj.AnalogPotentiometer;
+import edu.wpi.first.wpilibj.PowerDistribution;
 
 import static frc.robot.Constants.*;
 
@@ -27,7 +28,9 @@ public class Chassis extends SubsystemBase {
     private double leftOffSet = 0;
     private double rightOffSet = 0;
 
-    public Chassis() {
+    private final PowerDistribution m_powerDistribution;
+
+    public Chassis(PowerDistribution powerDistribution) {
         ultrasonic = new AnalogPotentiometer(0, 100, 0);
         frontLeftMotor = new CANSparkMax(CHASSIS_FRONT_LEFT_MOTOR_CAN_ID, MotorType.kBrushless);
         frontLeftMotor.restoreFactoryDefaults();
@@ -77,6 +80,8 @@ public class Chassis extends SubsystemBase {
         differentialDrive = new DifferentialDrive(leftPIDSparkMotor, rightPIDSparkMotor);
         addChild("differentialDrive", differentialDrive);
 
+        m_powerDistribution = powerDistribution;
+
     }
 
     @Override
@@ -85,6 +90,7 @@ public class Chassis extends SubsystemBase {
             SmartDashboard.putNumber("ultrasonic", getUltrasonicDistanceInches());
             SmartDashboard.putNumber("getDistance", getEncoderDistance());
         }
+        SmartDashboard.putBoolean("Voltage", m_powerDistribution.getVoltage() > 11);
     }
 
     @Override
