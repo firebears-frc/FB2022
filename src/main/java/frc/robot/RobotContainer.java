@@ -21,6 +21,7 @@ import edu.wpi.first.wpilibj.PowerDistribution;
 import edu.wpi.first.wpilibj.SerialPort;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.Joystick.AxisType;
+import edu.wpi.first.wpilibj.XboxController.Button;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.simulation.JoystickSim;
@@ -205,18 +206,31 @@ public class RobotContainer {
 
     final JoystickButton rightBumper2 = new JoystickButton(xController, XboxController.Button.kRightBumper.value);
     rightBumper2.whenPressed(new ClimberExtendCommand(CLIMBER_SETPOINT_BOTTOM, m_climber), true);*/
+    
+    
+    final JoystickButton bButton = new JoystickButton(xController, XboxController.Button.kB.value);
+    bButton.whenPressed(new ClimberReachBackVerticalCommand(m_climber), true);
 
-    final POVButton povButtonUp = new POVButton(xController, 0);
-    povButtonUp.whileHeld(new ClimberDriveSpeed(-1 * CLIMBER_MAX_SPEED, m_climber), true);
+    final JoystickButton xButton = new JoystickButton(xController, XboxController.Button.kX.value);
+    xButton.whenPressed(new ClimberReachOutCommand(m_climber), true);
 
-    final POVButton povButtonDown = new POVButton(xController, 180);
-    povButtonDown.whileHeld(new ClimberDriveSpeed(CLIMBER_MAX_SPEED, m_climber), true);
+    final JoystickButton aButton = new JoystickButton(xController, XboxController.Button.kA.value);
+    aButton.whenHeld(new ClimberDriveSpeedMod(() -> ((xController.getRightTriggerAxis()*0.5)+0.3), m_climber), true);
 
-    final POVButton povButtonLeft = new POVButton(xController, 270);
-    povButtonLeft.whenPressed(new ClimberReachBackVerticalCommand(m_climber), true);
+    final JoystickButton yButton = new JoystickButton(xController, XboxController.Button.kY.value);
+    yButton.whenHeld(new ClimberDriveSpeedMod(() -> -1 * ((xController.getRightTriggerAxis()*0.5)+0.3), m_climber), true);
 
-    final POVButton povButtonRight = new POVButton(xController, 90);
-    povButtonRight.whenPressed(new ClimberReachOutCommand(m_climber), true);
+    //final POVButton povButtonUp = new POVButton(xController, 0);
+    //povButtonUp.whileHeld(new ClimberDriveSpeedMod(() -> -1 * ((xController.getRightTriggerAxis()*0.5)+0.3), m_climber), true);
+
+    //final POVButton povButtonDown = new POVButton(xController, 180);
+    //povButtonDown.whileHeld(new ClimberDriveSpeedMod(() -> ((xController.getRightTriggerAxis()*0.5)+0.3), m_climber), true);
+
+    //final POVButton povButtonLeft = new POVButton(xController, 270);
+    //povButtonLeft.whenPressed(new ClimberReachBackVerticalCommand(m_climber), true);
+
+    //final POVButton povButtonRight = new POVButton(xController, 90);
+    //povButtonRight.whenPressed(new ClimberReachOutCommand(m_climber), true);
   }
 
   /**
