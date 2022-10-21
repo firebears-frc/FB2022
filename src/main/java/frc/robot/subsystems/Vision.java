@@ -13,7 +13,11 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 import org.photonvision.*;
 import org.photonvision.targeting.PhotonTrackedTarget;
+
+import edu.wpi.first.math.geometry.Transform3d;
 import edu.wpi.first.math.util.Units;
+import edu.wpi.first.networktables.NetworkTable;
+import edu.wpi.first.networktables.NetworkTablesJNI;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import com.kauailabs.navx.frc.*;
@@ -25,6 +29,7 @@ public class Vision extends SubsystemBase {
 
   PhotonCamera photonCam;
   PhotonTrackedTarget photonTarget;
+  NetworkTablesJNI nt;
 
   // gyro
   AHRS navX;
@@ -48,29 +53,46 @@ public class Vision extends SubsystemBase {
    *                   Of The Robot
    */
   public Vision(String CameraName, double cH, double tH, double cP, AHRS gyro) {
-    if (VISION_ENABLED) {
+    if (true) {
       photonCam = new PhotonCamera(CameraName);
+      nt = new NetworkTablesJNI();
     }
     camHeight = cH;
     targetHeight = tH;
     camPitch = cP;
     navX = gyro;
+
+    SmartDashboard.putString("Pos", "init");
+    SmartDashboard.putString("Rot", "init");
+    SmartDashboard.putNumber("FID", -1);
+    SmartDashboard.putBoolean("VISION_ENABLED?", VISION_ENABLED);
   }
 
   // every update we get the best target for the Vision Subsystem
   @Override
   public void periodic() {
-    if (VISION_ENABLED) {
+    Transform3d transform;
+    if (true) {
       // This method will be called once per scheduler run
       var result = photonCam.getLatestResult();
+
       robotYaw = (navX.getAngle()) %  360;
 
       SmartDashboard.putNumber("Robot Yaw", robotYaw % 360);
 
       if (result.hasTargets()) {
         photonTarget = photonCam.getLatestResult().getBestTarget();
-        updateVisionYaw();
+        transform = photonTarget.getCameraToTarget();
+        SmartDashboard.putString("Pos", transform.getTranslation().toString());
+        SmartDashboard.putString("Rot", transform.getRotation().toString());
+        SmartDashboard.putNumber("FID", photonTarget.getFiducialId());
+        
+
+        //updateVisionYaw();
       } else {
+        SmartDashboard.putString("Pos", "no target");
+        SmartDashboard.putString("Rot", "no target");
+        SmartDashboard.putNumber("FID", -1);
         photonTarget = null;
       }
     }

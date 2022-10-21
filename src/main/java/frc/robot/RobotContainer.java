@@ -46,7 +46,7 @@ public class RobotContainer {
   public final Chassis m_chassis = new Chassis();
   public final Lights m_lights = new Lights();
   public final AHRS m_navx = new AHRS(SerialPort.Port.kUSB);
-  public final Vision m_vision = new Vision("CameraName", 0, Units.metersToFeet(8), 0, m_navx);
+  public final Vision m_vision = new Vision("HD_Pro_Webcam_C920", 0, Units.metersToFeet(8), 0, m_navx);
 
   // Joysticks
   private final XboxController xController1 = new XboxController(0);
