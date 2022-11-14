@@ -72,7 +72,7 @@ public class RobotContainer {
    * The container for the robot. Contains subsystems, OI devices, and commands.
    */
   private RobotContainer() {
-
+    
     powerDistribution.clearStickyFaults();
 
     // Pneumatics
@@ -130,7 +130,7 @@ public class RobotContainer {
    * {@link edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
-
+    /*
     // Reload
     final JoystickButton bButton = new JoystickButton(xController1, XboxController.Button.kB.value);
     bButton.whenPressed(new ShooterResetCommand(m_shooter), true);
@@ -208,6 +208,19 @@ public class RobotContainer {
 
     final POVButton povButtonRight = new POVButton(xController2, 90);
     povButtonRight.whenPressed(new ClimberReachOutCommand(m_climber), true);
+    */
+
+    //VISION CONTROLS
+  }
+
+  public void doVisionStuff(){
+    if(xController1.getAButton()){
+      m_vision.addVisionRunable(1,() -> {
+        if(m_vision.TargetDist > 1.5){
+          m_chassis.arcadeDrive(1, m_vision.TargetRot);
+        }
+      });
+    }
   }
 
   /**
