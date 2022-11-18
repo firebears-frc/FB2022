@@ -81,9 +81,9 @@ public class Vision extends SubsystemBase {
         SmartDashboard.putNumber("FID", photonTarget.getFiducialId());
 
         FID = photonTarget.getFiducialId();
-        TargetX = transform.getX();
-        TargetY = transform.getY();
-        TargetDist = transform.getZ();
+        TargetX = transform.getY();
+        TargetY = transform.getZ();
+        TargetDist = transform.getX();
         TargetRot = transform.getRotation().getAngle();
 
         /*
