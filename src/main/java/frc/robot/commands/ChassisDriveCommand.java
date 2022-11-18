@@ -31,7 +31,7 @@ public class ChassisDriveCommand extends CommandBase {
     double speed = joystick.getY();
     double rotation = joystick.getZ();
   
-    m_chassis.arcadeDrive(speed, rotation * MathUtil.clamp((joystick.getRawAxis(3)+1.0)/2,0,1));
+    m_chassis.arcadeDrive(speed, rotation * MathUtil.clamp((-joystick.getRawAxis(3)+1.0)/2,0,1));
     SmartDashboard.putNumber("Axis 3", joystick.getRawAxis(3));
   }
 
