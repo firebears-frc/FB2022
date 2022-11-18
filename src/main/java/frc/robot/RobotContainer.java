@@ -53,8 +53,8 @@ public class RobotContainer {
   public final Climber m_climber = new Climber();
   public final Chassis m_chassis = new Chassis(powerDistribution);
   public final Lights m_lights = new Lights();
-  public final AHRS m_navx = new AHRS(SerialPort.Port.kUSB);
-  public final Vision m_vision = new Vision("CameraName", 0, Units.metersToFeet(8), 0, m_navx);
+  //public final AHRS m_navx = new AHRS(SerialPort.Port.kUSB);
+  public final Vision m_vision = new Vision("mmal_service_16.1");
 
   // Joysticks
   private final Joystick joystick = new Joystick(0);
@@ -231,6 +231,11 @@ public class RobotContainer {
 
     //final POVButton povButtonRight = new POVButton(xController, 90);
     //povButtonRight.whenPressed(new ClimberReachOutCommand(m_climber), true);
+
+    /*
+    final JoystickButton VButton = new JoystickButton(joystick,7);
+    VButton.whileHeld(new DriveTo(m_vision, m_chassis));
+    */
   }
 
   /**
