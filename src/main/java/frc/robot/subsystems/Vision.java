@@ -47,6 +47,7 @@ public class Vision extends SubsystemBase {
   public double TargetY = 0;
   public double FID = -1;
   public double TargetRot = 0;
+  public double LastTime;
 
   private double CameraFOV = 30;
 
@@ -74,7 +75,7 @@ public class Vision extends SubsystemBase {
       var result = photonCam.getLatestResult();
 
       if (result.hasTargets()) {
-        photonTarget = photonCam.getLatestResult().getBestTarget();
+        photonTarget = result.getBestTarget();
         transform = photonTarget.getCameraToTarget();
         SmartDashboard.putString("Pos", transform.getTranslation().toString());
         SmartDashboard.putString("Rot", transform.getRotation().toString());
@@ -86,6 +87,8 @@ public class Vision extends SubsystemBase {
         TargetDist = transform.getX();
         TargetRot = transform.getRotation().getAngle();
 
+        LastTime = System.currentTimeMillis();
+
         /*
         for (FIDRunnable fidRunnable : RunnableFunctions) {
           if(photonTarget.getFiducialId() == fidRunnable.FID){
@@ -95,7 +98,8 @@ public class Vision extends SubsystemBase {
         */
 
         //updateVisionYaw();
-      } else {
+      }
+      else if(System.currentTimeMillis()-LastTime >= 300){
         SmartDashboard.putString("Pos", "no target");
         SmartDashboard.putString("Rot", "no target");
         SmartDashboard.putNumber("FID", -1);

@@ -22,6 +22,7 @@ import edu.wpi.first.wpilibj.SerialPort;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.Joystick.AxisType;
 import edu.wpi.first.wpilibj.XboxController.Button;
+import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.simulation.JoystickSim;
@@ -80,6 +81,8 @@ public class RobotContainer {
   private RobotContainer() {
 
     powerDistribution.clearStickyFaults();
+
+    LiveWindow.disableAllTelemetry();
 
     // Pneumatics
     if (PRACTICE_ROBOT) {
@@ -232,10 +235,8 @@ public class RobotContainer {
     //final POVButton povButtonRight = new POVButton(xController, 90);
     //povButtonRight.whenPressed(new ClimberReachOutCommand(m_climber), true);
 
-    /*
     final JoystickButton VButton = new JoystickButton(joystick,7);
-    VButton.whileHeld(new DriveTo(m_vision, m_chassis));
-    */
+    VButton.whenPressed(new DriveTo(m_vision, m_chassis));
   }
 
   /**
