@@ -81,7 +81,7 @@ public class Vision extends SubsystemBase {
   @Override
   public void periodic() {
     Transform3d transform;
-    if (true) {
+    if (VISION_ENABLED) {
       // This method will be called once per scheduler run
       var result = photonCam.getLatestResult();
 
