@@ -4,12 +4,17 @@
 
 package frc.robot.commands;
 
+import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.Chassis;
 import frc.robot.subsystems.Vision;
 
 public class DriveTo extends CommandBase {
+  //In meters
+  private double goalDistence = 1;
+
+
   private Vision vision;
   private Chassis chassis;
 
@@ -32,22 +37,28 @@ public class DriveTo extends CommandBase {
 
     if(vision.FID != -1){
       //Tag #1
-      if(vision.TargetDist > 0.6){
-        chassis.arcadeDrive(-0.6, 0);
+      double rot = vision.TargetX;
+      rot = MathUtil.clamp(rot, -0.5, 0.5);
+      if(Math.abs(vision.TargetX) <= 0.1) rot = 0;
+
+      if(vision.TargetDist > goalDistence){
+        chassis.arcadeDrive(0.35, rot);
       }
       else {
-        chassis.arcadeDrive(0, 0);
+        chassis.arcadeDrive(0, rot);
       }
     }
   }
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {}
+  public void end(boolean interrupted) {
+    chassis.arcadeDrive(0, 0);
+  }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    return (Math.abs(vision.TargetX) <= 0.2) && (vision.TargetDist < goalDistence);
   }
 }
