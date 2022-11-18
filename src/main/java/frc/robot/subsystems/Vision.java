@@ -9,6 +9,7 @@
 
 package frc.robot.subsystems;
 
+import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 import org.photonvision.*;
@@ -24,16 +25,7 @@ import com.kauailabs.navx.frc.*;
 
 import static frc.robot.Constants.*;
 
-class FIDRunnable
-{
-  double FID;
-  Runnable RunableFunc;
-
-  public FIDRunnable(double ID, Runnable r){
-    RunableFunc = r;
-    FID = ID;
-  }
-}
+import java.util.List;
 
 public class Vision extends SubsystemBase {
   /** Creates a new Vision Subsystem. */
@@ -51,7 +43,6 @@ public class Vision extends SubsystemBase {
   private double camHeight;
   private double targetHeight;
   private double camPitch;
-  private FIDRunnable[] RunnableFunctions;
 
   public double TargetDist = -1;
   public double TargetX = 0;
@@ -86,10 +77,6 @@ public class Vision extends SubsystemBase {
     SmartDashboard.putBoolean("VISION_ENABLED?", VISION_ENABLED);
   }
 
-  public void addVisionRunable(double FID,Runnable r){
-    FIDRunnable fidR = new FIDRunnable(FID,r);
-  }
-
   // every update we get the best target for the Vision Subsystem
   @Override
   public void periodic() {
@@ -115,11 +102,13 @@ public class Vision extends SubsystemBase {
         TargetDist = transform.getZ();
         TargetRot = transform.getRotation().getAngle();
 
+        /*
         for (FIDRunnable fidRunnable : RunnableFunctions) {
           if(photonTarget.getFiducialId() == fidRunnable.FID){
             fidRunnable.RunableFunc.run();
           }
         }
+        */
 
         //updateVisionYaw();
       } else {

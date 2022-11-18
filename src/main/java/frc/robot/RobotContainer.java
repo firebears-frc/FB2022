@@ -2,6 +2,7 @@ package frc.robot;
 
 import frc.robot.commands.*;
 import frc.robot.subsystems.*;
+import frc.robot.visioncommand.DriveTo;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -13,6 +14,7 @@ import edu.wpi.first.math.util.Units;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.GenericHID;
+import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.PneumaticHub;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.PowerDistribution;
@@ -211,16 +213,8 @@ public class RobotContainer {
     */
 
     //VISION CONTROLS
-  }
-
-  public void doVisionStuff(){
-    if(xController1.getAButton()){
-      m_vision.addVisionRunable(1,() -> {
-        if(m_vision.TargetDist > 1.5){
-          m_chassis.arcadeDrive(1, m_vision.TargetRot);
-        }
-      });
-    }
+    final JoystickButton VButton = new JoystickButton(xController1, XboxController.Button.kA.value);
+    VButton.whileHeld(new DriveTo(m_vision, m_chassis));
   }
 
   /**
