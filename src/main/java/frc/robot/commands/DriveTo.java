@@ -27,14 +27,16 @@ public class DriveTo extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    SmartDashboard.putBoolean("Sees Tag?", vision.FID != -1);
-    if(vision.FID == 43){
+    //SmartDashboard.putNumber("Distence", vision.TargetDist);
+    //SmartDashboard.putNumber("leftRight", vision.TargetX);
+
+    if(vision.FID != -1){
       //Tag #1
-      if(vision.TargetDist > 0.25){
-        chassis.arcadeDrive(0.15, vision.TargetX);
+      if(vision.TargetDist > 0.6){
+        chassis.arcadeDrive(-0.6, 0);
       }
       else {
-        chassis.arcadeDrive(0, vision.TargetX);
+        chassis.arcadeDrive(0, 0);
       }
     }
   }

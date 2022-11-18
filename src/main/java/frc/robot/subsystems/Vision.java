@@ -89,7 +89,7 @@ public class Vision extends SubsystemBase {
 
       SmartDashboard.putNumber("Robot Yaw", robotYaw % 360);
 
-      if (result.hasTargets()) {
+      if (photonCam.getLatestResult().getBestTarget() != null) {
         photonTarget = photonCam.getLatestResult().getBestTarget();
         transform = photonTarget.getCameraToTarget();
         SmartDashboard.putString("Pos", transform.getTranslation().toString());
@@ -97,9 +97,9 @@ public class Vision extends SubsystemBase {
         SmartDashboard.putNumber("FID", photonTarget.getFiducialId());
 
         FID = photonTarget.getFiducialId();
-        TargetX = transform.getX();
-        TargetY = transform.getY();
-        TargetDist = transform.getZ();
+        TargetX = transform.getY();
+        TargetY = transform.getZ();
+        TargetDist = transform.getX();
         TargetRot = transform.getRotation().getAngle();
 
         /*
