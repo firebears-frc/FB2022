@@ -90,7 +90,7 @@ public class Vision extends SubsystemBase {
 
         //updateVisionYaw();
       }
-      else if(System.currentTimeMillis()-LastTime >= 300){
+      else if(System.currentTimeMillis()-LastTime >= 500){
         SmartDashboard.putString("Pos", "no target");
         SmartDashboard.putString("Rot", "no target");
         SmartDashboard.putNumber("FID", -1);

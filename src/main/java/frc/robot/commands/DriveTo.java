@@ -11,17 +11,18 @@ import frc.robot.subsystems.Vision;
 
 public class DriveTo extends CommandBase {
   //In meters
-  private double goalDistence = 1;
+  private double goalDistance = 1;
 
 
   private Vision vision;
   private Chassis chassis;
 
   /** Creates a new DriveTo. */
-  public DriveTo(Vision v,Chassis c) {
+  public DriveTo(Vision v, Chassis c, double gD) {
     // Use addRequirements() here to declare subsystem dependencies.
     vision = v;
     chassis = c;
+    goalDistance = gD;
   }
 
   // Called when the command is initially scheduled.
@@ -34,13 +35,13 @@ public class DriveTo extends CommandBase {
     //SmartDashboard.putNumber("Distence", vision.TargetDist);
     //SmartDashboard.putNumber("leftRight", vision.TargetX);
 
-    if(vision.FID != -1){
+    if(vision.FID >= 50 && vision.FID <= 53){
       //Tag #1
       double rot = vision.TargetX;
       rot = MathUtil.clamp(rot, -0.5, 0.5);
       if(Math.abs(vision.TargetX) <= 0.1) rot = 0;
 
-      if(vision.TargetDist > goalDistence){
+      if(vision.TargetDist > goalDistance){
         chassis.arcadeDrive(0.35, rot);
       }
       else {
@@ -58,6 +59,6 @@ public class DriveTo extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return (Math.abs(vision.TargetX) <= 0.2) && (vision.TargetDist < goalDistence);
+    return (Math.abs(vision.TargetX) <= 0.1) && (vision.TargetDist < goalDistance);
   }
 }

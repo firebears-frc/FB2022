@@ -27,6 +27,7 @@ import frc.robot.commands.AcquisitionStartCommand;
 import frc.robot.commands.AcquisitionStopCommand;
 import frc.robot.commands.AutoOneBallCommand;
 import frc.robot.commands.AutoTwoBallCommand;
+import frc.robot.commands.AutoTwoBallVisionCommand;
 import frc.robot.commands.ChassisDriveCommand;
 import frc.robot.commands.ClimberDriveSpeedMod;
 import frc.robot.commands.ClimberReachBackVerticalCommand;
@@ -125,6 +126,7 @@ public class RobotContainer {
     // Configure autonomous sendable chooser
     m_chooser.setDefaultOption("two ball", new AutoTwoBallCommand(m_chassis, m_shooter, m_acquisition));
     m_chooser.addOption("one ball", new AutoOneBallCommand(m_chassis, m_shooter, m_acquisition));
+    m_chooser.addOption("two ball with vision", new AutoTwoBallVisionCommand(m_chassis, m_shooter, m_acquisition, m_vision));
 
     SmartDashboard.putData("Auto Mode", m_chooser);
 
@@ -228,10 +230,10 @@ public class RobotContainer {
     xButton.whenPressed(new ClimberReachOutCommand(m_climber), true);
 
     final JoystickButton aButton = new JoystickButton(xController, XboxController.Button.kA.value);
-    aButton.whenHeld(new ClimberDriveSpeedMod(() -> ((xController.getRightTriggerAxis()*0.5)+0.3), m_climber), true);
+    aButton.whenHeld(new ClimberDriveSpeedMod(() -> ((xController.getRightTriggerAxis()*0.4)+0.4), m_climber), true);
 
     final JoystickButton yButton = new JoystickButton(xController, XboxController.Button.kY.value);
-    yButton.whenHeld(new ClimberDriveSpeedMod(() -> -1 * ((xController.getRightTriggerAxis()*0.5)+0.3), m_climber), true);
+    yButton.whenHeld(new ClimberDriveSpeedMod(() -> -1 * ((xController.getRightTriggerAxis()*0.4)+0.4), m_climber), true);
 
     //final POVButton povButtonUp = new POVButton(xController, 0);
     //povButtonUp.whileHeld(new ClimberDriveSpeedMod(() -> -1 * ((xController.getRightTriggerAxis()*0.5)+0.3), m_climber), true);
@@ -246,7 +248,7 @@ public class RobotContainer {
     //povButtonRight.whenPressed(new ClimberReachOutCommand(m_climber), true);
 
     final JoystickButton VButton = new JoystickButton(joystick,7);
-    VButton.whenPressed(new DriveTo(m_vision, m_chassis));
+    VButton.whenPressed(new DriveTo(m_vision, m_chassis, 2.15));
   }
 
   /**
