@@ -1,0 +1,76 @@
+{
+  "HALProvider": {
+    "Other Devices": {
+      "SPARK MAX [13]": {
+        "header": {
+          "open": true
+        }
+      },
+      "SPARK MAX [14]": {
+        "header": {
+          "open": true
+        }
+      }
+    },
+    "PowerDistributions": {
+      "0": {
+        "PowerDistribution[0]": {
+          "open": true
+        }
+      }
+    },
+    "RoboRIO": {
+      "3.3V Rail": {
+        "open": true
+      },
+      "5V Rail": {
+        "open": true
+      },
+      "6V Rail": {
+        "open": true
+      },
+      "RoboRIO Input": {
+        "open": true
+      }
+    }
+  },
+  "NTProvider": {
+    "types": {
+      "/FMSInfo": "FMSInfo",
+      "/LiveWindow/Acquisition": "Subsystem",
+      "/LiveWindow/Acquisition/spinMotor(20)": "Motor Controller",
+      "/LiveWindow/Chassis/differentialDrive": "DifferentialDrive",
+      "/LiveWindow/Climber": "Subsystem",
+      "/LiveWindow/Climber/leftMotor(12)": "Motor Controller",
+      "/LiveWindow/Lights": "Subsystem",
+      "/LiveWindow/Shooter": "Subsystem",
+      "/LiveWindow/Shooter/spinnerMotor(13)": "Motor Controller",
+      "/LiveWindow/Shooter/turretMotor(14)": "Motor Controller",
+      "/LiveWindow/Ungrouped/PIDController[1]": "PIDController",
+      "/LiveWindow/Ungrouped/PIDController[2]": "PIDController",
+      "/LiveWindow/Ungrouped/PIDController[3]": "PIDController",
+      "/LiveWindow/Ungrouped/PIDController[4]": "PIDController",
+      "/LiveWindow/Ungrouped/Scheduler": "Scheduler",
+      "/LiveWindow/Ungrouped/navX-Sensor[2]": "Gyro",
+      "/LiveWindow/Vision": "Subsystem",
+      "/SmartDashboard/Auto Mode": "String Chooser"
+    }
+  },
+  "NetworkTables": {
+    "LiveWindow": {
+      "open": true
+    },
+    "Shuffleboard": {
+      "Shooter": {
+        "open": true
+      },
+      "open": true
+    },
+    "SmartDashboard": {
+      "open": true
+    }
+  },
+  "NetworkTables View": {
+    "visible": false
+  }
+}
