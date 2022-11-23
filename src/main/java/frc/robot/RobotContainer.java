@@ -1,37 +1,53 @@
 package frc.robot;
 
-import frc.robot.commands.*;
-import frc.robot.subsystems.*;
-import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import static edu.wpi.first.wpilibj.PneumaticsModuleType.CTREPCM;
+import static edu.wpi.first.wpilibj.PneumaticsModuleType.REVPH;
+import static frc.robot.Constants.DRIVER_CAMERAS_ENABLED;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
-import edu.wpi.first.wpilibj2.command.button.POVButton;
-import edu.wpi.first.cscore.UsbCamera;
+import static frc.robot.Constants.PRACTICE_ROBOT;
+
 import edu.wpi.first.cameraserver.CameraServer;
-import edu.wpi.first.math.util.Units;
+import edu.wpi.first.cscore.UsbCamera;
 import edu.wpi.first.networktables.GenericEntry;
 import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.PneumaticHub;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.PowerDistribution;
-import edu.wpi.first.wpilibj.SerialPort;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.Joystick.AxisType;
 import edu.wpi.first.wpilibj.XboxController.Button;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.simulation.JoystickSim;
-
-import static edu.wpi.first.wpilibj.PneumaticsModuleType.*;
-import static frc.robot.Constants.*;
-
-//gyro or navX
-import com.kauailabs.navx.frc.*;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import frc.robot.commands.AcquisitionEjectCommand;
+import frc.robot.commands.AcquisitionStartCommand;
+import frc.robot.commands.AcquisitionStopCommand;
+import frc.robot.commands.AutoOneBallCommand;
+import frc.robot.commands.AutoTwoBallCommand;
+import frc.robot.commands.ChassisDriveCommand;
+import frc.robot.commands.ClimberDriveSpeedMod;
+import frc.robot.commands.ClimberReachBackVerticalCommand;
+import frc.robot.commands.ClimberReachOutCommand;
+import frc.robot.commands.ClimberUnlockBrake;
+import frc.robot.commands.DriveTo;
+import frc.robot.commands.ShooterOutputCommand;
+import frc.robot.commands.ShooterPushCommand;
+import frc.robot.commands.ShooterResetCommand;
+import frc.robot.subsystems.Acquisition;
+import frc.robot.subsystems.Chassis;
+import frc.robot.subsystems.Climber;
+import frc.robot.subsystems.Lights;
+import frc.robot.subsystems.Shooter;
+import frc.robot.subsystems.Vision;
 
 /**
  * This class is where the bulk of the robot should be declared. Since
@@ -81,6 +97,8 @@ public class RobotContainer {
   private RobotContainer() {
 
     powerDistribution.clearStickyFaults();
+
+    LiveWindow.disableAllTelemetry();
 
     LiveWindow.disableAllTelemetry();
 

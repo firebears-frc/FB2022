@@ -18,7 +18,7 @@ public class Constants {
     public static boolean PRACTICE_ROBOT = true;
 
     /** Whether this robot has computer vision processing. E.g PhotonVision */
-    public static boolean VISION_ENABLED = false;
+    public static boolean VISION_ENABLED = true;
 
     /** Whether this robot has drivers cameras installed. */
     public static boolean DRIVER_CAMERAS_ENABLED = true;

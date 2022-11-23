@@ -1,8 +1,6 @@
 
 package frc.robot.commands;
 
-import org.opencv.core.Mat;
-
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;

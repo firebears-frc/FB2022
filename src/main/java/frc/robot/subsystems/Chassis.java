@@ -89,8 +89,8 @@ public class Chassis extends SubsystemBase {
         if (DEBUG) {
             SmartDashboard.putNumber("ultrasonic", getUltrasonicDistanceInches());
             SmartDashboard.putNumber("getDistance", getEncoderDistance());
-        }
-        SmartDashboard.putBoolean("Voltage", m_powerDistribution.getVoltage() > 11);
+            SmartDashboard.putBoolean("Voltage", m_powerDistribution.getVoltage() > 11);
+         }
     }
 
     @Override
