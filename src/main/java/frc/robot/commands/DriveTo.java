@@ -5,60 +5,59 @@
 package frc.robot.commands;
 
 import edu.wpi.first.math.MathUtil;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.Chassis;
 import frc.robot.subsystems.Vision;
 
 public class DriveTo extends CommandBase {
-    //In meters
-    private double goalDistence = 1;
+  //In meters
+  private double goalDistence = 1;
 
 
-    private Vision vision;
-    private Chassis chassis;
+  private Vision vision;
+  private Chassis chassis;
 
-    /** Creates a new DriveTo. */
-    public DriveTo(Vision v,Chassis c) {
-        // Use addRequirements() here to declare subsystem dependencies.
-        vision = v;
-        chassis = c;
+  /** Creates a new DriveTo. */
+  public DriveTo(Vision v,Chassis c) {
+    // Use addRequirements() here to declare subsystem dependencies.
+    vision = v;
+    chassis = c;
+  }
+
+  // Called when the command is initially scheduled.
+  @Override
+  public void initialize() {}
+
+  // Called every time the scheduler runs while the command is scheduled.
+  @Override
+  public void execute() {
+    //SmartDashboard.putNumber("Distence", vision.TargetDist);
+    //SmartDashboard.putNumber("leftRight", vision.TargetX);
+
+    if(vision.FID != -1){
+      //Tag #1
+      double rot = vision.TargetX;
+      rot = MathUtil.clamp(rot, -0.5, 0.5);
+      if(Math.abs(vision.TargetX) <= 0.1) rot = 0;
+
+      if(vision.TargetDist > goalDistence){
+        chassis.arcadeDrive(0.35, rot);
+      }
+      else {
+        chassis.arcadeDrive(0, rot);
+      }
     }
+  }
 
-    // Called when the command is initially scheduled.
-    @Override
-    public void initialize() {}
+  // Called once the command ends or is interrupted.
+  @Override
+  public void end(boolean interrupted) {
+    chassis.arcadeDrive(0, 0);
+  }
 
-    // Called every time the scheduler runs while the command is scheduled.
-    @Override
-    public void execute() {
-        //SmartDashboard.putNumber("Distence", vision.TargetDist);
-        //SmartDashboard.putNumber("leftRight", vision.TargetX);
-
-        if(vision.FID != -1){
-            //Tag #1
-            double rot = vision.TargetX;
-            rot = MathUtil.clamp(rot, -0.5, 0.5);
-            if(Math.abs(vision.TargetX) <= 0.1) rot = 0;
-
-            if(vision.TargetDist > goalDistence){
-                chassis.arcadeDrive(0.35, rot);
-            }
-            else {
-                chassis.arcadeDrive(0, rot);
-            }
-        }
-    }
-
-    // Called once the command ends or is interrupted.
-    @Override
-    public void end(boolean interrupted) {
-        chassis.arcadeDrive(0, 0);
-    }
-
-    // Returns true when the command should end.
-    @Override
-    public boolean isFinished() {
-        return (Math.abs(vision.TargetX) <= 0.2) && (vision.TargetDist < goalDistence);
-    }
+  // Returns true when the command should end.
+  @Override
+  public boolean isFinished() {
+    return (Math.abs(vision.TargetX) <= 0.2) && (vision.TargetDist < goalDistence);
+  }
 }

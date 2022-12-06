@@ -12,48 +12,48 @@ import java.util.function.DoubleSupplier;
 import frc.robot.subsystems.Climber;
 
 public class ClimberDriveSpeedMod extends CommandBase {
-    /** Creates a new ClimberDriveSpeed. */
-    private Climber m_climber;
-    private DoubleSupplier m_speed_supplier;
+  /** Creates a new ClimberDriveSpeed. */
+  private Climber m_climber;
+  private DoubleSupplier m_speed_supplier;
 
-    public ClimberDriveSpeedMod(DoubleSupplier speed_supplier, Climber climber) {
-        m_climber = climber;
-        m_speed_supplier = speed_supplier;
+  public ClimberDriveSpeedMod(DoubleSupplier speed_supplier, Climber climber) {
+    m_climber = climber;
+    m_speed_supplier = speed_supplier;
 
-        addRequirements(climber);
+    addRequirements(climber);
 
-        // Use addRequirements() here to declare subsystem dependencies.
+    // Use addRequirements() here to declare subsystem dependencies.
+  }
+
+  // Called when the command is initially scheduled.
+  @Override
+  public void initialize() {}
+
+  // Called every time the scheduler runs while the command is scheduled.
+  @Override
+  public void execute() {
+    double setpoint = CLIMBER_SETPOINT_TOP_1;
+    if (!m_climber.isVertical())
+      setpoint = CLIMBER_SETPOINT_TOP_2;
+
+    if (m_speed_supplier.getAsDouble() > 0 || m_climber.getEncoderPosition() < setpoint-3) {
+      m_climber.driveClimbers(m_speed_supplier.getAsDouble());
+    } else if (m_climber.getEncoderPosition() < setpoint) {
+      m_climber.driveClimbers(m_speed_supplier.getAsDouble()/2);
+    } else {
+      m_climber.driveClimbers(0);
     }
+  }
 
-    // Called when the command is initially scheduled.
-    @Override
-    public void initialize() {}
+  // Called once the command ends or is interrupted.
+  @Override
+  public void end(boolean interrupted) {
+    m_climber.driveClimbers(0.0);
+  }
 
-    // Called every time the scheduler runs while the command is scheduled.
-    @Override
-    public void execute() {
-        double setpoint = CLIMBER_SETPOINT_TOP_1;
-        if (!m_climber.isVertical())
-            setpoint = CLIMBER_SETPOINT_TOP_2;
-
-        if (m_speed_supplier.getAsDouble() > 0 || m_climber.getEncoderPosition() < setpoint-3) {
-            m_climber.driveClimbers(m_speed_supplier.getAsDouble());
-        } else if (m_climber.getEncoderPosition() < setpoint) {
-            m_climber.driveClimbers(m_speed_supplier.getAsDouble()/2);
-        } else {
-            m_climber.driveClimbers(0);
-        }
-    }
-
-    // Called once the command ends or is interrupted.
-    @Override
-    public void end(boolean interrupted) {
-        m_climber.driveClimbers(0.0);
-    }
-
-    // Returns true when the command should end.
-    @Override
-    public boolean isFinished() {
-        return false;
-    }
+  // Returns true when the command should end.
+  @Override
+  public boolean isFinished() {
+    return false;
+  }
 }

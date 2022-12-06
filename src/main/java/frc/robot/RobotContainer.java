@@ -3,7 +3,6 @@ package frc.robot;
 import static edu.wpi.first.wpilibj.PneumaticsModuleType.CTREPCM;
 import static edu.wpi.first.wpilibj.PneumaticsModuleType.REVPH;
 import static frc.robot.Constants.DRIVER_CAMERAS_ENABLED;
-import edu.wpi.first.wpilibj2.command.button.Trigger;
 import static frc.robot.Constants.PRACTICE_ROBOT;
 
 import edu.wpi.first.cameraserver.CameraServer;
@@ -12,18 +11,13 @@ import edu.wpi.first.networktables.GenericEntry;
 import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
-import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.PneumaticHub;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.PowerDistribution;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
-import edu.wpi.first.wpilibj.Joystick.AxisType;
-import edu.wpi.first.wpilibj.XboxController.Button;
-import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
-import edu.wpi.first.wpilibj.simulation.JoystickSim;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -97,8 +91,6 @@ public class RobotContainer {
   private RobotContainer() {
 
     powerDistribution.clearStickyFaults();
-
-    LiveWindow.disableAllTelemetry();
 
     LiveWindow.disableAllTelemetry();
 
