@@ -150,6 +150,9 @@ gradle-app.setting
 .project
 .settings/
 bin/
+.DataLogTool/
+.roboRIOTeamNumberSetter/
+.Glass/
 
 
 # IntelliJ
