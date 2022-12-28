@@ -157,3 +157,6 @@ bin/
 
 # IntelliJ
 .idea/
+
+# Version file
+src/main/java/frc/robot/BuildConstants.java
