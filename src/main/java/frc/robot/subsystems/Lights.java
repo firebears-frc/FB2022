@@ -46,9 +46,9 @@ public class Lights extends SubsystemBase {
   private int[] nextAnimation = new int[MAX_PIXELSTRIPS];
 
   public void resetAllAnimations() {
-    for (int s = 0; s < MAX_PIXELSTRIPS; s++) {
-      currentAnimation[s] = -1;
-      nextAnimation[s] = currentAnimation[s];
+    for (int stripNumber = 0; stripNumber < MAX_PIXELSTRIPS; stripNumber++) {
+      currentAnimation[stripNumber] = -1;
+      nextAnimation[stripNumber] = currentAnimation[stripNumber];
     }
     setAnimation(BASE_STRIP, IDLE_FIRE_ANIMATION);
     setAnimation(CLIMBER_STRIP, IDLE_FIRE_ANIMATION);
@@ -56,29 +56,43 @@ public class Lights extends SubsystemBase {
     setAnimation(RIGHT_SPINNER_STRIP, IDLE_FIRE_ANIMATION);
   }
 
-  public synchronized void setAnimation(int s, int a) {
-    nextAnimation[s] = a;
+  /**
+   * Set one strip to have the numbered animation.
+   */
+  public synchronized void setAnimation(int stripNumber, int animNumber) {
+    nextAnimation[stripNumber] = animNumber;
   }
 
+  /**
+   * Push out all animation changes to the Pico. <br/>
+   * This program takes a <em>lazy</em> approach, in that animation signals are
+   * only sent out if they <em>need</em> to change. Signals are only sent if the
+   * desired animation is different from the current animation.
+   * This prevents redundant, unnecessary changes from dominating the I2C bus.
+   */
   protected synchronized boolean sendAllAnimations() {
     boolean messagesSent = false;
-    for (int s = 0; s < MAX_PIXELSTRIPS; s++) {
-      if (nextAnimation[s] != currentAnimation[s]) {
-        int a = nextAnimation[s];
-        dataOut[0] = (byte) (s + '0');
-        dataOut[1] = (byte) (a + '0');
-        i2c.transaction(dataOut, dataOut.length, dataBack, dataBack.length);
-        currentAnimation[s] = a;
-        if (DEBUG) {
-          System.out.printf("Lights: setAnimation(%d, %d)%n", s, a);
-        }
+    for (int stripNumber = 0; stripNumber < MAX_PIXELSTRIPS; stripNumber++) {
+      if (nextAnimation[stripNumber] != currentAnimation[stripNumber]) {
+        sendOneAnimation(stripNumber);
+        currentAnimation[stripNumber] = nextAnimation[stripNumber];
         messagesSent = true;
       }
     }
     if (messagesSent && DEBUG) {
-      System.out.printf("Lights: STUFF %n%n");
+      System.out.printf("Lights: Sent %n%n");
     }
     return messagesSent;
+  }
+
+  private void sendOneAnimation(int stripNumber) {
+    int animNumber = nextAnimation[stripNumber];
+    dataOut[0] = (byte) (stripNumber + '0');
+    dataOut[1] = (byte) (animNumber + '0');
+    i2c.transaction(dataOut, dataOut.length, dataBack, dataBack.length);
+    if (DEBUG) {
+      System.out.printf("Lights: setAnimation(%d, %d)%n", stripNumber, animNumber);
+    }
   }
 
 }

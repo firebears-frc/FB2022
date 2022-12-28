@@ -206,7 +206,7 @@ public class RobotContainer {
     xButton2.onTrue(new ClimberReachOutCommand(m_climber));
 
     final JoystickButton bButton2 = new JoystickButton(xController, XboxController.Button.kB.value);
-    bButton2.whileHeld(new ClimberDriveSpeed(0.2, m_climber));
+    bButton2.whileTrue(new ClimberDriveSpeed(0.2, m_climber));
 
     //final JoystickButton yButton2 = new JoystickButton(xController, XboxController.Button.kY.value);
     //yButton2.onTrue(new ClimberDeadCommand(m_climber));
@@ -228,16 +228,16 @@ public class RobotContainer {
     xButton.onTrue(new ClimberReachOutCommand(m_climber));
 
     final JoystickButton aButton = new JoystickButton(xController, XboxController.Button.kA.value);
-    aButton.whenHeld(new ClimberDriveSpeedMod(() -> ((xController.getRightTriggerAxis()*0.5)+0.3), m_climber));
+    aButton.whileTrue(new ClimberDriveSpeedMod(() -> ((xController.getRightTriggerAxis()*0.5)+0.3), m_climber));
 
     final JoystickButton yButton = new JoystickButton(xController, XboxController.Button.kY.value);
-    yButton.whenHeld(new ClimberDriveSpeedMod(() -> -1 * ((xController.getRightTriggerAxis()*0.5)+0.3), m_climber));
+    yButton.whileTrue(new ClimberDriveSpeedMod(() -> -1 * ((xController.getRightTriggerAxis()*0.5)+0.3), m_climber));
 
     //final POVButton povButtonUp = new POVButton(xController, 0);
-    //povButtonUp.whileHeld(new ClimberDriveSpeedMod(() -> -1 * ((xController.getRightTriggerAxis()*0.5)+0.3), m_climber), true);
+    //povButtonUp.whileTrue(new ClimberDriveSpeedMod(() -> -1 * ((xController.getRightTriggerAxis()*0.5)+0.3), m_climber), true);
 
     //final POVButton povButtonDown = new POVButton(xController, 180);
-    //povButtonDown.whileHeld(new ClimberDriveSpeedMod(() -> ((xController.getRightTriggerAxis()*0.5)+0.3), m_climber), true);
+    //povButtonDown.whileTrue(new ClimberDriveSpeedMod(() -> ((xController.getRightTriggerAxis()*0.5)+0.3), m_climber), true);
 
     //final POVButton povButtonLeft = new POVButton(xController, 270);
     //povButtonLeft.onTrue(new ClimberReachBackVerticalCommand(m_climber), true);
