@@ -14,7 +14,10 @@ import edu.wpi.first.wpilibj.PowerDistribution;
 
 import static frc.robot.Constants.*;
 
-public class Chassis extends SubsystemBase {
+import org.littletonrobotics.junction.LogTable;
+import org.littletonrobotics.junction.inputs.LoggableInputs;
+
+public class Chassis extends SubsystemBase implements LoggableInputs {
     private CANSparkMax frontLeftMotor;
     private CANSparkMax frontRightMotor;
     private CANSparkMax rearLeftMotor;
@@ -27,6 +30,7 @@ public class Chassis extends SubsystemBase {
     private AnalogPotentiometer ultrasonic;
     private double leftOffSet = 0;
     private double rightOffSet = 0;
+    private boolean brakeMode = false;
 
     private final PowerDistribution m_powerDistribution;
 
@@ -90,7 +94,7 @@ public class Chassis extends SubsystemBase {
             SmartDashboard.putNumber("ultrasonic", getUltrasonicDistanceInches());
             SmartDashboard.putNumber("getDistance", getEncoderDistance());
             SmartDashboard.putBoolean("Voltage", m_powerDistribution.getVoltage() > 11);
-         }
+        }
     }
 
     @Override
@@ -136,7 +140,9 @@ public class Chassis extends SubsystemBase {
     }
 
     public void setBrake(Boolean brake) {
-        if (brake) {
+        if (brake == brakeMode) {
+            // do nothing
+        } else if (brake) {
             frontLeftMotor.setIdleMode(IdleMode.kBrake);
             frontRightMotor.setIdleMode(IdleMode.kBrake);
             rearLeftMotor.setIdleMode(IdleMode.kBrake);
@@ -147,6 +153,25 @@ public class Chassis extends SubsystemBase {
             rearLeftMotor.setIdleMode(IdleMode.kCoast);
             rearRightMotor.setIdleMode(IdleMode.kCoast);
         }
+        brakeMode = brake;
     }
 
+    @Override
+    public void toLog(LogTable table) {
+        table.put("chassis.frontLeftMotor", frontLeftMotor.get());
+        table.put("chassis.frontRightMotor", frontRightMotor.get());
+        table.put("chassis.rearLeftMotor", rearLeftMotor.get());
+        table.put("chassis.rearRightMotor", rearRightMotor.get());
+        table.put("chassis.brakeMode", brakeMode);
+    }
+
+    @Override
+    public void fromLog(LogTable table) {
+        frontLeftMotor.set(table.getDouble("chassis.frontLeftMotor", 0.0));
+        frontRightMotor.set(table.getDouble("chassis.frontRightMotor", 0.0));
+        rearLeftMotor.set(table.getDouble("chassis.rearLeftMotor", 0.0));
+        rearRightMotor.set(table.getDouble("chassis.rearRightMotor", 0.0));
+        setBrake(table.getBoolean("chassis.brakeMode", false));
+
+    }
 }
