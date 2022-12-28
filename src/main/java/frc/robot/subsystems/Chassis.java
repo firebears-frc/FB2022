@@ -158,20 +158,20 @@ public class Chassis extends SubsystemBase implements LoggableInputs {
 
     @Override
     public void toLog(LogTable table) {
-        table.put("chassis.frontLeftMotor", frontLeftMotor.get());
-        table.put("chassis.frontRightMotor", frontRightMotor.get());
-        table.put("chassis.rearLeftMotor", rearLeftMotor.get());
-        table.put("chassis.rearRightMotor", rearRightMotor.get());
-        table.put("chassis.brakeMode", brakeMode);
+        table.put("Chassis/frontLeftMotor", frontLeftMotor.get());
+        table.put("Chassis/frontRightMotor", frontRightMotor.get());
+        table.put("Chassis/rearLeftMotor", rearLeftMotor.get());
+        table.put("Chassis/rearRightMotor", rearRightMotor.get());
+        table.put("Chassis/brakeMode", brakeMode);
     }
 
     @Override
     public void fromLog(LogTable table) {
-        frontLeftMotor.set(table.getDouble("chassis.frontLeftMotor", 0.0));
-        frontRightMotor.set(table.getDouble("chassis.frontRightMotor", 0.0));
-        rearLeftMotor.set(table.getDouble("chassis.rearLeftMotor", 0.0));
-        rearRightMotor.set(table.getDouble("chassis.rearRightMotor", 0.0));
-        setBrake(table.getBoolean("chassis.brakeMode", false));
+        frontLeftMotor.set(table.getDouble("Chassis/frontLeftMotor", 0.0));
+        frontRightMotor.set(table.getDouble("Chassis/frontRightMotor", 0.0));
+        rearLeftMotor.set(table.getDouble("Chassis/rearLeftMotor", 0.0));
+        rearRightMotor.set(table.getDouble("Chassis/rearRightMotor", 0.0));
+        setBrake(table.getBoolean("Chassis/brakeMode", false));
 
     }
 }

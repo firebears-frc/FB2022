@@ -14,7 +14,10 @@ import static edu.wpi.first.wpilibj.DoubleSolenoid.Value.*;
 import static edu.wpi.first.wpilibj.PneumaticsModuleType.*;
 import static frc.robot.Constants.*;
 
-public class Shooter extends SubsystemBase {
+import org.littletonrobotics.junction.LogTable;
+import org.littletonrobotics.junction.inputs.LoggableInputs;
+
+public class Shooter extends SubsystemBase implements LoggableInputs {
     private SparkMotor shooterMotor;
     private SparkMotor turretMotor;
     private PIDSparkMotor pidTurretMotor;
@@ -155,6 +158,27 @@ public class Shooter extends SubsystemBase {
 
     public double getMaxShooterRPM() {
         return pidShooterMotor.getMaxRPM();
+    }
+
+    @Override
+    public void toLog(LogTable table) {
+        table.put("Shooter/turretMotor", turretMotor.get());
+        table.put("Shooter/shooterMotor", shooterMotor.get());
+        table.put("Shooter/isLowered", isLowered);
+    }
+
+    @Override
+    public void fromLog(LogTable table) {
+        turretMotor.set(table.getDouble("Shooter/turretMotor", 0.0));
+        shooterMotor.set(table.getDouble("Shooter/shooterMotor", 0.0));
+        boolean toBeLowered = table.getBoolean("Shooter/isLowered", false);
+        if (toBeLowered != isLowered) {
+            if (toBeLowered) {
+                retractPusher();
+            } else {
+                extendPusher();
+            }
+        }
     }
 
 }

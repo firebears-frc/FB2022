@@ -19,7 +19,10 @@ import frc.robot.util.SparkMotor;
 
 import static frc.robot.Constants.*;
 
-public class Climber extends SubsystemBase {
+import org.littletonrobotics.junction.LogTable;
+import org.littletonrobotics.junction.inputs.LoggableInputs;
+
+public class Climber extends SubsystemBase implements LoggableInputs {
 
     public static final double ENCODER_TICKS_PER_INCH = 3.2;
     public static final int SAMPLES = 25;
@@ -43,6 +46,7 @@ public class Climber extends SubsystemBase {
     private double maxSpeed = CLIMBER_MAX_SPEED;
     private Timer legalLimitTimer = new Timer();
     private boolean legalCheckNeeded = false;
+    private boolean brakeMode = false;
 
     public Climber() {
         leftMotor = new SparkMotor(CLIMBER_LEFT_MOTOR_CAN_ID, MotorType.kBrushless);
@@ -184,13 +188,16 @@ public class Climber extends SubsystemBase {
     }
 
     public void setBrake(boolean enabled) {
-        if (enabled) {
+        if (enabled == brakeMode) {
+            // do nothing
+        } else if (enabled) {
             rightMotor.setIdleMode(IdleMode.kBrake);
             leftMotor.setIdleMode(IdleMode.kBrake);
         } else {
             rightMotor.setIdleMode(IdleMode.kCoast);
             leftMotor.setIdleMode(IdleMode.kCoast);
         }
+        brakeMode = enabled;
     }
 
     public boolean lowerLimitPressed() {
@@ -232,5 +239,28 @@ public class Climber extends SubsystemBase {
     public void setMaxSpeed(double max) {
         maxSpeed = max;
         pidController.setOutputRange(-1 * maxSpeed, maxSpeed);
+    }
+
+    @Override
+    public void toLog(LogTable table) {
+        table.put("Climber/leftMotor", leftMotor.get());
+        table.put("Climber/rightMotor", rightMotor.get());
+        table.put("Climber/isVertical", isVertical);
+        table.put("Climber/brakeMode", brakeMode);
+    }
+
+    @Override
+    public void fromLog(LogTable table) {
+        leftMotor.set(table.getDouble("Chimber/leftMotor", 0.0));
+        rightMotor.set(table.getDouble("Chimber/rightMotor", 0.0));
+        setBrake(table.getBoolean("Chimber/brakeMode", false));
+        boolean toBeVertical = table.getBoolean("Climber/isVertical", false);
+        if (toBeVertical != isVertical) {
+            if (toBeVertical) {
+                reachBackVertical();
+            } else {
+                reachOutToSide();
+            }
+        }
     }
 }

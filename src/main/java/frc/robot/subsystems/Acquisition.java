@@ -11,7 +11,10 @@ import static edu.wpi.first.wpilibj.DoubleSolenoid.Value.*;
 import static edu.wpi.first.wpilibj.PneumaticsModuleType.*;
 import static frc.robot.Constants.*;
 
-public class Acquisition extends SubsystemBase {
+import org.littletonrobotics.junction.LogTable;
+import org.littletonrobotics.junction.inputs.LoggableInputs;
+
+public class Acquisition extends SubsystemBase implements LoggableInputs {
 
     private WPI_TalonSRX spinMotor;
     private DoubleSolenoid leftSolenoid;
@@ -72,5 +75,24 @@ public class Acquisition extends SubsystemBase {
 
     public void stop() {
         spinMotor.set(0);
+    }
+
+    @Override
+    public void toLog(LogTable table) {
+        table.put("Acquisition/spinMotor", spinMotor.get());
+        table.put("Acquisition/isLowered", isLowered);
+    }
+
+    @Override
+    public void fromLog(LogTable table) {
+        spinMotor.set(table.getDouble("Acquisition/spinMotor", 0.0));
+        boolean toBeLowered = table.getBoolean("Acquisition/isLowered", false);
+        if (toBeLowered != isLowered) {
+            if (toBeLowered) {
+                lower();
+            } else {
+                raise();
+            }
+        }
     }
 }
