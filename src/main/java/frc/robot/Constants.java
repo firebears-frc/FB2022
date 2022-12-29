@@ -9,6 +9,9 @@ public class Constants {
     /** DEBUG enables extra logging and Shuffleboard widgets. */
     public static boolean DEBUG = false;
 
+    /** LOGGING enables AdvantageKit logging. */
+    public static boolean LOGGING = false;
+
     /** Whether to use PID on the Chassis to control velocity. */
     public static boolean CHASSIS_CLOSED_LOOP_DRIVING = false;
 
@@ -70,6 +73,7 @@ public class Constants {
         printPreferences(System.out);
 
         DEBUG = Preferences.getBoolean("DEBUG", false);
+        LOGGING = Preferences.getBoolean("LOGGING", DEBUG);
         CHASSIS_CLOSED_LOOP_DRIVING = Preferences.getBoolean("CHASSIS_CLOSED_LOOP_DRIVING", false);
         PRACTICE_ROBOT = Preferences.getBoolean("PRACTICE_ROBOT", true);
         VISION_ENABLED = Preferences.getBoolean("VISION_ENABLED", false);
