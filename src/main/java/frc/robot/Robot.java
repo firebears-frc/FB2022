@@ -24,34 +24,25 @@ public class Robot extends LoggedRobot {
                 "/home/lvuser/config.properties",
                 "/u/config.properties");
 
-        Logger logger = Logger.getInstance();
-        logger.recordMetadata("ProjectName", BuildConstants.MAVEN_NAME);
-        logger.recordMetadata("BuildDate", BuildConstants.BUILD_DATE);
-        logger.recordMetadata("GitSHA", BuildConstants.GIT_SHA);
-        logger.recordMetadata("GitDate", BuildConstants.GIT_DATE);
-        logger.recordMetadata("GitBranch", BuildConstants.GIT_BRANCH);
-        switch (BuildConstants.DIRTY) {
-            case 0:
-                logger.recordMetadata("GitDirty", "All changes committed");
-                break;
-            case 1:
-                logger.recordMetadata("GitDirty", "Uncomitted changes");
-                break;
-            default:
-                logger.recordMetadata("GitDirty", "Unknown");
-                break;
-        }
-        if (isReal()) {
-            logger.addDataReceiver(new WPILOGWriter("/media/sda1/")); // Log to a USB stick
-            logger.addDataReceiver(new NT4Publisher()); // Publish data to NetworkTables
-        } else {
-            setUseTiming(false); // Run as fast as possible
-            String logPath = LogFileUtil.findReplayLog(); // Pull the replay log from AdvantageScope
-            logger.setReplaySource(new WPILOGReader(logPath)); // Read replay log
-            logger.addDataReceiver(new WPILOGWriter(LogFileUtil.addPathSuffix(logPath, "_sim"))); // Save outputs
+        if (Constants.LOGGING) {
+            Logger logger = Logger.getInstance();
+            logger.recordMetadata("ProjectName", BuildConstants.MAVEN_NAME);
+            logger.recordMetadata("BuildDate", BuildConstants.BUILD_DATE);
+            logger.recordMetadata("GitSHA", BuildConstants.GIT_SHA);
+            logger.recordMetadata("GitDate", BuildConstants.GIT_DATE);
+            logger.recordMetadata("GitBranch", BuildConstants.GIT_BRANCH);
+            if (isReal()) {
+                logger.addDataReceiver(new WPILOGWriter("/media/sda1/")); // Log to a USB stick
+                logger.addDataReceiver(new NT4Publisher()); // Publish data to NetworkTables
+            } else {
+                setUseTiming(false); // Run as fast as possible
+                String logPath = LogFileUtil.findReplayLog(); // Pull the replay log from AdvantageScope
+                logger.setReplaySource(new WPILOGReader(logPath)); // Read replay log
+                logger.addDataReceiver(new WPILOGWriter(LogFileUtil.addPathSuffix(logPath, "_sim"))); // Save outputs
 
+            }
+            logger.start();
         }
-        logger.start();
 
         m_robotContainer = RobotContainer.getInstance();
         HAL.report(tResourceType.kResourceType_Framework, tInstances.kFramework_RobotBuilder);
