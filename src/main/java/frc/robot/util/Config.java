@@ -10,6 +10,7 @@ import java.util.Map;
 import java.util.Properties;
 import java.util.SortedSet;
 import java.util.TreeSet;
+import java.util.function.BiConsumer;
 
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableInstance;
@@ -60,6 +61,16 @@ public final class Config {
         }
     }
 
+    /** Perform one action on each {@link Preferences} key/value pair. */
+    public static void forEach(BiConsumer<String, String> action) {
+        final NetworkTable networkTable = NetworkTableInstance.getDefault().getTable("Preferences");
+        SortedSet<String> sortedKeys = new TreeSet<>(Preferences.getKeys());
+        for (String key : sortedKeys) {
+            String value = networkTable.getEntry(key).getString("null");
+            action.accept(key, value);
+        }
+    }
+
     /**
      * Remove all preferences from the robot and the network tables. Network table
      * values can be really tenacious, and sometimes you just want to start with a
@@ -73,7 +84,7 @@ public final class Config {
     }
 
     /**
-     * Read a sequence of property files into {@link Preferences} . If the files or
+     * Read a sequence of property files into {@link Preferences}. If the files or
      * resources don't exist, print an error message and gracefully move to the next
      * file.
      * 

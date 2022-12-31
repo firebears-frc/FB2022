@@ -5,6 +5,7 @@ import edu.wpi.first.hal.FRCNetComm.tResourceType;
 import edu.wpi.first.hal.HAL;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import frc.robot.util.Config;
 
 import org.littletonrobotics.junction.LogFileUtil;
 import org.littletonrobotics.junction.LoggedRobot;
@@ -31,6 +32,9 @@ public class Robot extends LoggedRobot {
             logger.recordMetadata("GitSHA", BuildConstants.GIT_SHA);
             logger.recordMetadata("GitDate", BuildConstants.GIT_DATE);
             logger.recordMetadata("GitBranch", BuildConstants.GIT_BRANCH);
+            Config.forEach((key, value) -> {
+                logger.recordMetadata("Config/" + key, value);
+            });
             if (isReal()) {
                 logger.addDataReceiver(new WPILOGWriter("/media/sda1/")); // Log to a USB stick
                 logger.addDataReceiver(new NT4Publisher()); // Publish data to NetworkTables
@@ -39,7 +43,6 @@ public class Robot extends LoggedRobot {
                 String logPath = LogFileUtil.findReplayLog(); // Pull the replay log from AdvantageScope
                 logger.setReplaySource(new WPILOGReader(logPath)); // Read replay log
                 logger.addDataReceiver(new WPILOGWriter(LogFileUtil.addPathSuffix(logPath, "_sim"))); // Save outputs
-
             }
             logger.start();
         }
