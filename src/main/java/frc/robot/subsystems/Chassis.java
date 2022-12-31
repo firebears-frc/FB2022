@@ -4,16 +4,23 @@ import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import com.revrobotics.CANSparkMax.IdleMode;
+import com.kauailabs.navx.frc.AHRS;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import frc.robot.util.PIDSparkMotor;
 import frc.robot.util.SparkEncoder;
+import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.kinematics.DifferentialDriveOdometry;
+import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.AnalogPotentiometer;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.PowerDistribution;
 
 import static frc.robot.Constants.*;
 
+import org.littletonrobotics.junction.Logger;
 import org.littletonrobotics.junction.LogTable;
 import org.littletonrobotics.junction.inputs.LoggableInputs;
 
@@ -32,6 +39,8 @@ public class Chassis extends SubsystemBase implements LoggableInputs {
     private double rightOffSet = 0;
     private boolean brakeMode = false;
 
+    private AHRS navXboard;
+    private DifferentialDriveOdometry odometry;
     private final PowerDistribution m_powerDistribution;
 
     public Chassis(PowerDistribution powerDistribution) {
@@ -84,16 +93,55 @@ public class Chassis extends SubsystemBase implements LoggableInputs {
         differentialDrive = new DifferentialDrive(leftPIDSparkMotor, rightPIDSparkMotor);
         addChild("differentialDrive", differentialDrive);
 
+        if (NAVX_ENABLED) {
+            try {
+                navXboard = new AHRS(edu.wpi.first.wpilibj.SerialPort.Port.kUSB);
+            } catch (final RuntimeException ex) {
+                DriverStation.reportError("Error instantiating navX MXP:  " + ex.getMessage(), true);
+            }
+        }
+
+        odometry = new DifferentialDriveOdometry(getGyroAngle(), 0.0, 0.0);
+
         m_powerDistribution = powerDistribution;
 
     }
 
+    /** @return current angle in radians taken from the NavX board. */
+    public Rotation2d getGyroAngle() {
+        if (navXboard == null) {
+            return Rotation2d.fromRadians(0.0);
+        }
+        double gyroAngle = Units.degreesToRadians(navXboard.getAngle());
+        return Rotation2d.fromRadians(gyroAngle);
+    }
+
+    /** @return current position of the robot in meters and radians. */
+    public Pose2d getPose() {
+        return odometry.getPoseMeters();
+    }
+
+    /** @param pose2d current position of the robot in meters and radians. */
+    public void resetPose(Pose2d pose2d) {
+        odometry.resetPosition(getGyroAngle(), 0.0, 0.0, pose2d);
+    }
+
     @Override
     public void periodic() {
+        double leftDistance = Units.inchesToMeters(leftEncoder.getPosition() * 2.3);
+        double rightDistance = Units.inchesToMeters(righEncoder.getPosition() * 2.3);
+        Pose2d currentPose = odometry.update(getGyroAngle(), leftDistance, rightDistance);
+
         if (DEBUG) {
             SmartDashboard.putNumber("ultrasonic", getUltrasonicDistanceInches());
             SmartDashboard.putNumber("getDistance", getEncoderDistance());
             SmartDashboard.putBoolean("Voltage", m_powerDistribution.getVoltage() > 11);
+            if (navXboard != null) {
+                SmartDashboard.putString("Pose2d", currentPose.toString());
+            }
+        }
+        if (LOGGING && navXboard != null) {
+            Logger.getInstance().recordOutput("Chassis/pose", currentPose);
         }
     }
 

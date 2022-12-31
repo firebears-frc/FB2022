@@ -15,13 +15,14 @@ public class Constants {
     /** Whether to use PID on the Chassis to control velocity. */
     public static boolean CHASSIS_CLOSED_LOOP_DRIVING = false;
 
-    /**
-     * Whether this robot is the Practice robot, rather than the Competition robot.
-     */
+    /** Whether this robot is the Practice robot. */
     public static boolean PRACTICE_ROBOT = true;
 
     /** Whether this robot has computer vision processing. E.g PhotonVision */
     public static boolean VISION_ENABLED = true;
+
+    /** Whether this robot can use the NavX inertial management unit. */
+    public static boolean NAVX_ENABLED = true;
 
     /** Whether this robot has drivers cameras installed. */
     public static boolean DRIVER_CAMERAS_ENABLED = true;
@@ -66,7 +67,6 @@ public class Constants {
     public static final double SHOOTER_WHEEL_I = 0;
     public static final double SHOOTER_WHEEL_D = 0.00001;
 
-
     public static void init(String... fileNames) {
         cleanAllPreferences();
         loadConfiguration(fileNames);
@@ -77,6 +77,7 @@ public class Constants {
         CHASSIS_CLOSED_LOOP_DRIVING = Preferences.getBoolean("CHASSIS_CLOSED_LOOP_DRIVING", false);
         PRACTICE_ROBOT = Preferences.getBoolean("PRACTICE_ROBOT", true);
         VISION_ENABLED = Preferences.getBoolean("VISION_ENABLED", false);
+        NAVX_ENABLED = Preferences.getBoolean("NAVX_ENABLED", !PRACTICE_ROBOT);
         DRIVER_CAMERAS_ENABLED = Preferences.getBoolean("DRIVER_CAMERAS_ENABLED", false);
     }
 }
