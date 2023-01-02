@@ -13,6 +13,7 @@ import frc.robot.util.SparkEncoder;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.DifferentialDriveOdometry;
+import edu.wpi.first.math.kinematics.DifferentialDriveWheelSpeeds;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.AnalogPotentiometer;
 import edu.wpi.first.wpilibj.DriverStation;
@@ -121,9 +122,9 @@ public class Chassis extends SubsystemBase implements LoggableInputs {
         return odometry.getPoseMeters();
     }
 
-    /** @param pose2d current position of the robot in meters and radians. */
-    public void resetPose(Pose2d pose2d) {
-        odometry.resetPosition(getGyroAngle(), 0.0, 0.0, pose2d);
+    /** @param pose current position of the robot in meters and radians. */
+    public void resetOdometry(Pose2d pose) {
+        odometry.resetPosition(getGyroAngle(), 0.0, 0.0, pose);
     }
 
     @Override
@@ -152,6 +153,18 @@ public class Chassis extends SubsystemBase implements LoggableInputs {
     public void arcadeDrive(double speed, double rotation) {
         differentialDrive.arcadeDrive(speed * -1, rotation);
     }
+
+    public void tankDriveVolts(double leftVolts, double rightVolts) {
+        leftPIDSparkMotor.setVoltage(leftVolts);
+        rightPIDSparkMotor.setVoltage(rightVolts);
+        differentialDrive.feed();
+    }
+
+    public DifferentialDriveWheelSpeeds getWheelSpeeds() {
+        double leftVelocity = Units.inchesToMeters(leftEncoder.getVelocity() * 2.3);
+        double rightVelocity = Units.inchesToMeters(righEncoder.getVelocity() * 2.3);
+        return new DifferentialDriveWheelSpeeds(leftVelocity, rightVelocity);
+      }
 
     /**
      * Reset encoder to zero.
