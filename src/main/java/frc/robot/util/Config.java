@@ -49,7 +49,7 @@ public final class Config {
                         outStream.printf("%s=%f%n", key, Preferences.getDouble(key, 0.0));
                         break;
                     case kString:
-                        outStream.printf("%s=%f%n", key, Preferences.getString(key, null));
+                        outStream.printf("%s=%s%n", key, Preferences.getString(key, null));
                         break;
                     default:
                         outStream.printf("%s=%s%n", key, Preferences.getString(key, "UNKNOWN"));
