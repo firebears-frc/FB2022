@@ -1,6 +1,7 @@
 package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
+import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import com.revrobotics.CANSparkMax.IdleMode;
@@ -42,6 +43,7 @@ public class Chassis extends SubsystemBase implements LoggableInputs {
 
     private AHRS navXboard;
     private DifferentialDriveOdometry odometry;
+    public final Field2d field2d = new Field2d();
     private final PowerDistribution m_powerDistribution;
 
     public Chassis(PowerDistribution powerDistribution) {
@@ -132,6 +134,7 @@ public class Chassis extends SubsystemBase implements LoggableInputs {
         double leftDistance = Units.inchesToMeters(leftEncoder.getPosition() * 2.3);
         double rightDistance = Units.inchesToMeters(righEncoder.getPosition() * 2.3);
         Pose2d currentPose = odometry.update(getGyroAngle(), leftDistance, rightDistance);
+        field2d.setRobotPose(getPose());
 
         if (DEBUG) {
             SmartDashboard.putNumber("ultrasonic", getUltrasonicDistanceInches());
